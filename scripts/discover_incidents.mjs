@@ -158,8 +158,9 @@ async function fetchArticles(searchPhrases) {
   const phraseQuery = searchPhrases
     .map((p) => `"${p}"`)
     .join(' OR ');
-  const query = encodeURIComponent(`(${phraseQuery}) sourcecountry:PL`);
+  const query = encodeURIComponent(`(${phraseQuery})`);
   const url = `https://api.gdeltproject.org/api/v2/doc/doc?query=${query}&mode=ArtList&maxrecords=75&format=json&sort=DateDesc`;
+  console.log(`Zapytanie GDELT: ${decodeURIComponent(query).slice(0, 120)}…`);
   const response = await fetch(url, {
     headers: {
       'User-Agent': 'monitoringobywatelski-bot/1.0'
@@ -168,12 +169,14 @@ async function fetchArticles(searchPhrases) {
   if (!response.ok) {
     if (response.status === 429) {
       console.warn('GDELT rate limit (429). Skipping this run.');
-      return [];
+      return null; // null = rate limited
     }
     throw new Error(`GDELT request failed (${response.status})`);
   }
   const payload = await response.json();
-  return Array.isArray(payload.articles) ? payload.articles : [];
+  const articles = Array.isArray(payload.articles) ? payload.articles : [];
+  console.log(`GDELT zwrócił ${articles.length} artykułów.`);
+  return articles;
 }
 
 async function main() {
@@ -184,6 +187,11 @@ async function main() {
     safeArray(APPROVED_PATH),
     fetchArticles(searchPhrases)
   ]);
+
+  if (articles === null) {
+    console.log('discover_ok');
+    process.exit(0);
+  }
 
   const knownUrls = new Set([
     ...pending.map((x) => x.url),
@@ -199,10 +207,8 @@ async function main() {
 
     const haystack = `${title} ${article.seendate || ''} ${article.domain || ''}`;
     const cityKey = pickCity(haystack);
-    if (!cityKey) continue;
-
-    const coords = CITY_COORDS[cityKey];
-    if (!coords) continue;
+    const coords = cityKey ? CITY_COORDS[cityKey] : [52.1, 19.4]; // fallback: centrum Polski
+    const displayCity = cityKey || 'Polska (lokalizacja nieznana)';
 
     const severity = determineSeverity(title);
     const id = buildId(url, title);
@@ -213,7 +219,7 @@ async function main() {
       type: 'crash',
       severity,
       date: toIsoDate(article.seendate),
-      desc: `Automatycznie wykryte zgłoszenie. Lokalizacja orientacyjna: ${cityKey}.`,
+      desc: `Automatycznie wykryte zgłoszenie. Lokalizacja orientacyjna: ${displayCity}.`,
       lat: coords[0],
       lng: coords[1],
       sources: [
@@ -222,7 +228,7 @@ async function main() {
           url
         }
       ],
-      city: cityKey,
+      city: cityKey || null,
       needsReview: true,
       url,
       collectedAt: new Date().toISOString()

@@ -1,12 +1,17 @@
 # Jedna fraza na linię.
 # Puste linie i linie zaczynające się od # są ignorowane.
-# Frazy są łączone jako OR i używane w workflow discover.
+# GDELT indeksuje głównie media anglojęzyczne - polskie frazy mają ograniczone pokrycie.
 
+# Polskie frazy (lokalne media)
 policja wypadek
-policyjny wypadek
 radiowoz wypadek
 policja kolizja
-radiowoz kolizja
 policja potrącenie
 pościg policji wypadek
-interwencja policji wypadek
+
+# Angielskie frazy (szersze pokrycie w GDELT)
+police accident Poland
+police crash Poland
+police car accident Poland
+police pursuit crash Poland
+police collision Poland
