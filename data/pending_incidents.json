@@ -5940,26 +5940,6 @@
     "collectedAt": "2026-05-03T10:02:46.321Z"
   },
   {
-    "id": "auto_216d7b4bf060",
-    "title": "Wypadek radiowozu w Małopolsce. Policjanci trafili do szpitala",
-    "type": "crash",
-    "severity": 1,
-    "date": "2026-05-03T10:02:46.321Z",
-    "desc": "Automatycznie wykryte zgłoszenie. Lokalizacja orientacyjna: Polska (lokalizacja nieznana).",
-    "lat": 52.1,
-    "lng": 19.4,
-    "sources": [
-      {
-        "name": "Gazeta",
-        "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxQdEwwZk1ydUVLYnZZVHhFY0ZrajhFWVZCWlY1NS1jX0lSNHRaTXlBSE1rQUVTbUkya0U3aWlqb0dwSWQ4VGNDNUJvV1JzUGpPeEJBUG9EWTFFVVFybE5XMkk4NzlGVm1DU1pYWnBDZmJJMTNCOWoyNkhlV3RTLV9BSmNHREU3bDFWcE1oYjdEVWhmQmxPZ1B4ZDZVRUNfNU1iSHFKTnN4dmFtZw?oc=5"
-      }
-    ],
-    "city": null,
-    "needsReview": true,
-    "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxQdEwwZk1ydUVLYnZZVHhFY0ZrajhFWVZCWlY1NS1jX0lSNHRaTXlBSE1rQUVTbUkya0U3aWlqb0dwSWQ4VGNDNUJvV1JzUGpPeEJBUG9EWTFFVVFybE5XMkk4NzlGVm1DU1pYWnBDZmJJMTNCOWoyNkhlV3RTLV9BSmNHREU3bDFWcE1oYjdEVWhmQmxPZ1B4ZDZVRUNfNU1iSHFKTnN4dmFtZw?oc=5",
-    "collectedAt": "2026-05-03T10:02:46.321Z"
-  },
-  {
     "id": "auto_5e5569dd2fa1",
     "title": "Wypadek radiowozu w Małopolsce. Policjanci trafili do szpitala",
     "type": "crash",
