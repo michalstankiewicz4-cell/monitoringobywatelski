@@ -622,11 +622,11 @@ function buildPopup(inc) {
     : '';
   const pendingBadge = inc.pendingReview ? `<span style="font-size:.68rem;padding:2px 7px;border-radius:20px;background:rgba(125,180,255,.2);color:#7db4ff">Do zatwierdzenia</span>` : '';
   const lockedBadge = inc.locked ? `<span style="font-size:.68rem;padding:2px 7px;border-radius:20px;background:rgba(42,157,143,.2);color:#2a9d8f">Zatwierdzone</span>` : '';
+  const safeId = inc.id.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+  const safeTitle = (inc.title || '').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   const deleteBtn = (inc.locked && reviewMode)
     ? `<button onclick="addToRemoveQueue('${safeId}','${safeTitle}')" style="width:100%;margin-top:8px;padding:7px;background:rgba(230,57,70,.12);border:1px solid rgba(230,57,70,.4);border-radius:6px;color:#e63946;cursor:pointer;font-size:.75rem;font-family:'Inter',sans-serif"><i class="fa-solid fa-trash-can"></i> Usuń z mapy</button>`
     : '';
-  const safeId = inc.id.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
-  const safeTitle = (inc.title || '').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   const cityPickerHtml = (inc.pendingReview && reviewMode && isFallback(inc))
     ? `<div style="margin-top:8px;padding-top:8px;border-top:1px solid rgba(127,127,127,.25)">
         <div style="font-size:.72rem;color:#f4c430;margin-bottom:5px"><i class="fa-solid fa-location-question" style="margin-right:4px"></i>Lokalizacja nieznana &mdash; przypisz miasto:</div>
