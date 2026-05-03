@@ -561,7 +561,7 @@ function createMarker(inc) {
 
   const icon = L.divIcon({ html: div, className: '', iconSize: [20,20], iconAnchor: [10,10] });
   const m = L.marker([inc.lat, inc.lng], { icon })
-    .bindPopup(buildPopup(inc), { maxWidth: 280 });
+    .bindPopup(buildPopup(inc), { maxWidth: 280, autoPan: true, autoPanPadding: [20, 20], keepInView: true });
 
   m.__incidentId = inc.id;
   markers[inc.id] = m;
