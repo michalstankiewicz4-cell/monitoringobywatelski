@@ -402,8 +402,16 @@
       padding: 12px 14px;
       z-index: 500; font-size: .75rem;
       min-width: 190px;
+      opacity: 1; transition: opacity .4s;
+      pointer-events: auto;
     }
-    #legend h4 { font-size: .7rem; text-transform: uppercase; letter-spacing: .08em; color: var(--text2); margin-bottom: 8px; }
+    #legend.leg-hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+    #legend h4 { font-size: .7rem; text-transform: uppercase; letter-spacing: .08em; color: var(--text2); margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none; }
+    #legend-body { overflow: hidden; transition: max-height .3s ease; max-height: 400px; }
+    #legend-body.leg-collapsed { max-height: 0; margin-top: -4px; }
     #legend .legend-sep { border: none; border-top: 1px solid var(--border); margin: 7px 0; }
     #legend .legend-sub { font-size: .65rem; text-transform: uppercase; letter-spacing: .07em; color: var(--text2); margin-bottom: 5px; margin-top: 2px; }
     .legend-item { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
@@ -467,6 +475,21 @@
     }
     #tl-sep { color: var(--border); user-select: none; }
 
+    /* Incident tooltip (hover) */
+    .incident-tooltip {
+      background: var(--tip-bg) !important;
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--border) !important;
+      border-radius: 8px !important;
+      color: var(--text) !important;
+      padding: 7px 11px !important;
+      box-shadow: var(--shadow) !important;
+      font-family: 'Inter', sans-serif !important;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+    .incident-tooltip::before { display: none !important; }
+
     /* Leaflet overrides */
     .leaflet-control-zoom { border: 1px solid var(--border) !important; }
     .leaflet-control-zoom a {
@@ -492,8 +515,11 @@
 
     <!-- Legend -->
     <div id="legend">
-      <h4><i class="fa-solid fa-circle-info" style="margin-right:4px"></i> Legenda</h4>
-
+      <h4 onclick="toggleLegend()">
+        <span><i class="fa-solid fa-circle-info" style="margin-right:4px"></i> Legenda</span>
+        <i id="legend-toggle-icon" class="fa-solid fa-chevron-up" style="font-size:.6rem;margin-left:8px"></i>
+      </h4>
+      <div id="legend-body">
       <div class="legend-sub">Typ zdarzenia</div>
       <div class="legend-item"><div class="legend-dot ld-crash"></div> Wypadek drogowy</div>
       <div class="legend-item"><div class="legend-dot ld-interwencja"></div> Interwencja policyjna</div>
@@ -513,6 +539,7 @@
         <div class="legend-pulse lp-high"><div class="lp-ring"></div><div class="lp-dot"></div></div>
         <span>Błyskanie — wysokie zagrożenie</span>
       </div>
+      </div><!-- #legend-body -->
     </div>
 
     <!-- Theme Switcher -->
@@ -798,7 +825,9 @@ function createMarker(inc) {
   div.innerHTML = `<div class="ring"></div><div class="dot"></div>`;
 
   const icon = L.divIcon({ html: div, className: '', iconSize: [20,20], iconAnchor: [10,10] });
+  const tooltipTitle = `<b style="font-size:.8rem">${(inc.title||'Zdarzenie').replace(/</g,'&lt;').replace(/>/g,'&gt;')}</b><br><span style="font-size:.71rem;color:#a0aabf">${typeLabels[inc.type]||'Inne'} &bull; ${inc.date ? new Date(inc.date).toLocaleDateString('pl-PL') : ''}</span>`;
   const m = L.marker([inc.lat, inc.lng], { icon })
+    .bindTooltip(tooltipTitle, { direction: 'top', offset: [0, -14], opacity: 1, className: 'incident-tooltip' })
     .bindPopup(buildPopup(inc), { maxWidth: 280, autoPan: true, autoPanPadding: [20, 20], keepInView: true });
 
   m.__incidentId = inc.id;
@@ -1394,6 +1423,27 @@ function toggleTimeline() {
   // hide initially after 1s
   hideTimer = setTimeout(() => sw.classList.add('ts-hidden'), 1000);
 })();
+
+/* ─── LEGEND AUTO-HIDE ─────────────────────────────────────── */
+(function() {
+  const leg = document.getElementById('legend');
+  let legTimer;
+  function showLegend() {
+    leg.classList.remove('leg-hidden');
+    clearTimeout(legTimer);
+    legTimer = setTimeout(() => leg.classList.add('leg-hidden'), 1000);
+  }
+  document.addEventListener('mousemove', showLegend);
+  document.addEventListener('touchstart', showLegend);
+  legTimer = setTimeout(() => leg.classList.add('leg-hidden'), 1000);
+})();
+
+function toggleLegend() {
+  const body = document.getElementById('legend-body');
+  const icon = document.getElementById('legend-toggle-icon');
+  const collapsed = body.classList.toggle('leg-collapsed');
+  icon.className = collapsed ? 'fa-solid fa-chevron-down' : 'fa-solid fa-chevron-up';
+}
 
 /* ─── TOAST ─────────────────────────────────────────────── */
 let toastTimer;
