@@ -6,6 +6,12 @@
  * Frontend wysyła: POST /api/approve { incident_ids: "id1,id2,id3" }
  */
 
+import { createHash } from 'crypto';
+
+function sha256(str) {
+  return createHash('sha256').update(str).digest('hex');
+}
+
 export default async function handler(req, res) {
   // CORS - zezwól requestom z monitoringobywatelski.pl
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -24,7 +30,7 @@ export default async function handler(req, res) {
   const token = process.env.GITHUB_TOKEN;
   const apiSecret = process.env.ADMIN_SECRET;
 
-  if (apiSecret && secret !== apiSecret) {
+  if (apiSecret && secret !== sha256(apiSecret)) {
     return res.status(401).json({ error: 'Unauthorized' });
   }
 
