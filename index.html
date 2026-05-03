@@ -150,6 +150,14 @@
       font-family: inherit; font-size: .75rem; cursor: pointer;
     }
     #review-clear-btn:hover { color: var(--text); border-color: #3a4060; }
+    #review-discover-btn {
+      width: 100%; padding: 8px; margin-bottom: 12px;
+      background: linear-gradient(135deg, var(--accent4), #2a5a7a);
+      border: none; border-radius: 8px;
+      color: #fff; font-family: inherit; font-size: .8rem; font-weight: 600;
+      cursor: pointer; transition: opacity .2s;
+    }
+    #review-discover-btn:hover { opacity: .85; }
 
     /* ── PULSE MARKERS ─────────────────────────────────────── */
     .pulse-marker {
@@ -297,6 +305,7 @@
 <!-- REVIEW PANEL -->
 <div id="review-panel" style="display:none">
   <h3><i class="fa-solid fa-clipboard-check"></i> Zatwierdź incydenty</h3>
+  <button id="review-discover-btn" onclick="copyDiscoverCmd()"><i class="fa-solid fa-magnifying-glass"></i> Kopiuj komendę szukania</button>
   <div id="review-list"><span id="review-empty">Brak wybranych — kliknij "Zatwierdź" na markerze.</span></div>
   <div id="review-cmd-wrap">
     <div id="review-cmd"></div>
@@ -442,6 +451,12 @@ function buildPopup(inc) {
 
 /* ─── REVIEW PANEL ──────────────────────────────────────── */
 const reviewQueue = new Map(); // id → title
+
+function copyDiscoverCmd() {
+  navigator.clipboard.writeText('node scripts/discover_incidents.mjs').then(() => {
+    showToast('<i class="fa-solid fa-copy"></i> Komenda skopiowana — wklej w terminal VS Code');
+  });
+}
 
 function addToReview(id, title) {
   if (reviewQueue.has(id)) {
