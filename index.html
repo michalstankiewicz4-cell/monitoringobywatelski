@@ -147,6 +147,35 @@
     }
     .tbl-btn.ok { border-color: rgba(42,157,143,.5); color: #2a9d8f; background: rgba(42,157,143,.15); }
     .tbl-btn.bad { border-color: rgba(230,57,70,.45); color: #e63946; background: rgba(230,57,70,.12); }
+    .approved-remove-section {
+      margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border);
+    }
+    .approved-remove-section h4 {
+      font-size: .78rem; margin: 0 0 8px; color: var(--text);
+      display: flex; align-items: center; gap: 6px;
+    }
+    .approved-remove-wrap {
+      border: 1px solid var(--border); border-radius: 10px; overflow: auto; max-height: 28vh;
+      background: rgba(0,0,0,.12);
+    }
+    #approved-remove-table { width: 100%; border-collapse: collapse; font-size: .73rem; }
+    #approved-remove-table th, #approved-remove-table td { padding: 7px 9px; border-bottom: 1px solid var(--border); }
+    #approved-remove-table th { position: sticky; top: 0; background: var(--panel2); color: var(--text2); text-align: left; z-index: 1; }
+    #remove-approved-cmd-wrap { display: none; margin-top: 8px; }
+    #remove-approved-cmd {
+      font-size: .68rem; font-family: monospace;
+      background: var(--panel2); border: 1px solid var(--border);
+      border-radius: 7px; padding: 7px 10px; color: var(--text2);
+      word-break: break-all; line-height: 1.5; margin-bottom: 8px;
+    }
+    #remove-approved-copy-btn {
+      width: 100%; padding: 8px;
+      background: linear-gradient(135deg, #e63946, #b71c2b);
+      border: none; border-radius: 8px;
+      color: #fff; font-family: inherit; font-size: .8rem; font-weight: 600;
+      cursor: pointer; transition: opacity .2s;
+    }
+    #remove-approved-copy-btn:hover { opacity: .85; }
     #review-cmd-wrap { display: none; }
     #review-cmd {
       font-size: .68rem; font-family: monospace;
@@ -507,6 +536,26 @@
     <div id="review-cmd"></div>
     <button id="review-copy-btn" onclick="copyReviewCmd()"><i class="fa-solid fa-copy"></i> Kopiuj komendę akceptacji</button>
   </div>
+
+  <div class="approved-remove-section">
+    <h4><i class="fa-solid fa-trash-can"></i> Usuwanie już zaakceptowanych</h4>
+    <div class="approved-remove-wrap">
+      <table id="approved-remove-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Tytuł</th>
+            <th>Akcja</th>
+          </tr>
+        </thead>
+        <tbody id="approved-remove-table-body"></tbody>
+      </table>
+    </div>
+    <div id="remove-approved-cmd-wrap">
+      <div id="remove-approved-cmd"></div>
+      <button id="remove-approved-copy-btn" onclick="copyRemoveApprovedCmd()"><i class="fa-solid fa-copy"></i> Kopiuj komendę usunięcia z mapy</button>
+    </div>
+  </div>
 </div>
 
 <!-- TOAST -->
@@ -670,6 +719,7 @@ function buildPopup(inc) {
 
 /* ─── REVIEW PANEL ──────────────────────────────────────── */
 const reviewQueue = new Map(); // id → title
+const removeApprovedQueue = new Map(); // id -> title
 
 /* ─── POLISH CITIES ─────────────────────────────────────── */
 const POLISH_CITIES = [
@@ -823,6 +873,56 @@ function renderPendingTable() {
   }).join('');
 }
 
+function toggleApprovedForRemoval(id, title) {
+  if (removeApprovedQueue.has(id)) {
+    removeApprovedQueue.delete(id);
+  } else {
+    removeApprovedQueue.set(id, title);
+  }
+  renderApprovedRemovalTable();
+}
+
+function renderApprovedRemovalTable() {
+  const body = document.getElementById('approved-remove-table-body');
+  const cmdWrap = document.getElementById('remove-approved-cmd-wrap');
+  const cmdEl = document.getElementById('remove-approved-cmd');
+  if (!body || !cmdWrap || !cmdEl) return;
+
+  if (!approvedIncidents.length) {
+    body.innerHTML = '<tr><td colspan="3" style="font-style:italic;color:var(--text2)">Brak zaakceptowanych incydentów.</td></tr>';
+  } else {
+    body.innerHTML = approvedIncidents.map(inc => {
+      const safeId = inc.id.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+      const safeTitle = (inc.title || 'Zdarzenie').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g, '&#39;');
+      const inQueue = removeApprovedQueue.has(inc.id);
+      return `<tr>
+        <td style="font-family:monospace">${inc.id}</td>
+        <td>${safeTitle}</td>
+        <td>
+          <button class="tbl-btn ${inQueue ? 'bad' : ''}" onclick="toggleApprovedForRemoval('${safeId}','${safeTitle}')">${inQueue ? 'Cofnij' : 'Usuń'}</button>
+        </td>
+      </tr>`;
+    }).join('');
+  }
+
+  const ids = [...removeApprovedQueue.keys()];
+  if (!ids.length) {
+    cmdWrap.style.display = 'none';
+    cmdEl.textContent = '';
+    return;
+  }
+  cmdEl.textContent = `$env:INCIDENT_IDS="${ids.join(',')}"; node scripts/remove_incident.mjs`;
+  cmdWrap.style.display = 'block';
+}
+
+function copyRemoveApprovedCmd() {
+  const cmd = document.getElementById('remove-approved-cmd').textContent;
+  if (!cmd) return;
+  navigator.clipboard.writeText(cmd).then(() => {
+    showToast('<i class="fa-solid fa-copy"></i> Komenda usunięcia skopiowana do schowka');
+  });
+}
+
 function renderReviewPanel() {
   const cmdWrap = document.getElementById('review-cmd-wrap');
   const ids = [...reviewQueue.keys()];
@@ -864,6 +964,7 @@ async function loadApprovedIncidents() {
         sources: Array.isArray(i.sources) ? i.sources : [],
         locked: true
       }));
+    renderApprovedRemovalTable();
   } catch {
     // Brak zatwierdzonych danych nie powinien zatrzymać mapy.
   }
@@ -1080,6 +1181,7 @@ function showToast(html) {
     document.getElementById('review-panel').style.display = 'block';
     renderReviewPanel();
     setPendingFilter('todo');
+    renderApprovedRemovalTable();
     showToast('<i class="fa-solid fa-eye"></i> Tryb review: widoczni kandydaci do zatwierdzenia');
   }
   } catch(e) {
