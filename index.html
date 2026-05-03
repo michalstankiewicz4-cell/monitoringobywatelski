@@ -582,6 +582,15 @@ function buildPopup(inc) {
   const deleteBtn = '';
   const safeId = inc.id.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
   const safeTitle = (inc.title || '').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  const cityPickerHtml = (inc.pendingReview && reviewMode && isFallback(inc))
+    ? `<div style="margin-top:8px;padding-top:8px;border-top:1px solid rgba(127,127,127,.25)">
+        <div style="font-size:.72rem;color:#f4c430;margin-bottom:5px"><i class="fa-solid fa-location-question" style="margin-right:4px"></i>Lokalizacja nieznana &mdash; przypisz miasto:</div>
+        <select onchange="assignCity('${safeId}',this.value)" style="width:100%;padding:5px 8px;background:#1a1e2a;border:1px solid #3a4060;border-radius:6px;color:#e0e4f0;font-family:'Inter',sans-serif;font-size:.76rem;cursor:pointer">
+          <option value="">— wybierz miasto —</option>
+          ${POLISH_CITIES.map(c => `<option value="${c.name}">${c.name}</option>`).join('')}
+        </select>
+      </div>`
+    : '';
   const approveBtn = (inc.pendingReview && reviewMode)
     ? `<div style="display:flex;gap:6px;margin-top:10px">
         <button onclick="addToReview('${safeId}','${safeTitle}')" style="flex:1;padding:7px;background:rgba(42,157,143,.15);border:1px solid rgba(42,157,143,.4);border-radius:6px;color:#2a9d8f;cursor:pointer;font-size:.75rem;font-family:'Inter',sans-serif"><i class="fa-solid fa-check"></i> Zatwierdź</button>
@@ -601,6 +610,7 @@ function buildPopup(inc) {
       ${inc.desc ? `<div style="font-size:.78rem;color:#a0a8c0;margin-top:6px;line-height:1.5">${inc.desc}</div>` : ''}
       <div style="font-size:.65rem;color:#3a4060;margin-top:8px;font-family:monospace">${inc.lat.toFixed(5)}, ${inc.lng.toFixed(5)}</div>
       ${sourceHtml}
+      ${cityPickerHtml}
       ${deleteBtn}
       ${approveBtn}
     </div>`;
@@ -608,6 +618,70 @@ function buildPopup(inc) {
 
 /* ─── REVIEW PANEL ──────────────────────────────────────── */
 const reviewQueue = new Map(); // id → title
+
+/* ─── POLISH CITIES ─────────────────────────────────────── */
+const POLISH_CITIES = [
+  { name: 'Warszawa',       lat: 52.2297,  lng: 21.0122 },
+  { name: 'Kraków',         lat: 50.0647,  lng: 19.9450 },
+  { name: 'Łódź',           lat: 51.7592,  lng: 19.4560 },
+  { name: 'Wrocław',        lat: 51.1079,  lng: 17.0385 },
+  { name: 'Poznań',         lat: 52.4064,  lng: 16.9252 },
+  { name: 'Gdańsk',         lat: 54.3520,  lng: 18.6466 },
+  { name: 'Szczecin',       lat: 53.4285,  lng: 14.5528 },
+  { name: 'Bydgoszcz',      lat: 53.1235,  lng: 18.0084 },
+  { name: 'Lublin',         lat: 51.2465,  lng: 22.5684 },
+  { name: 'Katowice',       lat: 50.2649,  lng: 19.0238 },
+  { name: 'Białystok',       lat: 53.1325,  lng: 23.1688 },
+  { name: 'Gdańsk-Gdynia',  lat: 54.5189,  lng: 18.5305 },
+  { name: 'Częstochowa',    lat: 50.8118,  lng: 19.1203 },
+  { name: 'Radom',          lat: 51.4027,  lng: 21.1471 },
+  { name: 'Sosnowiec',      lat: 50.2863,  lng: 19.1040 },
+  { name: 'Toruń',          lat: 53.0138,  lng: 18.5981 },
+  { name: 'Kielce',         lat: 50.8661,  lng: 20.6286 },
+  { name: 'Rzeszów',         lat: 50.0412,  lng: 21.9991 },
+  { name: 'Gliwice',        lat: 50.2945,  lng: 18.6714 },
+  { name: 'Zabrze',         lat: 50.3249,  lng: 18.7857 },
+  { name: 'Olsztyn',        lat: 53.7784,  lng: 20.4801 },
+  { name: 'Bielsko-Biała', lat: 49.8225,  lng: 19.0444 },
+  { name: 'Bytom',          lat: 50.3483,  lng: 18.9197 },
+  { name: 'Zielona Góra',   lat: 51.9356,  lng: 15.5062 },
+  { name: 'Rybnik',         lat: 50.0971,  lng: 18.5416 },
+  { name: 'Opóle',           lat: 50.6681,  lng: 17.9236 },
+  { name: 'Tychy',          lat: 50.1288,  lng: 18.9964 },
+  { name: 'Górzów Wlkp.',   lat: 52.7368,  lng: 15.2288 },
+  { name: 'Dąbrowa Górnicza', lat: 50.3236, lng: 19.1947 },
+  { name: 'Płock',          lat: 52.5463,  lng: 19.7060 },
+  { name: 'Wałbrzych',      lat: 50.7714,  lng: 16.2846 },
+  { name: 'Włocławek',      lat: 52.6483,  lng: 19.0677 },
+  { name: 'Tarnów',         lat: 50.0121,  lng: 20.9858 },
+  { name: 'Chelm',          lat: 51.1430,  lng: 23.4716 },
+  { name: 'Koszalin',       lat: 54.1943,  lng: 16.1716 },
+  { name: 'Legnica',        lat: 51.2070,  lng: 16.1619 },
+  { name: 'Grudziądz',      lat: 53.4837,  lng: 18.7536 },
+  { name: 'Jaworzno',       lat: 50.2023,  lng: 19.2753 },
+  { name: 'Słupsk',         lat: 54.4641,  lng: 17.0285 },
+  { name: 'Jastrzębie-Zdój',lat: 49.9500,  lng: 18.5833 },
+];
+const FALLBACK_LAT = 52.1, FALLBACK_LNG = 19.4;
+
+function isFallback(inc) {
+  return Math.abs(inc.lat - FALLBACK_LAT) < 0.01 && Math.abs(inc.lng - FALLBACK_LNG) < 0.01;
+}
+
+function assignCity(incId, cityName) {
+  const city = POLISH_CITIES.find(c => c.name === cityName);
+  if (!city) return;
+  const m = markers[incId];
+  if (!m) return;
+  m.setLatLng([city.lat, city.lng]);
+  // update incident data
+  const inc = incidents.find(i => i.id === incId);
+  if (inc) { inc.lat = city.lat; inc.lng = city.lng; inc.city = city.name; }
+  map.closePopup();
+  // re-open popup at new location
+  clusterGroup.refreshClusters();
+  showToast(`<i class="fa-solid fa-location-dot"></i> Przypisano: <strong>${city.name}</strong>`);
+}
 
 function copyDiscoverCmd() {
   navigator.clipboard.writeText('node scripts/discover_incidents.mjs').then(() => {
