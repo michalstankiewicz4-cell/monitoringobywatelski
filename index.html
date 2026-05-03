@@ -293,15 +293,15 @@
     }
     #timeline-bar i { color: var(--accent4); }
     #tl-label {
-      min-width: 68px; text-align: center;
+      min-width: 80px; text-align: center;
       color: var(--text); font-weight: 600;
     }
     #timeline-bar.tl-off #tl-label { color: var(--text2); }
     #tl-slider {
       -webkit-appearance: none; appearance: none;
-      width: 160px; height: 4px;
+      width: 320px; height: 4px;
       border-radius: 2px; outline: none; cursor: pointer;
-      background: linear-gradient(to right, var(--accent4) 0%, var(--accent4) var(--pct,8%), var(--border) var(--pct,8%), var(--border) 100%);
+      background: linear-gradient(to right, var(--accent4) 0%, var(--accent4) var(--pct,0%), var(--border) var(--pct,0%), var(--border) 100%);
       transition: opacity .2s;
     }
     #tl-slider::-webkit-slider-thumb {
@@ -363,8 +363,8 @@
     <!-- Timeline bar -->
     <div id="timeline-bar">
       <i class="fa-solid fa-clock-rotate-left"></i>
-      <span id="tl-label">30 dni</span>
-      <input type="range" id="tl-slider" min="7" max="365" value="30" step="1"
+      <span id="tl-label">7 dni</span>
+      <input type="range" id="tl-slider" min="0" max="365" value="7" step="1"
              oninput="onTimelineSlider(this.value)" />
       <span id="tl-sep">|</span>
       <button id="tl-toggle" onclick="toggleTimeline()">Pokaż wszystkie</button>
@@ -638,16 +638,35 @@ async function loadPendingReviewIncidents() {
 
 /* ─── TIMELINE FILTER ──────────────────────────────────── */
 let timelineEnabled = true;
-let timelineDays    = 30;
+let timelineDays    = 7;
+
+function tlLabel(days) {
+  if (days === 0)   return 'Dziś';
+  if (days === 1)   return '1 dzień';
+  if (days <= 4)    return `${days} dni`;
+  if (days < 14)    return `${days} dni`;
+  if (days < 30)    return `${days} dni`;
+  if (days < 60)    return 'Miesiąc';
+  if (days < 365)   return `${Math.round(days/30)} mies.`;
+  return 'Rok';
+}
 
 function filterMarkers() {
   clusterGroup.clearLayers();
-  const cutoffMs = timelineEnabled ? Date.now() - timelineDays * 86_400_000 : -Infinity;
+  let cutoffMs;
+  if (!timelineEnabled) {
+    cutoffMs = -Infinity;
+  } else if (timelineDays === 0) {
+    // only today: from midnight of today
+    const today = new Date(); today.setHours(0,0,0,0);
+    cutoffMs = today.getTime();
+  } else {
+    cutoffMs = Date.now() - timelineDays * 86_400_000;
+  }
   incidents.forEach(inc => {
     const m = markers[inc.id];
     if (!m) return;
     const ts = inc.date ? new Date(inc.date).getTime() : NaN;
-    // show if: filter off, OR date unknown (NaN), OR date within range
     if (!timelineEnabled || isNaN(ts) || ts >= cutoffMs) {
       clusterGroup.addLayer(m);
     }
@@ -656,7 +675,7 @@ function filterMarkers() {
 
 function updateTimelineTrack(val) {
   const slider = document.getElementById('tl-slider');
-  const pct = ((val - 7) / (365 - 7) * 100).toFixed(1);
+  const pct = (val / 365 * 100).toFixed(2);
   slider.style.setProperty('--pct', pct + '%');
 }
 
@@ -665,8 +684,7 @@ function onTimelineSlider(val) {
   timelineEnabled = true;
   const bar = document.getElementById('timeline-bar');
   bar.classList.remove('tl-off');
-  const label = timelineDays >= 365 ? 'Rok' : timelineDays >= 30 ? `${Math.round(timelineDays/30)} mies.` : `${timelineDays} dni`;
-  document.getElementById('tl-label').textContent = label;
+  document.getElementById('tl-label').textContent = tlLabel(timelineDays);
   document.getElementById('tl-toggle').textContent = 'Pokaż wszystkie';
   updateTimelineTrack(timelineDays);
   filterMarkers();
@@ -708,6 +726,7 @@ function showToast(html) {
   });
   incidents.forEach(createMarker);
   map.addLayer(clusterGroup);
+  document.getElementById('tl-label').textContent = tlLabel(timelineDays);
   updateTimelineTrack(timelineDays);
   filterMarkers();
   if (reviewMode) {
