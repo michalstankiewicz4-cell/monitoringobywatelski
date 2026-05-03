@@ -652,10 +652,33 @@ let activeSourceFilter = new Set(); // empty = show all
 let pendingFilter = 'todo';
 const reviewMode = new URLSearchParams(window.location.search).get('review') === '1';
 
+const ADMIN_PASSWORD_HASH = 'ec848bc88e2d8747c5c4f6c4a5bcede761da72233350007e1b95335185a66613';
+
+async function sha256(str) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+  return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2,'0')).join('');
+}
+
+async function checkAdminAuth() {
+  const stored = sessionStorage.getItem('admin_auth');
+  if (stored === ADMIN_PASSWORD_HASH) return true;
+  const pwd = prompt('Hasło panelu administracyjnego:');
+  if (!pwd) return false;
+  const hash = await sha256(pwd);
+  if (hash === ADMIN_PASSWORD_HASH) {
+    sessionStorage.setItem('admin_auth', hash);
+    return true;
+  }
+  alert('Nieprawidłowe hasło.');
+  return false;
+}
+
 // Pokaż panel review natychmiast po parsowaniu, nie czekaj na async
 if (reviewMode) {
-  document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('review-panel').style.display = 'block';
+  document.addEventListener('DOMContentLoaded', async () => {
+    const ok = await checkAdminAuth();
+    if (ok) document.getElementById('review-panel').style.display = 'flex';
+    else window.location.replace(window.location.pathname);
   });
 }
 
@@ -1044,7 +1067,8 @@ async function submitApprovedToGitHub() {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          incident_ids: ids.join(',')
+          incident_ids: ids.join(','),
+          secret: sessionStorage.getItem('admin_auth') || ''
         })
       }
     );
@@ -1091,7 +1115,7 @@ async function submitRemoveToGitHub() {
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ incident_ids: ids.join(',') })
+        body: JSON.stringify({ incident_ids: ids.join(','), secret: sessionStorage.getItem('admin_auth') || '' })
       }
     );
 

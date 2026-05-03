@@ -13,8 +13,13 @@ export default async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  const { incident_ids } = req.body;
+  const { incident_ids, secret } = req.body;
   const token = process.env.GITHUB_TOKEN;
+  const apiSecret = process.env.ADMIN_SECRET;
+
+  if (apiSecret && secret !== apiSecret) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
 
   if (!incident_ids || !token) {
     return res.status(400).json({
