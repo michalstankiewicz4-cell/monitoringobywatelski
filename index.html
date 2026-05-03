@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mapa Wypadków – Polska</title>
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0d0f14;
+      --panel:     #13161e;
+      --panel2:    #1a1e2a;
+      --border:    #252a38;
+      --accent:    #e63946;
+      --accent2:   #f4a261;
+      --accent3:   #2a9d8f;
+      --accent4:   #457b9d;
+      --text:      #e0e4f0;
+      --text2:     #7a849e;
+      --radius:    10px;
+      --shadow:    0 4px 24px rgba(0,0,0,.5);
+      --card-hover: #3a4060;
+      --card-active-bg: #1e2235;
+      --card-active-border: #4a5080;
+      --header-grad: linear-gradient(135deg,#1a1e2a 0%,#0d1220 100%);
+      --popup-bg: #13161e;
+      --tip-bg: rgba(13,15,20,.85);
+    }
+
+    /* ── LIGHT THEME ── */
+    [data-theme="light"] {
+      --bg:        #f0f2f7;
+      --panel:     #ffffff;
+      --panel2:    #f5f7fb;
+      --border:    #dde1ea;
+      --text:      #1a1e2a;
+      --text2:     #6b7280;
+      --shadow:    0 4px 24px rgba(0,0,0,.12);
+      --card-hover: #c8cfe0;
+      --card-active-bg: #e8ecf8;
+      --card-active-border: #a0b0d0;
+      --header-grad: linear-gradient(135deg,#e8ecf8 0%,#d4daf0 100%);
+      --popup-bg: #ffffff;
+      --tip-bg: rgba(240,242,247,.95);
+    }
+
+    /* ── SATELLITE THEME (dark UI) ── */
+    [data-theme="satellite"] {
+      --bg:        #080c10;
+      --panel:     #0e1218;
+      --panel2:    #141a22;
+      --border:    #1e2830;
+      --text:      #d0e0f0;
+      --text2:     #607080;
+      --shadow:    0 4px 24px rgba(0,0,0,.7);
+      --card-hover: #2a3840;
+      --card-active-bg: #182028;
+      --card-active-border: #3a5060;
+      --header-grad: linear-gradient(135deg,#0e1a22 0%,#060c12 100%);
+      --popup-bg: #0e1218;
+      --tip-bg: rgba(8,12,16,.9);
+    }
+
+    html, body { height: 100%; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); overflow: hidden; }
+
+    /* ── LAYOUT ─────────────────────────────────────── */
+    #app { height: 100vh; }
+    #map-wrap { position: relative; width: 100%; height: 100%; }
+    /* ── MAP ─────────────────────────────────────── */
+    #map { width: 100%; height: 100%; }
+
+    /* Dark theme based on OSM tiles: apply filter to whole tile pane to avoid seams. */
+    [data-theme="dark"] #map .leaflet-tile-pane {
+      filter: invert(100%) hue-rotate(180deg) brightness(92%) contrast(90%) saturate(75%);
+    }
+    [data-theme="light"] #map .leaflet-tile-pane,
+    [data-theme="satellite"] #map .leaflet-tile-pane {
+      filter: none;
+    }
+
+    /* leaflet popup custom */
+    .leaflet-popup-content-wrapper {
+      background: var(--popup-bg) !important;
+      border: 1px solid var(--border) !important;
+      border-radius: var(--radius) !important;
+      box-shadow: var(--shadow) !important;
+      color: var(--text) !important;
+    }
+    .leaflet-popup-tip { background: var(--popup-bg) !important; }
+    .leaflet-popup-content { margin: 14px 16px !important; min-width: 220px; }
+
+    /* map tooltip */
+    #map-tip {
+      position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%);
+      background: var(--tip-bg); backdrop-filter: blur(8px);
+      border: 1px solid var(--border); border-radius: 30px;
+      padding: 8px 18px; font-size: .78rem; color: var(--text2);
+      pointer-events: none; z-index: 500;
+      transition: opacity .3s;
+    }
+    #map-tip i { margin-right: 6px; color: var(--accent2); }
+
+    /* ── MODAL ─────────────────────────────────────── */
+    #modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,.65); backdrop-filter: blur(4px);
+      z-index: 9000;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none; transition: opacity .25s;
+    }
+    #modal-overlay.show { opacity: 1; pointer-events: all; }
+
+    #modal {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 28px 28px 22px;
+      width: 420px; max-width: 95vw;
+      box-shadow: var(--shadow);
+      transform: translateY(16px) scale(.97);
+      transition: transform .25s;
+    }
+    #modal-overlay.show #modal { transform: translateY(0) scale(1); }
+
+    #modal h2 {
+      font-size: 1rem; font-weight: 700; margin-bottom: 18px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    #modal h2 i { color: var(--accent); }
+
+    .form-row { margin-bottom: 14px; }
+    .form-row label { font-size: .75rem; color: var(--text2); display: block; margin-bottom: 5px; }
+    .form-row input, .form-row select, .form-row textarea {
+      width: 100%; background: var(--panel2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text); font-family: inherit; font-size: .85rem;
+      padding: 9px 12px;
+      outline: none; transition: border-color .2s;
+    }
+    .form-row input:focus, .form-row select:focus, .form-row textarea:focus {
+      border-color: var(--card-hover);
+    }
+    .form-row textarea { resize: vertical; min-height: 70px; }
+    .form-row select option { background: var(--panel2); }
+
+    .type-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .type-opt {
+      border: 2px solid var(--border); border-radius: var(--radius);
+      padding: 10px 12px;
+      cursor: pointer; transition: all .2s;
+      display: flex; align-items: center; gap: 8px;
+      font-size: .8rem;
+    }
+    .type-opt i { font-size: 1rem; }
+    .type-opt:hover { border-color: var(--card-hover); }
+    .type-opt.selected { color: #fff; }
+    .type-opt[data-val="crash"].selected  { border-color: var(--accent); background: rgba(230,57,70,.1); }
+    .type-opt[data-val="fire"].selected   { border-color: #e67e22; background: rgba(230,126,34,.1); }
+    .type-opt[data-val="flood"].selected  { border-color: var(--accent4); background: rgba(69,123,157,.1); }
+    .type-opt[data-val="other"].selected  { border-color: var(--accent3); background: rgba(42,157,143,.1); }
+
+    .severity-row { display: flex; gap: 6px; }
+    .sev-btn {
+      flex: 1; padding: 7px; border-radius: 8px;
+      border: 2px solid var(--border); background: transparent;
+      color: var(--text2); font-family: inherit; font-size: .75rem;
+      cursor: pointer; transition: all .2s;
+    }
+    .sev-btn:hover { color: var(--text); border-color: #3a4060; }
+    .sev-btn.selected { color: #fff; }
+    .sev-btn[data-sev="1"].selected { border-color: var(--accent3); background: rgba(42,157,143,.15); color: var(--accent3); }
+    .sev-btn[data-sev="2"].selected { border-color: var(--accent2); background: rgba(244,162,97,.15); color: var(--accent2); }
+    .sev-btn[data-sev="3"].selected { border-color: var(--accent); background: rgba(230,57,70,.15); color: var(--accent); }
+
+    .modal-footer { display: flex; gap: 10px; margin-top: 20px; }
+    .btn-cancel, .btn-save {
+      flex: 1; padding: 10px;
+      border-radius: var(--radius);
+      font-family: inherit; font-size: .85rem; font-weight: 600;
+      cursor: pointer; transition: all .2s;
+    }
+    .btn-cancel {
+      background: transparent; border: 1px solid var(--border); color: var(--text2);
+    }
+    .btn-cancel:hover { border-color: #3a4060; color: var(--text); }
+    .btn-save {
+      background: linear-gradient(135deg, var(--accent), #c1121f);
+      border: none; color: #fff;
+    }
+    .btn-save:hover { opacity: .88; }
+
+    /* ── PULSE MARKERS ─────────────────────────────────────── */
+    .pulse-marker {
+      position: relative;
+      width: 20px; height: 20px;
+    }
+    .pulse-marker .dot {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 12px; height: 12px;
+      border-radius: 50%;
+    }
+    .pulse-marker .ring {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      animation: pulse-ring 1.8s ease-out infinite;
+    }
+    @keyframes pulse-ring {
+      0%   { width: 12px; height: 12px; opacity: .8; }
+      100% { width: 36px; height: 36px; opacity: 0; }
+    }
+    /* colors per type */
+    .pm-crash .dot  { background: var(--accent); box-shadow: 0 0 8px var(--accent); }
+    .pm-crash .ring { border: 2px solid var(--accent); }
+    .pm-fire  .dot  { background: #e67e22; box-shadow: 0 0 8px #e67e22; }
+    .pm-fire  .ring { border: 2px solid #e67e22; }
+    .pm-flood .dot  { background: var(--accent4); box-shadow: 0 0 8px var(--accent4); }
+    .pm-flood .ring { border: 2px solid var(--accent4); }
+    .pm-other .dot  { background: var(--accent3); box-shadow: 0 0 8px var(--accent3); }
+    .pm-other .ring { border: 2px solid var(--accent3); }
+
+    /* severity glow boost */
+    .sev-3 .dot { animation: sev-glow 1s ease-in-out infinite alternate; }
+    @keyframes sev-glow {
+      from { filter: brightness(1); }
+      to   { filter: brightness(1.8) drop-shadow(0 0 6px currentColor); }
+    }
+
+    /* notification toast */
+    #toast {
+      position: fixed; bottom: 30px; right: 30px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 12px 18px;
+      font-size: .82rem;
+      box-shadow: var(--shadow);
+      z-index: 9999;
+      transform: translateY(10px); opacity: 0;
+      transition: all .3s;
+      pointer-events: none;
+    }
+    #toast.show { transform: translateY(0); opacity: 1; }
+    #toast i { margin-right: 8px; color: var(--accent3); }
+
+    /* legend */
+    /* theme switcher */
+    #theme-switcher {
+      position: absolute; top: 16px; left: 50%; transform: translateX(-50%);
+      display: flex; gap: 0;
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 30px; overflow: hidden;
+      box-shadow: var(--shadow);
+      z-index: 600;
+    }
+    .theme-btn {
+      padding: 7px 16px; font-size: .76rem; font-family: inherit;
+      border: none; background: transparent; color: var(--text2);
+      cursor: pointer; transition: all .2s;
+      display: flex; align-items: center; gap: 5px;
+      white-space: nowrap;
+    }
+    .theme-btn:not(:last-child) { border-right: 1px solid var(--border); }
+    .theme-btn:hover { color: var(--text); background: var(--panel2); }
+    .theme-btn.active { background: var(--panel2); color: var(--text); font-weight: 600; }
+    .theme-btn.active .th-dot { opacity: 1; }
+    .th-dot { width: 7px; height: 7px; border-radius: 50%; opacity: .5; transition: opacity .2s; }
+    .td-dark { background: #457b9d; }
+    .td-light { background: #f4a261; }
+    .td-sat   { background: #2a9d8f; }
+
+    #legend {
+      position: absolute; top: 16px; right: 16px;
+      background: var(--tip-bg); backdrop-filter: blur(8px);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 12px 14px;
+      z-index: 500; font-size: .75rem;
+    }
+    #legend h4 { font-size: .7rem; text-transform: uppercase; letter-spacing: .08em; color: var(--text2); margin-bottom: 8px; }
+    .legend-item { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
+    .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .ld-crash { background: var(--accent); box-shadow: 0 0 5px var(--accent); }
+    .ld-fire  { background: #e67e22; box-shadow: 0 0 5px #e67e22; }
+    .ld-flood { background: var(--accent4); box-shadow: 0 0 5px var(--accent4); }
+    .ld-other { background: var(--accent3); box-shadow: 0 0 5px var(--accent3); }
+
+    /* Leaflet overrides */
+    .leaflet-control-zoom { border: 1px solid var(--border) !important; }
+    .leaflet-control-zoom a {
+      background: var(--panel) !important; color: var(--text) !important;
+      border-color: var(--border) !important;
+    }
+    .leaflet-control-zoom a:hover { background: var(--panel2) !important; }
+    .leaflet-control-attribution { display: none !important; }
+  </style>
+</head>
+<body>
+<div id="app">
+  <!-- ── MAP ── -->
+  <div id="map-wrap">
+    <div id="map"></div>
+
+    <!-- Legend -->
+    <div id="legend">
+      <h4><i class="fa-solid fa-circle-info" style="margin-right:4px"></i> Legenda</h4>
+      <div class="legend-item"><div class="legend-dot ld-crash"></div> Wypadek drogowy</div>
+      <div class="legend-item"><div class="legend-dot ld-fire"></div> Pozar</div>
+      <div class="legend-item"><div class="legend-dot ld-flood"></div> Powodz</div>
+      <div class="legend-item"><div class="legend-dot ld-other"></div> Inne zdarzenie</div>
+    </div>
+
+    <!-- Theme Switcher -->
+    <div id="theme-switcher">
+      <button class="theme-btn active" data-theme="dark" onclick="setTheme('dark',this)">
+        <span class="th-dot td-dark"></span> Ciemna
+      </button>
+      <button class="theme-btn" data-theme="light" onclick="setTheme('light',this)">
+        <span class="th-dot td-light"></span> Jasna
+      </button>
+      <button class="theme-btn" data-theme="satellite" onclick="setTheme('satellite',this)">
+        <span class="th-dot td-sat"></span> Satelita
+      </button>
+    </div>
+
+    <!-- Bottom tip -->
+    <div id="map-tip">
+      <i class="fa-regular fa-hand-pointer"></i>
+      Kliknij w dowolne miejsce na mapie, aby dodac zdarzenie
+    </div>
+  </div>
+</div>
+
+<!-- ── MODAL ── -->
+<div id="modal-overlay">
+  <div id="modal">
+    <h2><i class="fa-solid fa-plus-circle"></i> Nowe zdarzenie</h2>
+
+    <div class="form-row">
+      <label>Tytuł zdarzenia *</label>
+      <input type="text" id="f-title" placeholder="np. Kolizja na skrzyżowaniu…" maxlength="80" />
+    </div>
+
+    <div class="form-row">
+      <label>Typ zdarzenia</label>
+      <div class="type-grid">
+        <div class="type-opt selected" data-val="crash" onclick="selectType(this)">
+          <i class="fa-solid fa-car-burst" style="color:var(--accent)"></i> Wypadek drogowy
+        </div>
+        <div class="type-opt" data-val="fire" onclick="selectType(this)">
+          <i class="fa-solid fa-fire" style="color:#e67e22"></i> Pożar
+        </div>
+        <div class="type-opt" data-val="flood" onclick="selectType(this)">
+          <i class="fa-solid fa-water" style="color:var(--accent4)"></i> Powódź
+        </div>
+        <div class="type-opt" data-val="other" onclick="selectType(this)">
+          <i class="fa-solid fa-circle-exclamation" style="color:var(--accent3)"></i> Inne
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <label>Poziom zagrożenia</label>
+      <div class="severity-row">
+        <button class="sev-btn selected" data-sev="1" onclick="selectSev(this)">🟢 Niski</button>
+        <button class="sev-btn" data-sev="2" onclick="selectSev(this)">🟡 Średni</button>
+        <button class="sev-btn" data-sev="3" onclick="selectSev(this)">🔴 Wysoki</button>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <label>Data i godzina</label>
+      <input type="datetime-local" id="f-date" />
+    </div>
+
+    <div class="form-row">
+      <label>Opis (opcjonalnie)</label>
+      <textarea id="f-desc" placeholder="Krótki opis zdarzenia…"></textarea>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeModal()">Anuluj</button>
+      <button class="btn-save" onclick="saveIncident()"><i class="fa-solid fa-floppy-disk"></i> &nbsp;Zapisz</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<script>
+/* ─── DATA ─────────────────────────────────────────────── */
+let incidents = JSON.parse(localStorage.getItem('incidents') || '[]');
+let markers   = {};          // id → leaflet layer
+let pendingLL = null;
+
+/* ─── MAP INIT ──────────────────────────────────────────── */
+const POLAND_BOUNDS = L.latLngBounds(
+  L.latLng(49.0, 14.1),   // SW – lekki margines
+  L.latLng(55.0, 24.2)    // NE – lekki margines
+);
+
+const map = L.map('map', {
+  center: [52.1, 19.4],
+  zoom: 6.5,
+  minZoom: 6,
+  maxZoom: 19,
+  zoomSnap: 0.5,
+  zoomDelta: 0.5,
+  maxBounds: POLAND_BOUNDS,
+  maxBoundsViscosity: 0.85,
+  zoomControl: true,
+  attributionControl: false
+});
+
+const tileSets = {
+  dark: [
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom:19, subdomains:'abc' }),
+    null
+  ],
+  light: [
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom:19, subdomains:'abc' }),
+    null
+  ],
+  satellite: [
+    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { maxZoom:19 }),
+    null
+  ]
+};
+
+const themeFromStorage = localStorage.getItem('mapTheme');
+let currentTheme = themeFromStorage && tileSets[themeFromStorage] ? themeFromStorage : 'light';
+let activeTiles = [];
+
+function applyTiles(theme) {
+  if (!tileSets[theme]) theme = 'light';
+  activeTiles.forEach(t => { if(t) map.removeLayer(t); });
+  activeTiles = tileSets[theme];
+  activeTiles.forEach(t => { if(t) t.addTo(map); });
+}
+
+function setTheme(theme, btn) {
+  document.documentElement.setAttribute('data-theme', theme);
+  document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  applyTiles(theme);
+  currentTheme = theme;
+  localStorage.setItem('mapTheme', theme);
+}
+
+// init tiles
+applyTiles(currentTheme);
+// sync button state
+const initBtn = document.querySelector(`.theme-btn[data-theme="${currentTheme}"]`);
+if (initBtn) {
+  document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
+  initBtn.classList.add('active');
+}
+// init theme vars
+document.documentElement.setAttribute('data-theme', currentTheme);
+
+map.on('click', e => {
+  pendingLL = e.latlng;
+  openModal();
+});
+
+/* ─── MARKER ─────────────────────────────────────────────── */
+const typeIcons = { crash:'car-burst', fire:'fire', flood:'water', other:'circle-exclamation' };
+const typeLabels = { crash:'Wypadek', fire:'Pożar', flood:'Powódź', other:'Inne' };
+
+function createMarker(inc) {
+  const div = document.createElement('div');
+  div.className = `pulse-marker pm-${inc.type} sev-${inc.severity}`;
+  div.innerHTML = `<div class="ring"></div><div class="dot"></div>`;
+
+  const icon = L.divIcon({ html: div, className: '', iconSize: [20,20], iconAnchor: [10,10] });
+  const m = L.marker([inc.lat, inc.lng], { icon })
+    .addTo(map)
+    .bindPopup(buildPopup(inc), { maxWidth: 280 });
+
+  markers[inc.id] = m;
+}
+
+function buildPopup(inc) {
+  const sev = ['','🟢 Niski','🟡 Średni','🔴 Wysoki'][inc.severity];
+  const dateStr = inc.date ? new Date(inc.date).toLocaleString('pl-PL') : 'brak daty';
+  return `
+    <div style="font-family:'Inter',sans-serif">
+      <div style="font-weight:700;font-size:.9rem;margin-bottom:6px">${inc.title}</div>
+      <div style="display:flex;gap:6px;margin-bottom:6px;align-items:center">
+        <span style="font-size:.7rem;padding:2px 8px;border-radius:20px;background:rgba(255,255,255,.08)">${typeLabels[inc.type]}</span>
+        <span style="font-size:.75rem">${sev}</span>
+      </div>
+      <div style="font-size:.75rem;color:#7a849e;margin-bottom:4px"><i class="fa-regular fa-clock" style="margin-right:4px"></i>${dateStr}</div>
+      ${inc.desc ? `<div style="font-size:.78rem;color:#a0a8c0;margin-top:6px;line-height:1.5">${inc.desc}</div>` : ''}
+      <div style="font-size:.65rem;color:#3a4060;margin-top:8px;font-family:monospace">${inc.lat.toFixed(5)}, ${inc.lng.toFixed(5)}</div>
+      <button onclick="deleteIncident('${inc.id}')" style="margin-top:10px;width:100%;padding:6px;background:rgba(230,57,70,.15);border:1px solid rgba(230,57,70,.3);border-radius:6px;color:#e63946;cursor:pointer;font-size:.75rem;font-family:'Inter',sans-serif">
+        <i class="fa-solid fa-trash"></i> Usuń zdarzenie
+      </button>
+    </div>`;
+}
+
+/* ─── MODAL ─────────────────────────────────────────────── */
+function openModal() {
+  // set default date to now
+  const now = new Date();
+  now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+  document.getElementById('f-date').value = now.toISOString().slice(0,16);
+  document.getElementById('f-title').value = '';
+  document.getElementById('f-desc').value  = '';
+  // reset type
+  document.querySelectorAll('.type-opt').forEach(el => el.classList.remove('selected'));
+  document.querySelector('.type-opt[data-val="crash"]').classList.add('selected');
+  // reset sev
+  document.querySelectorAll('.sev-btn').forEach(el => el.classList.remove('selected'));
+  document.querySelector('.sev-btn[data-sev="1"]').classList.add('selected');
+
+  document.getElementById('modal-overlay').classList.add('show');
+  setTimeout(() => document.getElementById('f-title').focus(), 250);
+}
+
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('show');
+  pendingLL = null;
+}
+
+function selectType(el) {
+  document.querySelectorAll('.type-opt').forEach(e => e.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function selectSev(el) {
+  document.querySelectorAll('.sev-btn').forEach(e => e.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+/* ─── SAVE ──────────────────────────────────────────────── */
+function saveIncident() {
+  const title = document.getElementById('f-title').value.trim();
+  if (!title) { document.getElementById('f-title').focus(); shake('f-title'); return; }
+  if (!pendingLL) { closeModal(); return; }
+
+  const type  = document.querySelector('.type-opt.selected')?.dataset.val || 'crash';
+  const sev   = parseInt(document.querySelector('.sev-btn.selected')?.dataset.sev || '1');
+  const date  = document.getElementById('f-date').value;
+  const desc  = document.getElementById('f-desc').value.trim();
+
+  const inc = {
+    id:       Date.now().toString(36) + Math.random().toString(36).slice(2,6),
+    title, type, severity: sev, date, desc,
+    lat: pendingLL.lat, lng: pendingLL.lng,
+    createdAt: new Date().toISOString()
+  };
+
+  incidents.push(inc);
+  save();
+  createMarker(inc);
+  closeModal();
+  showToast(`<i class="fa-solid fa-check-circle"></i> Zdarzenie dodane: <strong>${title}</strong>`);
+}
+
+function shake(id) {
+  const el = document.getElementById(id);
+  el.style.animation = 'none';
+  el.style.borderColor = 'var(--accent)';
+  setTimeout(() => el.style.borderColor = '', 1200);
+}
+
+/* ─── DELETE ────────────────────────────────────────────── */
+function deleteIncident(id) {
+  incidents = incidents.filter(i => i.id !== id);
+  if (markers[id]) { map.removeLayer(markers[id]); delete markers[id]; }
+  save();
+  map.closePopup();
+  showToast('<i class="fa-solid fa-trash"></i> Zdarzenie usunięte');
+}
+
+/* ─── PERSIST ───────────────────────────────────────────── */
+function save() {
+  localStorage.setItem('incidents', JSON.stringify(incidents));
+}
+
+/* ─── TOAST ─────────────────────────────────────────────── */
+let toastTimer;
+function showToast(html) {
+  const t = document.getElementById('toast');
+  t.innerHTML = html;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+/* ─── KEYBOARD ──────────────────────────────────────────── */
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModal();
+  if (e.key === 'Enter' && document.getElementById('modal-overlay').classList.contains('show')) saveIncident();
+});
+document.getElementById('modal-overlay').addEventListener('click', e => { if (e.target === e.currentTarget) closeModal(); });
+
+/* ─── INIT ──────────────────────────────────────────────── */
+incidents.forEach(createMarker);
+</script>
+</body>
+</html>
