@@ -235,6 +235,8 @@
     .pm-flood .ring { border: 2px solid var(--accent4); }
     .pm-other .dot  { background: var(--accent3); box-shadow: 0 0 8px var(--accent3); }
     .pm-other .ring { border: 2px solid var(--accent3); }
+    .pm-pending .dot  { background: #7db4ff; box-shadow: 0 0 8px #7db4ff; }
+    .pm-pending .ring { border: 2px solid #7db4ff; }
 
     /* severity glow boost */
     .sev-3 .dot { animation: sev-glow 1s ease-in-out infinite alternate; }
@@ -407,9 +409,13 @@
 
 <script>
 /* ─── DATA ─────────────────────────────────────────────── */
-let incidents = JSON.parse(localStorage.getItem('incidents') || '[]');
+let localIncidents = JSON.parse(localStorage.getItem('incidents') || '[]');
+let approvedIncidents = [];
+let pendingReviewIncidents = [];
+let incidents = [];
 let markers   = {};          // id → leaflet layer
 let pendingLL = null;
+const reviewMode = new URLSearchParams(window.location.search).get('review') === '1';
 
 /* ─── MAP INIT ──────────────────────────────────────────── */
 const POLAND_BOUNDS = L.latLngBounds(
@@ -485,9 +491,14 @@ map.on('click', e => {
 const typeIcons = { crash:'car-burst', fire:'fire', flood:'water', other:'circle-exclamation' };
 const typeLabels = { crash:'Wypadek', fire:'Pożar', flood:'Powódź', other:'Inne' };
 
+function rebuildIncidents() {
+  incidents = [...approvedIncidents, ...localIncidents, ...pendingReviewIncidents];
+}
+
 function createMarker(inc) {
   const div = document.createElement('div');
-  div.className = `pulse-marker pm-${inc.type} sev-${inc.severity}`;
+  const typeClass = inc.pendingReview ? 'pending' : inc.type;
+  div.className = `pulse-marker pm-${typeClass} sev-${inc.severity}`;
   div.innerHTML = `<div class="ring"></div><div class="dot"></div>`;
 
   const icon = L.divIcon({ html: div, className: '', iconSize: [20,20], iconAnchor: [10,10] });
@@ -495,25 +506,36 @@ function createMarker(inc) {
     .addTo(map)
     .bindPopup(buildPopup(inc), { maxWidth: 280 });
 
+  m.__incidentId = inc.id;
   markers[inc.id] = m;
 }
 
 function buildPopup(inc) {
   const sev = ['','🟢 Niski','🟡 Średni','🔴 Wysoki'][inc.severity];
   const dateStr = inc.date ? new Date(inc.date).toLocaleString('pl-PL') : 'brak daty';
+  const sourceHtml = Array.isArray(inc.sources) && inc.sources.length
+    ? `<div style="margin-top:8px;padding-top:8px;border-top:1px solid rgba(127,127,127,.25)">
+        <div style="font-size:.72rem;color:#7a849e;margin-bottom:5px"><i class="fa-solid fa-link" style="margin-right:4px"></i>Źródła</div>
+        ${inc.sources.slice(0,3).map(s => `<div style="font-size:.76rem;margin:3px 0"><a href="${s.url}" target="_blank" rel="noopener noreferrer" style="color:#7db4ff;text-decoration:none">• ${s.name || 'Artykuł'}</a></div>`).join('')}
+      </div>`
+    : '';
+  const pendingBadge = inc.pendingReview ? `<span style="font-size:.68rem;padding:2px 7px;border-radius:20px;background:rgba(125,180,255,.2);color:#7db4ff">Do zatwierdzenia</span>` : '';
+  const lockedBadge = inc.locked ? `<span style="font-size:.68rem;padding:2px 7px;border-radius:20px;background:rgba(42,157,143,.2);color:#2a9d8f">Zatwierdzone</span>` : '';
+  const deleteBtn = inc.locked ? '' : `<button onclick="deleteIncident('${inc.id}')" style="margin-top:10px;width:100%;padding:6px;background:rgba(230,57,70,.15);border:1px solid rgba(230,57,70,.3);border-radius:6px;color:#e63946;cursor:pointer;font-size:.75rem;font-family:'Inter',sans-serif"><i class="fa-solid fa-trash"></i> Usuń zdarzenie</button>`;
   return `
     <div style="font-family:'Inter',sans-serif">
       <div style="font-weight:700;font-size:.9rem;margin-bottom:6px">${inc.title}</div>
       <div style="display:flex;gap:6px;margin-bottom:6px;align-items:center">
         <span style="font-size:.7rem;padding:2px 8px;border-radius:20px;background:rgba(255,255,255,.08)">${typeLabels[inc.type]}</span>
         <span style="font-size:.75rem">${sev}</span>
+        ${pendingBadge}
+        ${lockedBadge}
       </div>
       <div style="font-size:.75rem;color:#7a849e;margin-bottom:4px"><i class="fa-regular fa-clock" style="margin-right:4px"></i>${dateStr}</div>
       ${inc.desc ? `<div style="font-size:.78rem;color:#a0a8c0;margin-top:6px;line-height:1.5">${inc.desc}</div>` : ''}
       <div style="font-size:.65rem;color:#3a4060;margin-top:8px;font-family:monospace">${inc.lat.toFixed(5)}, ${inc.lng.toFixed(5)}</div>
-      <button onclick="deleteIncident('${inc.id}')" style="margin-top:10px;width:100%;padding:6px;background:rgba(230,57,70,.15);border:1px solid rgba(230,57,70,.3);border-radius:6px;color:#e63946;cursor:pointer;font-size:.75rem;font-family:'Inter',sans-serif">
-        <i class="fa-solid fa-trash"></i> Usuń zdarzenie
-      </button>
+      ${sourceHtml}
+      ${deleteBtn}
     </div>`;
 }
 
@@ -569,7 +591,8 @@ function saveIncident() {
     createdAt: new Date().toISOString()
   };
 
-  incidents.push(inc);
+  localIncidents.push(inc);
+  rebuildIncidents();
   save();
   createMarker(inc);
   closeModal();
@@ -585,7 +608,13 @@ function shake(id) {
 
 /* ─── DELETE ────────────────────────────────────────────── */
 function deleteIncident(id) {
-  incidents = incidents.filter(i => i.id !== id);
+  const target = incidents.find(i => i.id === id);
+  if (target?.locked) {
+    showToast('<i class="fa-solid fa-lock"></i> Zdarzenie zatwierdzone: usuwanie zablokowane');
+    return;
+  }
+  localIncidents = localIncidents.filter(i => i.id !== id);
+  rebuildIncidents();
   if (markers[id]) { map.removeLayer(markers[id]); delete markers[id]; }
   save();
   map.closePopup();
@@ -594,7 +623,59 @@ function deleteIncident(id) {
 
 /* ─── PERSIST ───────────────────────────────────────────── */
 function save() {
-  localStorage.setItem('incidents', JSON.stringify(incidents));
+  localStorage.setItem('incidents', JSON.stringify(localIncidents));
+}
+
+async function loadApprovedIncidents() {
+  try {
+    const response = await fetch(`data/approved_incidents.json?t=${Date.now()}`);
+    if (!response.ok) return;
+    const data = await response.json();
+    if (!Array.isArray(data)) return;
+    approvedIncidents = data
+      .filter(i => Number.isFinite(i.lat) && Number.isFinite(i.lng))
+      .map(i => ({
+        id: i.id,
+        title: i.title || 'Zdarzenie',
+        type: i.type || 'crash',
+        severity: i.severity || 2,
+        date: i.date || null,
+        desc: i.desc || '',
+        lat: i.lat,
+        lng: i.lng,
+        sources: Array.isArray(i.sources) ? i.sources : [],
+        locked: true
+      }));
+  } catch {
+    // Brak zatwierdzonych danych nie powinien zatrzymać mapy.
+  }
+}
+
+async function loadPendingReviewIncidents() {
+  if (!reviewMode) return;
+  try {
+    const response = await fetch(`data/pending_incidents.json?t=${Date.now()}`);
+    if (!response.ok) return;
+    const data = await response.json();
+    if (!Array.isArray(data)) return;
+    pendingReviewIncidents = data
+      .filter(i => Number.isFinite(i.lat) && Number.isFinite(i.lng))
+      .map(i => ({
+        id: i.id,
+        title: i.title || 'Kandydat zdarzenia',
+        type: i.type || 'crash',
+        severity: i.severity || 2,
+        date: i.date || i.collectedAt || null,
+        desc: i.desc || '',
+        lat: i.lat,
+        lng: i.lng,
+        sources: Array.isArray(i.sources) ? i.sources : [],
+        pendingReview: true,
+        locked: true
+      }));
+  } catch {
+    // Brak kandydatów nie powinien zatrzymać mapy.
+  }
 }
 
 /* ─── TOAST ─────────────────────────────────────────────── */
@@ -615,7 +696,15 @@ document.addEventListener('keydown', e => {
 document.getElementById('modal-overlay').addEventListener('click', e => { if (e.target === e.currentTarget) closeModal(); });
 
 /* ─── INIT ──────────────────────────────────────────────── */
-incidents.forEach(createMarker);
+(async () => {
+  await loadApprovedIncidents();
+  await loadPendingReviewIncidents();
+  rebuildIncidents();
+  incidents.forEach(createMarker);
+  if (reviewMode) {
+    showToast('<i class="fa-solid fa-eye"></i> Tryb review: widoczni kandydaci do zatwierdzenia');
+  }
+})();
 </script>
 </body>
 </html>

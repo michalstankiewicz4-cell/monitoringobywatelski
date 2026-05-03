@@ -1,0 +1,45 @@
+name: Approve Pending Incidents
+
+on:
+  workflow_dispatch:
+    inputs:
+      incident_ids:
+        description: 'ID zdarzeń do zatwierdzenia, rozdzielone przecinkiem (np. auto_x,auto_y)'
+        required: true
+        type: string
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  approve:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Promote selected incidents
+        env:
+          INCIDENT_IDS: ${{ inputs.incident_ids }}
+        run: node scripts/approve_incidents.mjs
+
+      - name: Create PR with approved updates
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: 'chore(data): approve selected incidents'
+          branch: automation/approve-incidents
+          title: 'chore(data): approve selected incidents'
+          body: |
+            Ręczne zatwierdzenie wybranych zdarzeń z `pending` do `approved`.
+            
+            Zmiany:
+            - `data/pending_incidents.json`
+            - `data/approved_incidents.json`
+          labels: moderation,ready-to-publish
+          delete-branch: true
