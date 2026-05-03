@@ -1,1 +1,22 @@
-[]
+[
+  {
+    "id": "test_001",
+    "title": "Radiowóz zderzył się z osobówką na skrzyżowaniu",
+    "type": "crash",
+    "severity": 2,
+    "date": "2026-05-03T08:30:00Z",
+    "desc": "Testowy znacznik. Policyjny radiowóz podczas interwencji zderzył się z samochodem osobowym. Dwie osoby ranne.",
+    "lat": 52.2298,
+    "lng": 21.0118,
+    "sources": [
+      {
+        "name": "Przykładowy artykuł",
+        "url": "https://monitoringobywatelski.pl"
+      }
+    ],
+    "locked": true,
+    "approvedAt": "2026-05-03T10:00:00Z",
+    "approvedBy": "test"
+  }
+]
+
