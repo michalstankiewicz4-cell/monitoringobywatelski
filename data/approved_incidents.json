@@ -1,2 +1,24 @@
-[]
-
+[
+  {
+    "id": "auto_b36d5d20e7df",
+    "title": "Wypadek nieoznakowanego radiowozu. Policjant i dwaj zatrzymani ranni",
+    "type": "crash",
+    "severity": 2,
+    "date": "2026-05-03T10:02:46.321Z",
+    "desc": "Automatycznie wykryte zgłoszenie. Lokalizacja orientacyjna: Polska (lokalizacja nieznana).",
+    "lat": 52.1,
+    "lng": 19.4,
+    "sources": [
+      {
+        "name": "TVP Info",
+        "url": "https://news.google.com/rss/articles/CBMizgFBVV95cUxOZTBQQXBjSmhieXFMLTIxc1FRbkRldDVMRjRlQkxFamVyakUwR1I5TEg1Y2xWQVFZQlhrMi1HX25SZUlYc1M4V2kybmQ1bGZUd19BNXVOaEF6aDVBWURWeXhUYnZZbG1xSXFURlcya0VNZEJoMWhwNFRDSlA4dE5KWEhIa0ZJV1E5TDAxY3Z2TlVPX1lxb1BWRlJLSG9uQWtGZnEtdE4tS0ctNWY0OThXR1NBZmJPUEg4YTNac0x6SXNKbGpabkRXR0NvT1V6dw?oc=5"
+      }
+    ],
+    "city": null,
+    "needsReview": false,
+    "url": "https://news.google.com/rss/articles/CBMizgFBVV95cUxOZTBQQXBjSmhieXFMLTIxc1FRbkRldDVMRjRlQkxFamVyakUwR1I5TEg1Y2xWQVFZQlhrMi1HX25SZUlYc1M4V2kybmQ1bGZUd19BNXVOaEF6aDVBWURWeXhUYnZZbG1xSXFURlcya0VNZEJoMWhwNFRDSlA4dE5KWEhIa0ZJV1E5TDAxY3Z2TlVPX1lxb1BWRlJLSG9uQWtGZnEtdE4tS0ctNWY0OThXR1NBZmJPUEg4YTNac0x6SXNKbGpabkRXR0NvT1V6dw?oc=5",
+    "collectedAt": "2026-05-03T10:02:46.321Z",
+    "approvedAt": "2026-05-03T10:04:07.655Z",
+    "approvedBy": "manual-review"
+  }
+]
