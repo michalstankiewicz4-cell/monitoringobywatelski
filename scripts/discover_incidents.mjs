@@ -115,6 +115,7 @@ function pickCity(text) {
 
 function toIsoDate(raw) {
   if (!raw) return new Date().toISOString();
+  // GDELT format: 20260501143200
   const digits = String(raw).replace(/[^0-9]/g, '');
   if (digits.length >= 14) {
     const y = digits.slice(0, 4);
@@ -125,6 +126,9 @@ function toIsoDate(raw) {
     const ss = digits.slice(12, 14);
     return `${y}-${m}-${d}T${hh}:${mm}:${ss}Z`;
   }
+  // RSS / HTTP date format: "Thu, 01 May 2026 14:32:00 GMT"
+  const parsed = new Date(raw);
+  if (!isNaN(parsed.getTime())) return parsed.toISOString();
   return new Date().toISOString();
 }
 
