@@ -1,5 +1,27 @@
 [
   {
+    "id": "auto_e0f7274125b3",
+    "title": "Policyjny pościg w Tychach. Kierowca bmw skończył na płocie",
+    "type": "crash",
+    "severity": 1,
+    "date": "2026-05-03T13:40:30.320Z",
+    "desc": "Automatycznie wykryte zgłoszenie. Lokalizacja orientacyjna: Polska (lokalizacja nieznana).",
+    "lat": 52.1,
+    "lng": 19.4,
+    "sources": [
+      {
+        "name": "Wiadomości Onet",
+        "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxPTjRoSkg5V2kyT0VhRUllQ2JQdkllRC1DaU92RGZKR3V5MDdDWGx6TGdWOWdyeDdBb0lwanFCTGZGbFVLbmVOQmg3ZW4zSVJrN3hTOXdSRzhRVWhjWmlQMXEzSGhKRUpjbkh4bnh3cmM4bldTUzJrOTNUZmFkNld4NjV2N2stbUlVMmpuR1JfSTNWWkIxbUtMU3VMTVFaNTY5bHRR?oc=5"
+      }
+    ],
+    "city": null,
+    "needsReview": false,
+    "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxPTjRoSkg5V2kyT0VhRUllQ2JQdkllRC1DaU92RGZKR3V5MDdDWGx6TGdWOWdyeDdBb0lwanFCTGZGbFVLbmVOQmg3ZW4zSVJrN3hTOXdSRzhRVWhjWmlQMXEzSGhKRUpjbkh4bnh3cmM4bldTUzJrOTNUZmFkNld4NjV2N2stbUlVMmpuR1JfSTNWWkIxbUtMU3VMTVFaNTY5bHRR?oc=5",
+    "collectedAt": "2026-05-03T13:40:30.320Z",
+    "approvedAt": "2026-05-03T17:56:41.121Z",
+    "approvedBy": "michalstankiewicz4-cell"
+  },
+  {
     "id": "auto_bb80ff2d4ef1",
     "title": "Policjanci ścigali pijanego kierowcę. Stało się coś złego. Dramatyczne sceny w Kielcach",
     "type": "crash",
