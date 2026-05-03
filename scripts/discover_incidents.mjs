@@ -162,18 +162,23 @@ async function fetchArticles(searchPhrases) {
   const url = `https://api.gdeltproject.org/api/v2/doc/doc?query=${query}&mode=ArtList&maxrecords=75&format=json&sort=DateDesc`;
   console.log(`Zapytanie GDELT: ${decodeURIComponent(query).slice(0, 120)}…`);
   const response = await fetch(url, {
-    headers: {
-      'User-Agent': 'monitoringobywatelski-bot/1.0'
-    }
+    headers: { 'User-Agent': 'monitoringobywatelski-bot/1.0' }
   });
   if (!response.ok) {
     if (response.status === 429) {
       console.warn('GDELT rate limit (429). Skipping this run.');
-      return null; // null = rate limited
+      return null;
     }
     throw new Error(`GDELT request failed (${response.status})`);
   }
-  const payload = await response.json();
+  const text = await response.text();
+  let payload;
+  try {
+    payload = JSON.parse(text);
+  } catch {
+    console.warn('GDELT zwrócił nieprawidłowy JSON:', text.slice(0, 200));
+    return [];
+  }
   const articles = Array.isArray(payload.articles) ? payload.articles : [];
   console.log(`GDELT zwrócił ${articles.length} artykułów.`);
   return articles;
