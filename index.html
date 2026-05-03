@@ -260,8 +260,11 @@
     #source-panel h4 {
       font-size: .7rem; text-transform: uppercase; letter-spacing: .08em;
       color: var(--text2); margin-bottom: 8px;
-      display: flex; align-items: center; gap: 5px;
+      display: flex; align-items: center; justify-content: space-between; gap: 5px;
+      cursor: pointer; user-select: none;
     }
+    #source-panel-body { overflow: hidden; transition: max-height .3s ease; max-height: 600px; }
+    #source-panel-body.sp-collapsed { max-height: 0; }
     #source-chips { display: flex; flex-direction: column; gap: 3px; }
     .src-chip {
       display: flex; align-items: center; justify-content: space-between;
@@ -508,9 +511,14 @@
 
     <!-- Source filter panel -->
     <div id="source-panel">
-      <h4><i class="fa-solid fa-filter"></i> Serwisy</h4>
-      <button id="src-all-btn" onclick="clearSourceFilter()">Pokaż wszystkie</button>
-      <div id="source-chips"><span style="font-size:.72rem;color:var(--text2);font-style:italic">Wczytywanie…</span></div>
+      <h4 onclick="toggleSourcePanel()">
+        <span><i class="fa-solid fa-filter" style="margin-right:4px"></i> Serwisy</span>
+        <i id="source-panel-icon" class="fa-solid fa-chevron-up" style="font-size:.6rem"></i>
+      </h4>
+      <div id="source-panel-body">
+        <button id="src-all-btn" onclick="clearSourceFilter()">Pokaż wszystkie</button>
+        <div id="source-chips"><span style="font-size:.72rem;color:var(--text2);font-style:italic">Wczytywanie…</span></div>
+      </div>
     </div>
 
     <!-- Legend -->
@@ -1442,6 +1450,13 @@ function toggleLegend() {
   const body = document.getElementById('legend-body');
   const icon = document.getElementById('legend-toggle-icon');
   const collapsed = body.classList.toggle('leg-collapsed');
+  icon.className = collapsed ? 'fa-solid fa-chevron-down' : 'fa-solid fa-chevron-up';
+}
+
+function toggleSourcePanel() {
+  const body = document.getElementById('source-panel-body');
+  const icon = document.getElementById('source-panel-icon');
+  const collapsed = body.classList.toggle('sp-collapsed');
   icon.className = collapsed ? 'fa-solid fa-chevron-down' : 'fa-solid fa-chevron-up';
 }
 
