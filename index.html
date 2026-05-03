@@ -338,6 +338,13 @@
   <div id="map-wrap">
     <div id="map"></div>
 
+    <!-- Source filter panel -->
+    <div id="source-panel" style="display:none">
+      <h4><i class="fa-solid fa-filter"></i> Serwisy</h4>
+      <button id="src-all-btn" onclick="clearSourceFilter()">Pokaż wszystkie</button>
+      <div id="source-chips"></div>
+    </div>
+
     <!-- Legend -->
     <div id="legend">
       <h4><i class="fa-solid fa-circle-info" style="margin-right:4px"></i> Legenda</h4>
@@ -396,6 +403,8 @@ let pendingReviewIncidents = [];
 let incidents = [];
 let markers   = {};          // id → leaflet layer
 let clusterGroup = null;
+let rejectedIds      = new Set(JSON.parse(localStorage.getItem('rejectedIds') || '[]'));
+let activeSourceFilter = new Set(); // empty = show all
 const reviewMode = new URLSearchParams(window.location.search).get('review') === '1';
 
 /* ─── MAP INIT ──────────────────────────────────────────── */
@@ -502,7 +511,10 @@ function buildPopup(inc) {
   const safeId = inc.id.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
   const safeTitle = (inc.title || '').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   const approveBtn = (inc.pendingReview && reviewMode)
-    ? `<button onclick="addToReview('${safeId}','${safeTitle}')" style="margin-top:10px;width:100%;padding:7px;background:rgba(42,157,143,.15);border:1px solid rgba(42,157,143,.4);border-radius:6px;color:#2a9d8f;cursor:pointer;font-size:.75rem;font-family:'Inter',sans-serif"><i class="fa-solid fa-check"></i> Zatwierdź</button>`
+    ? `<div style="display:flex;gap:6px;margin-top:10px">
+        <button onclick="addToReview('${safeId}','${safeTitle}')" style="flex:1;padding:7px;background:rgba(42,157,143,.15);border:1px solid rgba(42,157,143,.4);border-radius:6px;color:#2a9d8f;cursor:pointer;font-size:.75rem;font-family:'Inter',sans-serif"><i class="fa-solid fa-check"></i> Zatwierdź</button>
+        <button onclick="rejectIncident('${safeId}')" style="flex:1;padding:7px;background:rgba(230,57,70,.12);border:1px solid rgba(230,57,70,.4);border-radius:6px;color:#e63946;cursor:pointer;font-size:.75rem;font-family:'Inter',sans-serif"><i class="fa-solid fa-ban"></i> Odrzuć</button>
+      </div>`
     : '';
   return `
     <div style="font-family:'Inter',sans-serif">
@@ -636,6 +648,60 @@ async function loadPendingReviewIncidents() {
   }
 }
 
+/* ─── SOURCE FILTER ──────────────────────────────────── */
+function getDomain(url) {
+  try { return new URL(url).hostname.replace(/^www\./, ''); }
+  catch { return url; }
+}
+
+function buildSourcePanel() {
+  const counts = new Map();
+  incidents.forEach(inc => {
+    (inc.sources || []).forEach(s => {
+      if (!s.url) return;
+      const d = getDomain(s.url);
+      counts.set(d, (counts.get(d) || 0) + 1);
+    });
+  });
+  const top = [...counts.entries()].sort((a,b) => b[1] - a[1]).slice(0, 15);
+  const panel = document.getElementById('source-panel');
+  if (!top.length) { panel.style.display = 'none'; return; }
+  panel.style.display = 'block';
+  document.getElementById('source-chips').innerHTML = top.map(([domain, count]) => {
+    const safe = domain.replace(/"/g, '&quot;').replace(/'/g, '\'');
+    return `<button class="src-chip" data-domain="${safe}" onclick="toggleSourceFilter('${safe}')">
+      <span>${domain}</span><span class="src-count">${count}</span>
+    </button>`;
+  }).join('');
+}
+
+function toggleSourceFilter(domain) {
+  if (activeSourceFilter.has(domain)) {
+    activeSourceFilter.delete(domain);
+  } else {
+    activeSourceFilter.add(domain);
+  }
+  document.querySelectorAll('.src-chip').forEach(el => {
+    el.classList.toggle('active', activeSourceFilter.has(el.dataset.domain));
+  });
+  filterMarkers();
+}
+
+function clearSourceFilter() {
+  activeSourceFilter.clear();
+  document.querySelectorAll('.src-chip').forEach(el => el.classList.remove('active'));
+  filterMarkers();
+}
+
+/* ─── REJECT ─────────────────────────────────────────────── */
+function rejectIncident(id) {
+  rejectedIds.add(id);
+  localStorage.setItem('rejectedIds', JSON.stringify([...rejectedIds]));
+  map.closePopup();
+  filterMarkers();
+  showToast('<i class="fa-solid fa-ban"></i> Odrzucono — nie będzie pokazywany ponownie');
+}
+
 /* ─── TIMELINE FILTER ──────────────────────────────────── */
 let timelineEnabled = true;
 let timelineDays    = 7;
@@ -666,10 +732,17 @@ function filterMarkers() {
   incidents.forEach(inc => {
     const m = markers[inc.id];
     if (!m) return;
+    // skip rejected pending
+    if (inc.pendingReview && rejectedIds.has(inc.id)) return;
+    // timeline filter
     const ts = inc.date ? new Date(inc.date).getTime() : NaN;
-    if (!timelineEnabled || isNaN(ts) || ts >= cutoffMs) {
-      clusterGroup.addLayer(m);
+    if (timelineEnabled && !isNaN(ts) && ts < cutoffMs) return;
+    // source filter (only if at least one chip selected)
+    if (activeSourceFilter.size > 0) {
+      const domains = (inc.sources || []).map(s => getDomain(s.url));
+      if (!domains.some(d => activeSourceFilter.has(d))) return;
     }
+    clusterGroup.addLayer(m);
   });
 }
 
@@ -729,6 +802,7 @@ function showToast(html) {
   document.getElementById('tl-label').textContent = tlLabel(timelineDays);
   updateTimelineTrack(timelineDays);
   filterMarkers();
+  buildSourcePanel();
   if (reviewMode) {
     document.getElementById('review-panel').style.display = 'block';
     showToast('<i class="fa-solid fa-eye"></i> Tryb review: widoczni kandydaci do zatwierdzenia');
