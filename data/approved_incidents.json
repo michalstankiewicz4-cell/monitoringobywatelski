@@ -22,6 +22,28 @@
     "approvedBy": "manual-review"
   },
   {
+    "id": "auto_bfd47b273328",
+    "title": "Tragiczny koniec pościgu w Tanowie. Kierowca nie żyje",
+    "type": "crash",
+    "severity": 3,
+    "date": "2026-05-03T10:02:46.341Z",
+    "desc": "Automatycznie wykryte zgłoszenie. Lokalizacja orientacyjna: Szczecin.",
+    "lat": 53.4285,
+    "lng": 14.5528,
+    "sources": [
+      {
+        "name": "TVP Szczecin",
+        "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxNMzlDZmdkRFczdFNUUWVtdHJsZk5XdlNjYjZnRDRVZkZraTJjaWwyM0FpclRUWmZoSVh5b2lzc3AyY2ZnM2hLbjNfU2ZoSEVNdXVQREFwbVJZdzQ3b0ZvUnR5TGtHQ1BYX0ZfMDNzUFRpWTFSN1c3VTRoZmlpWGJ5cExrZFhPQU1RTDBKOGlFMmVweDNv?oc=5"
+      }
+    ],
+    "city": "Szczecin",
+    "needsReview": false,
+    "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxNMzlDZmdkRFczdFNUUWVtdHJsZk5XdlNjYjZnRDRVZkZraTJjaWwyM0FpclRUWmZoSVh5b2lzc3AyY2ZnM2hLbjNfU2ZoSEVNdXVQREFwbVJZdzQ3b0ZvUnR5TGtHQ1BYX0ZfMDNzUFRpWTFSN1c3VTRoZmlpWGJ5cExrZFhPQU1RTDBKOGlFMmVweDNv?oc=5",
+    "collectedAt": "2026-05-03T10:02:46.341Z",
+    "approvedAt": "2026-05-03T14:05:22.527Z",
+    "approvedBy": "manual-review"
+  },
+  {
     "id": "auto_216d7b4bf060",
     "title": "Wypadek radiowozu w Małopolsce. Policjanci trafili do szpitala",
     "type": "crash",
