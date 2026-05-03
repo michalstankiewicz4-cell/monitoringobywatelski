@@ -1060,6 +1060,7 @@ function showToast(html) {
 
 /* ─── INIT ──────────────────────────────────────────────── */
 (async () => {
+  try {
   await loadApprovedIncidents();
   await loadPendingReviewIncidents();
   rebuildIncidents();
@@ -1078,6 +1079,10 @@ function showToast(html) {
   if (reviewMode) {
     document.getElementById('review-panel').style.display = 'block';
     showToast('<i class="fa-solid fa-eye"></i> Tryb review: widoczni kandydaci do zatwierdzenia');
+  }
+  } catch(e) {
+    console.error('INIT ERROR:', e);
+    showToast('<i class="fa-solid fa-triangle-exclamation"></i> Błąd inicjalizacji: ' + e.message);
   }
 })();
 </script>
