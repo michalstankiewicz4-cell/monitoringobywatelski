@@ -1,0 +1,53 @@
+name: Auto-approve incidents after PR merge
+
+on:
+  pull_request:
+    types: [closed]
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  auto-approve:
+    # Uruchamia się tylko gdy zmergowano PR z brancha automation/discover-incidents
+    if: >
+      github.event.pull_request.merged == true &&
+      startsWith(github.event.pull_request.head.ref, 'automation/discover-incidents')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Odczytaj ID z pending_incidents.json
+        id: get-ids
+        run: |
+          IDS=$(node -e "
+            const fs = require('fs');
+            const data = JSON.parse(fs.readFileSync('data/pending_incidents.json', 'utf8'));
+            console.log(data.map(x => x.id).join(','));
+          ")
+          echo "ids=$IDS" >> $GITHUB_OUTPUT
+          echo "Znaleziono ID: $IDS"
+
+      - name: Zatwierdź incydenty
+        if: steps.get-ids.outputs.ids != ''
+        env:
+          INCIDENT_IDS: ${{ steps.get-ids.outputs.ids }}
+          GITHUB_ACTIONS: 'true'
+        run: node scripts/approve_incidents.mjs
+
+      - name: Commit zatwierdzonych incydentów
+        if: steps.get-ids.outputs.ids != ''
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/approved_incidents.json data/pending_incidents.json
+          git diff --staged --quiet || git commit -m "auto: approve $(echo '${{ steps.get-ids.outputs.ids }}' | tr ',' '\n' | wc -l | tr -d ' ') incidents from PR #${{ github.event.pull_request.number }}"
+          git push origin main
