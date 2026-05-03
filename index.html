@@ -133,6 +133,14 @@
       cursor: pointer; color: var(--accent); font-size: .7rem; padding: 0 4px;
     }
     #review-empty { font-size: .74rem; color: var(--text2); font-style: italic; }
+    .rv-tabs { display:flex; gap:4px; margin-bottom:12px; }
+    .rv-tab {
+      flex:1; padding:6px 4px; font-size:.73rem; font-weight:600; border-radius:7px;
+      border:1px solid var(--border); background:transparent; color:var(--text2);
+      cursor:pointer; font-family:'Inter',sans-serif; transition:background .15s,color .15s;
+    }
+    .rv-tab.active-approve { background:rgba(42,157,143,.18); border-color:rgba(42,157,143,.5); color:#2a9d8f; }
+    .rv-tab.active-manage  { background:rgba(230,57,70,.15);  border-color:rgba(230,57,70,.4);  color:#e63946; }
     #review-cmd-wrap { display: none; }
     #review-cmd {
       font-size: .68rem; font-family: monospace;
@@ -461,13 +469,35 @@
 
 <!-- REVIEW PANEL -->
 <div id="review-panel" style="display:none">
-  <h3><i class="fa-solid fa-clipboard-check"></i> Zatwierdź incydenty</h3>
-  <button id="review-discover-btn" onclick="copyDiscoverCmd()"><i class="fa-solid fa-magnifying-glass"></i> Kopiuj komendę szukania</button>
-  <div id="review-list"><span id="review-empty">Brak wybranych — kliknij "Zatwierdź" na markerze.</span></div>
-  <div id="review-cmd-wrap">
-    <div id="review-cmd"></div>
-    <button id="review-copy-btn" onclick="copyReviewCmd()"><i class="fa-solid fa-copy"></i> Kopiuj komendę</button>
-    <button id="review-clear-btn" onclick="clearReview()">Wyczyść listę</button>
+  <h3 id="review-panel-title"><i class="fa-solid fa-clipboard-check"></i> Zatwierdź incydenty</h3>
+
+  <!-- TABS -->
+  <div class="rv-tabs">
+    <button class="rv-tab active-approve" id="tab-approve" onclick="switchReviewTab('approve')"><i class="fa-solid fa-check"></i> Akceptowanie</button>
+    <button class="rv-tab" id="tab-manage" onclick="switchReviewTab('manage')"><i class="fa-solid fa-sliders"></i> Zarządzanie</button>
+  </div>
+
+  <!-- TAB: APPROVE -->
+  <div id="tab-pane-approve">
+    <button id="review-discover-btn" onclick="copyDiscoverCmd()"><i class="fa-solid fa-magnifying-glass"></i> Kopiuj komendę szukania</button>
+    <div id="review-list"><span id="review-empty">Brak wybranych — kliknij "Zatwierdź" na markerze.</span></div>
+    <div id="review-cmd-wrap">
+      <div id="review-cmd"></div>
+      <button id="review-copy-btn" onclick="copyReviewCmd()"><i class="fa-solid fa-copy"></i> Kopiuj komendę</button>
+      <button id="review-clear-btn" onclick="clearReview()">Wyczyść listę</button>
+    </div>
+  </div>
+
+  <!-- TAB: MANAGE -->
+  <div id="tab-pane-manage" style="display:none">
+    <div style="font-size:.73rem;color:var(--text2);margin-bottom:8px;font-style:italic">Kliknij na zatwierdzony marker → "Usuń z mapy"</div>
+    <div id="remove-list" style="font-size:.74rem;color:var(--text2);max-height:140px;overflow-y:auto;margin-bottom:8px;line-height:1.8"></div>
+    <div id="remove-cmd-wrap" style="display:none">
+      <div id="remove-cmd" style="font-size:.7rem;font-family:monospace;background:rgba(0,0,0,.3);padding:7px 9px;border-radius:6px;word-break:break-all;color:#e0e4f0;margin-bottom:6px"></div>
+      <button onclick="copyRemoveCmd()" style="width:100%;padding:7px;background:rgba(230,57,70,.15);border:1px solid rgba(230,57,70,.4);border-radius:6px;color:#e63946;cursor:pointer;font-size:.75rem;font-family:'Inter',sans-serif"><i class="fa-solid fa-copy"></i> Kopiuj komendę usunięcia</button>
+      <button onclick="clearRemoveQueue()" style="width:100%;margin-top:4px;padding:7px;background:transparent;border:1px solid var(--border);border-radius:6px;color:var(--text2);cursor:pointer;font-size:.75rem;font-family:'Inter',sans-serif">Wyczyść listę</button>
+    </div>
+    <div id="remove-empty" style="font-size:.74rem;color:var(--text2);font-style:italic">Brak wybranych do usunięcia.</div>
   </div>
 </div>
 
@@ -585,7 +615,9 @@ function buildPopup(inc) {
     : '';
   const pendingBadge = inc.pendingReview ? `<span style="font-size:.68rem;padding:2px 7px;border-radius:20px;background:rgba(125,180,255,.2);color:#7db4ff">Do zatwierdzenia</span>` : '';
   const lockedBadge = inc.locked ? `<span style="font-size:.68rem;padding:2px 7px;border-radius:20px;background:rgba(42,157,143,.2);color:#2a9d8f">Zatwierdzone</span>` : '';
-  const deleteBtn = '';
+  const deleteBtn = (inc.locked && reviewMode)
+    ? `<button onclick="addToRemoveQueue('${safeId}','${safeTitle}')" style="width:100%;margin-top:8px;padding:7px;background:rgba(230,57,70,.12);border:1px solid rgba(230,57,70,.4);border-radius:6px;color:#e63946;cursor:pointer;font-size:.75rem;font-family:'Inter',sans-serif"><i class="fa-solid fa-trash-can"></i> Usuń z mapy</button>`
+    : '';
   const safeId = inc.id.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
   const safeTitle = (inc.title || '').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   const cityPickerHtml = (inc.pendingReview && reviewMode && isFallback(inc))
@@ -624,6 +656,7 @@ function buildPopup(inc) {
 
 /* ─── REVIEW PANEL ──────────────────────────────────────── */
 const reviewQueue = new Map(); // id → title
+const removeQueue = new Map(); // id → title
 
 /* ─── POLISH CITIES ─────────────────────────────────────── */
 const POLISH_CITIES = [
@@ -714,6 +747,66 @@ function removeFromReview(id) {
 function clearReview() {
   reviewQueue.clear();
   renderReviewPanel();
+}
+
+function switchReviewTab(tab) {
+  const isApprove = tab === 'approve';
+  document.getElementById('tab-pane-approve').style.display = isApprove ? '' : 'none';
+  document.getElementById('tab-pane-manage').style.display  = isApprove ? 'none' : '';
+  document.getElementById('tab-approve').className = 'rv-tab' + (isApprove ? ' active-approve' : '');
+  document.getElementById('tab-manage').className  = 'rv-tab' + (!isApprove ? ' active-manage' : '');
+}
+
+function addToRemoveQueue(id, title) {
+  if (removeQueue.has(id)) {
+    showToast('<i class="fa-solid fa-info-circle"></i> Już na liście do usunięcia');
+    return;
+  }
+  removeQueue.set(id, title);
+  renderRemoveSection();
+  switchReviewTab('manage');
+  map.closePopup();
+  showToast(`<i class="fa-solid fa-trash-can"></i> Dodano do usunięcia: <strong>${title}</strong>`);
+}
+
+function removeFromRemoveQueue(id) {
+  removeQueue.delete(id);
+  renderRemoveSection();
+}
+
+function renderRemoveSection() {
+  const list = document.getElementById('remove-list');
+  const cmdWrap = document.getElementById('remove-cmd-wrap');
+  const empty = document.getElementById('remove-empty');
+  if (!removeQueue.size) {
+    list.innerHTML = '';
+    cmdWrap.style.display = 'none';
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+  const ids = [...removeQueue.keys()];
+  list.innerHTML = ids.map(id =>
+    `<div class="rv-item">
+       <span>${removeQueue.get(id)}</span>
+       <span class="rv-remove" onclick="removeFromRemoveQueue('${id}')" title="Usu\u0144 z listy">&times;</span>
+     </div>`
+  ).join('');
+  const cmd = `$env:INCIDENT_IDS="${ids.join(',')}"; node scripts/remove_incident.mjs`;
+  document.getElementById('remove-cmd').textContent = cmd;
+  cmdWrap.style.display = 'block';
+}
+
+function clearRemoveQueue() {
+  removeQueue.clear();
+  renderRemoveSection();
+}
+
+function copyRemoveCmd() {
+  const cmd = document.getElementById('remove-cmd').textContent;
+  navigator.clipboard.writeText(cmd).then(() => {
+    showToast('<i class="fa-solid fa-copy"></i> Komenda usunięcia skopiowana');
+  });
 }
 
 function renderReviewPanel() {
