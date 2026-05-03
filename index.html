@@ -535,6 +535,7 @@
   <div id="review-cmd-wrap" style="margin-top:10px">
     <div id="review-cmd"></div>
     <button id="review-copy-btn" onclick="copyReviewCmd()"><i class="fa-solid fa-copy"></i> Kopiuj komendę akceptacji</button>
+    <button id="review-submit-btn" onclick="submitApprovedToGitHub()" style="margin-left:10px"><i class="fa-solid fa-cloud-arrow-up"></i> Wyślij na www</button>
   </div>
 
   <div class="approved-remove-section">
@@ -944,6 +945,76 @@ function copyReviewCmd() {
   });
 }
 
+async function submitApprovedToGitHub() {
+  const ids = [...reviewQueue.keys()];
+  if (!ids.length) {
+    showToast('<i class="fa-solid fa-exclamation-circle"></i> Brak wybranych zdarzeń');
+    return;
+  }
+
+  // Poproś o token, lub weź z localStorage
+  let token = localStorage.getItem('gh_workflow_token') || '';
+  if (!token) {
+    const input = prompt('Wklej GitHub Personal Access Token (scope: workflow):\n\nhttps://github.com/settings/tokens\n\n⚠️ Token zostanie przechowywany lokalnie w przeglądarce');
+    if (!input) return;
+    token = input.trim();
+    if (confirm('Zapamiętać token w tej przeglądarce?')) {
+      localStorage.setItem('gh_workflow_token', token);
+    }
+  }
+
+  if (!token) {
+    showToast('<i class="fa-solid fa-exclamation-circle"></i> Token wymagany');
+    return;
+  }
+
+  showToast('<i class="fa-solid fa-hourglass-start"></i> Wysyłanie do GitHub...', 3000);
+
+  try {
+    const response = await fetch(
+      'https://api.github.com/repos/michalstankiewicz4-cell/monitoringobywatelski/actions/workflows/approve-incidents.yml/dispatches',
+      {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Accept': 'application/vnd.github.v3+json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          ref: 'main',
+          inputs: { incident_ids: ids.join(',') }
+        })
+      }
+    );
+
+    if (response.status === 204) {
+      // Sukces - GitHub Actions nie zwraca JSON
+      reviewQueue.clear();
+      rejectedIds.clear();
+      localStorage.setItem('rejectedIds', JSON.stringify([]));
+      renderPendingTable();
+      renderReviewPanel();
+      showToast('<i class="fa-solid fa-check-circle"></i> Wysłano do GitHub! Workflow się uruchomił. Zmiany pojawią się na mapie za ~2-3 min.');
+    } else {
+      const errBody = await response.text();
+      console.error('GitHub API error:', response.status, errBody);
+      
+      if (response.status === 401) {
+        // Token nieważny
+        localStorage.removeItem('gh_workflow_token');
+        showToast('<i class="fa-solid fa-exclamation-triangle"></i> Token nieważny - usunięty z pamięci');
+      } else if (response.status === 403) {
+        showToast('<i class="fa-solid fa-exclamation-triangle"></i> Brak uprawnień - sprawdź scope tokena (workflow)');
+      } else {
+        showToast(`<i class="fa-solid fa-exclamation-circle"></i> Błąd: ${response.status}`);
+      }
+    }
+  } catch (err) {
+    console.error('Submit to GitHub error:', err);
+    showToast(`<i class="fa-solid fa-exclamation-circle"></i> Błąd sieciowy: ${err.message}`);
+  }
+}
+
 async function loadApprovedIncidents() {
   try {
     const response = await fetch(`data/approved_incidents.json?t=${Date.now()}`);
@@ -1151,12 +1222,12 @@ function toggleTimeline() {
 
 /* ─── TOAST ─────────────────────────────────────────────── */
 let toastTimer;
-function showToast(html) {
+function showToast(html, duration = 3000) {
   const t = document.getElementById('toast');
   t.innerHTML = html;
   t.classList.add('show');
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+  toastTimer = setTimeout(() => t.classList.remove('show'), duration);
 }
 
 /* ─── INIT ──────────────────────────────────────────────── */
