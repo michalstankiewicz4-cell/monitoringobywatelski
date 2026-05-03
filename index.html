@@ -107,8 +107,8 @@
 
     /* ── REVIEW PANEL ──────────────────────────────────────── */
     #review-panel {
-      position: fixed; bottom: 24px; right: 24px;
-      width: 340px; max-height: calc(100vh - 48px); overflow-y: auto;
+      position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: min(1100px, calc(100vw - 48px)); max-height: calc(100vh - 80px); overflow-y: auto;
       background: var(--panel); border: 1px solid var(--border);
       border-radius: 14px; padding: 16px 18px;
       box-shadow: var(--shadow); z-index: 2100;
@@ -119,28 +119,34 @@
       display: flex; align-items: center; gap: 7px; color: var(--text);
     }
     #review-panel h3 i { color: var(--accent2); }
-    #review-list {
-      font-size: .74rem; color: var(--text2);
-      max-height: 120px; overflow-y: auto;
-      margin-bottom: 10px; line-height: 1.8;
+    .review-toolbar {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px;
     }
-    #review-list .rv-item {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 2px 0; border-bottom: 1px solid var(--border);
+    .pending-filters { display:flex; gap:6px; margin-bottom:10px; }
+    .pf-btn {
+      border: 1px solid var(--border); background: transparent; color: var(--text2);
+      border-radius: 20px; padding: 4px 10px; font-size: .72rem; cursor: pointer;
+      font-family: 'Inter', sans-serif;
     }
-    #review-list .rv-item:last-child { border-bottom: none; }
-    #review-list .rv-remove {
-      cursor: pointer; color: var(--accent); font-size: .7rem; padding: 0 4px;
+    .pf-btn.active { color: var(--text); border-color: var(--accent2); background: rgba(230,57,70,.15); }
+    #pending-table-wrap {
+      border: 1px solid var(--border); border-radius: 10px; overflow: auto; max-height: 48vh;
+      background: rgba(0,0,0,.12);
     }
-    #review-empty { font-size: .74rem; color: var(--text2); font-style: italic; }
-    .rv-tabs { display:flex; gap:4px; margin-bottom:12px; }
-    .rv-tab {
-      flex:1; padding:6px 4px; font-size:.73rem; font-weight:600; border-radius:7px;
-      border:1px solid var(--border); background:transparent; color:var(--text2);
-      cursor:pointer; font-family:'Inter',sans-serif; transition:background .15s,color .15s;
+    #pending-table { width: 100%; border-collapse: collapse; font-size: .74rem; }
+    #pending-table th, #pending-table td { padding: 8px 9px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    #pending-table th { position: sticky; top: 0; background: var(--panel2); color: var(--text2); text-align: left; z-index: 1; }
+    .st-chip { font-size: .66rem; border-radius: 20px; padding: 2px 7px; display: inline-block; }
+    .st-todo { background: rgba(255,255,255,.1); color: var(--text2); }
+    .st-accepted { background: rgba(42,157,143,.18); color: #2a9d8f; }
+    .st-rejected { background: rgba(230,57,70,.15); color: #e63946; }
+    .tbl-btn {
+      border: 1px solid var(--border); background: transparent; color: var(--text2);
+      border-radius: 6px; padding: 3px 7px; font-size: .7rem; cursor: pointer; margin-right: 4px;
+      font-family: 'Inter', sans-serif;
     }
-    .rv-tab.active-approve { background:rgba(42,157,143,.18); border-color:rgba(42,157,143,.5); color:#2a9d8f; }
-    .rv-tab.active-manage  { background:rgba(230,57,70,.15);  border-color:rgba(230,57,70,.4);  color:#e63946; }
+    .tbl-btn.ok { border-color: rgba(42,157,143,.5); color: #2a9d8f; background: rgba(42,157,143,.15); }
+    .tbl-btn.bad { border-color: rgba(230,57,70,.45); color: #e63946; background: rgba(230,57,70,.12); }
     #review-cmd-wrap { display: none; }
     #review-cmd {
       font-size: .68rem; font-family: monospace;
@@ -164,7 +170,7 @@
     }
     #review-clear-btn:hover { color: var(--text); border-color: #3a4060; }
     #review-discover-btn {
-      width: 100%; padding: 8px; margin-bottom: 12px;
+      width: 100%; padding: 8px;
       background: linear-gradient(135deg, var(--accent4), #2a5a7a);
       border: none; border-radius: 8px;
       color: #fff; font-family: inherit; font-size: .8rem; font-weight: 600;
@@ -471,33 +477,35 @@
 <div id="review-panel" style="display:none">
   <h3 id="review-panel-title"><i class="fa-solid fa-clipboard-check"></i> Zatwierdź incydenty</h3>
 
-  <!-- TABS -->
-  <div class="rv-tabs">
-    <button class="rv-tab active-approve" id="tab-approve" onclick="switchReviewTab('approve')"><i class="fa-solid fa-check"></i> Akceptowanie</button>
-    <button class="rv-tab" id="tab-manage" onclick="switchReviewTab('manage')"><i class="fa-solid fa-sliders"></i> Zarządzanie</button>
-  </div>
-
-  <!-- TAB: APPROVE -->
-  <div id="tab-pane-approve">
+  <div class="review-toolbar">
     <button id="review-discover-btn" onclick="copyDiscoverCmd()"><i class="fa-solid fa-magnifying-glass"></i> Kopiuj komendę szukania</button>
-    <div id="review-list"><span id="review-empty">Brak wybranych — kliknij "Zatwierdź" na markerze.</span></div>
-    <div id="review-cmd-wrap">
-      <div id="review-cmd"></div>
-      <button id="review-copy-btn" onclick="copyReviewCmd()"><i class="fa-solid fa-copy"></i> Kopiuj komendę</button>
-      <button id="review-clear-btn" onclick="clearReview()">Wyczyść listę</button>
-    </div>
+    <button id="review-clear-btn" onclick="clearReview()">Wyczyść zaznaczone do akceptacji</button>
   </div>
 
-  <!-- TAB: MANAGE -->
-  <div id="tab-pane-manage" style="display:none">
-    <div style="font-size:.73rem;color:var(--text2);margin-bottom:8px;font-style:italic">Zaznacz incydenty do usunięcia z mapy:</div>
-    <div id="approved-manage-list" style="font-size:.74rem;color:var(--text2);max-height:160px;overflow-y:auto;margin-bottom:8px;"></div>
-    <div id="remove-cmd-wrap" style="display:none">
-      <div id="remove-cmd" style="font-size:.7rem;font-family:monospace;background:rgba(0,0,0,.3);padding:7px 9px;border-radius:6px;word-break:break-all;color:#e0e4f0;margin-bottom:6px"></div>
-      <button onclick="copyRemoveCmd()" style="width:100%;padding:7px;background:rgba(230,57,70,.15);border:1px solid rgba(230,57,70,.4);border-radius:6px;color:#e63946;cursor:pointer;font-size:.75rem;font-family:'Inter',sans-serif"><i class="fa-solid fa-copy"></i> Kopiuj komendę usunięcia</button>
-      <button onclick="clearRemoveQueue()" style="width:100%;margin-top:4px;padding:7px;background:transparent;border:1px solid var(--border);border-radius:6px;color:var(--text2);cursor:pointer;font-size:.75rem;font-family:'Inter',sans-serif">Wyczyść listę</button>
-    </div>
-    <div id="remove-empty" style="font-size:.74rem;color:var(--text2);font-style:italic">Brak wybranych do usunięcia.</div>
+  <div class="pending-filters">
+    <button class="pf-btn active" id="pf-todo" onclick="setPendingFilter('todo')">Do zrobienia</button>
+    <button class="pf-btn" id="pf-accepted" onclick="setPendingFilter('accepted')">Zaakceptowane</button>
+    <button class="pf-btn" id="pf-rejected" onclick="setPendingFilter('rejected')">Odrzucone</button>
+  </div>
+
+  <div id="pending-table-wrap">
+    <table id="pending-table">
+      <thead>
+        <tr>
+          <th>Status</th>
+          <th>Tytuł</th>
+          <th>Data</th>
+          <th>Źródło</th>
+          <th>Akcja</th>
+        </tr>
+      </thead>
+      <tbody id="pending-table-body"></tbody>
+    </table>
+  </div>
+
+  <div id="review-cmd-wrap" style="margin-top:10px">
+    <div id="review-cmd"></div>
+    <button id="review-copy-btn" onclick="copyReviewCmd()"><i class="fa-solid fa-copy"></i> Kopiuj komendę akceptacji</button>
   </div>
 </div>
 
@@ -513,6 +521,7 @@ let markers   = {};          // id → leaflet layer
 let clusterGroup = null;
 let rejectedIds      = new Set(JSON.parse(localStorage.getItem('rejectedIds') || '[]'));
 let activeSourceFilter = new Set(); // empty = show all
+let pendingFilter = 'todo';
 const reviewMode = new URLSearchParams(window.location.search).get('review') === '1';
 
 // Pokaż panel review natychmiast po parsowaniu, nie czekaj na async
@@ -593,7 +602,7 @@ const typeIcons  = { crash:'car-burst', interwencja:'shield-halved', strzelanina
 const typeLabels = { crash:'Wypadek', interwencja:'Interwencja', strzelanina:'Strzelanina', napasc:'Napaść', other:'Inne', special:'Wyjątkowe' };
 
 function rebuildIncidents() {
-  incidents = [...approvedIncidents, ...pendingReviewIncidents];
+  incidents = [...approvedIncidents];
 }
 
 function createMarker(inc) {
@@ -624,9 +633,7 @@ function buildPopup(inc) {
   const lockedBadge = inc.locked ? `<span style="font-size:.68rem;padding:2px 7px;border-radius:20px;background:rgba(42,157,143,.2);color:#2a9d8f">Zatwierdzone</span>` : '';
   const safeId = inc.id.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
   const safeTitle = (inc.title || '').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-  const deleteBtn = (inc.locked && reviewMode)
-    ? `<button onclick="addToRemoveQueue('${safeId}','${safeTitle}')" style="width:100%;margin-top:8px;padding:7px;background:rgba(230,57,70,.12);border:1px solid rgba(230,57,70,.4);border-radius:6px;color:#e63946;cursor:pointer;font-size:.75rem;font-family:'Inter',sans-serif"><i class="fa-solid fa-trash-can"></i> Usuń z mapy</button>`
-    : '';
+  const deleteBtn = '';
   const cityPickerHtml = (inc.pendingReview && reviewMode && isFallback(inc))
     ? `<div style="margin-top:8px;padding-top:8px;border-top:1px solid rgba(127,127,127,.25)">
         <div style="font-size:.72rem;color:#f4c430;margin-bottom:5px"><i class="fa-solid fa-location-question" style="margin-right:4px"></i>Lokalizacja nieznana &mdash; przypisz miasto:</div>
@@ -663,7 +670,6 @@ function buildPopup(inc) {
 
 /* ─── REVIEW PANEL ──────────────────────────────────────── */
 const reviewQueue = new Map(); // id → title
-const removeQueue = new Map(); // id → title
 
 /* ─── POLISH CITIES ─────────────────────────────────────── */
 const POLISH_CITIES = [
@@ -742,6 +748,7 @@ function addToReview(id, title) {
   }
   reviewQueue.set(id, title);
   renderReviewPanel();
+  renderPendingTable();
   map.closePopup();
   showToast(`<i class="fa-solid fa-check-circle"></i> Dodano do kolejki: <strong>${title}</strong>`);
 }
@@ -749,116 +756,81 @@ function addToReview(id, title) {
 function removeFromReview(id) {
   reviewQueue.delete(id);
   renderReviewPanel();
+  renderPendingTable();
 }
 
 function clearReview() {
   reviewQueue.clear();
   renderReviewPanel();
+  renderPendingTable();
 }
 
-function switchReviewTab(tab) {
-  const isApprove = tab === 'approve';
-  document.getElementById('tab-pane-approve').style.display = isApprove ? 'block' : 'none';
-  document.getElementById('tab-pane-manage').style.display  = isApprove ? 'none' : 'block';
-  document.getElementById('tab-approve').className = 'rv-tab' + (isApprove ? ' active-approve' : '');
-  document.getElementById('tab-manage').className  = 'rv-tab' + (!isApprove ? ' active-manage' : '');
-  if (!isApprove) renderRemoveSection();
+function unrejectIncident(id) {
+  rejectedIds.delete(id);
+  localStorage.setItem('rejectedIds', JSON.stringify([...rejectedIds]));
+  renderPendingTable();
+  showToast('<i class="fa-solid fa-rotate-left"></i> Przywrócono news do kolejki');
 }
 
-function addToRemoveQueue(id, title) {
-  if (removeQueue.has(id)) {
-    showToast('<i class="fa-solid fa-info-circle"></i> Już na liście do usunięcia');
-    return;
-  }
-  removeQueue.set(id, title);
-  renderRemoveSection();
-  switchReviewTab('manage');
-  map.closePopup();
-  showToast(`<i class="fa-solid fa-trash-can"></i> Dodano do usunięcia: <strong>${title}</strong>`);
+function pendingStatus(inc) {
+  if (reviewQueue.has(inc.id)) return 'accepted';
+  if (rejectedIds.has(inc.id)) return 'rejected';
+  return 'todo';
 }
 
-function removeFromRemoveQueue(id) {
-  removeQueue.delete(id);
-  renderRemoveSection();
-}
-
-function renderRemoveSection() {
-  const cmdWrap = document.getElementById('remove-cmd-wrap');
-  const empty = document.getElementById('remove-empty');
-
-  // Wypełnij listę wszystkich zatwierdzonych
-  const managedList = document.getElementById('approved-manage-list');
-  if (managedList) {
-    if (!approvedIncidents.length) {
-      managedList.innerHTML = '<span style="font-style:italic;color:var(--text2)">Brak zatwierdzonych incydentów.</span>';
-    } else {
-      managedList.innerHTML = approvedIncidents.map(inc => {
-        const sid = inc.id.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
-        const stitle = (inc.title||'').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-        const inQueue = removeQueue.has(inc.id);
-        return `<div class="rv-item" style="gap:6px">
-          <span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${stitle}">${stitle||inc.id}</span>
-          <button onclick="${inQueue ? `removeFromRemoveQueue('${sid}')` : `addToRemoveQueueNoSwitch('${sid}','${stitle}')`}"
-            style="flex-shrink:0;padding:2px 8px;border-radius:5px;font-size:.7rem;cursor:pointer;font-family:'Inter',sans-serif;${inQueue
-              ? 'background:rgba(230,57,70,.25);border:1px solid rgba(230,57,70,.6);color:#e63946'
-              : 'background:rgba(255,255,255,.07);border:1px solid var(--border);color:var(--text2)'}">
-            ${inQueue ? '✓ Cofnij' : 'Usuń'}
-          </button>
-        </div>`;
-      }).join('');
-    }
-  }
-
-  if (!removeQueue.size) {
-    if (cmdWrap) cmdWrap.style.display = 'none';
-    if (empty) empty.style.display = 'block';
-    return;
-  }
-  if (empty) empty.style.display = 'none';
-  const ids = [...removeQueue.keys()];
-  const cmd = `$env:INCIDENT_IDS="${ids.join(',')}"; node scripts/remove_incident.mjs`;
-  document.getElementById('remove-cmd').textContent = cmd;
-  if (cmdWrap) cmdWrap.style.display = 'block';
-}
-
-function addToRemoveQueueNoSwitch(id, title) {
-  if (removeQueue.has(id)) return;
-  removeQueue.set(id, title);
-  renderRemoveSection();
-  showToast(`<i class="fa-solid fa-trash-can"></i> Dodano do usunięcia: <strong>${title}</strong>`);
-}
-
-function clearRemoveQueue() {
-  removeQueue.clear();
-  renderRemoveSection();
-}
-
-function copyRemoveCmd() {
-  const cmd = document.getElementById('remove-cmd').textContent;
-  navigator.clipboard.writeText(cmd).then(() => {
-    showToast('<i class="fa-solid fa-copy"></i> Komenda usunięcia skopiowana');
+function setPendingFilter(filter) {
+  pendingFilter = filter;
+  ['todo', 'accepted', 'rejected'].forEach(f => {
+    const el = document.getElementById(`pf-${f}`);
+    if (el) el.classList.toggle('active', f === filter);
   });
+  renderPendingTable();
+}
+
+function renderPendingTable() {
+  const body = document.getElementById('pending-table-body');
+  if (!body) return;
+  const list = pendingReviewIncidents.filter(inc => pendingStatus(inc) === pendingFilter);
+  if (!list.length) {
+    body.innerHTML = `<tr><td colspan="5" style="font-style:italic;color:var(--text2)">Brak pozycji dla filtra: ${pendingFilter}</td></tr>`;
+    return;
+  }
+  body.innerHTML = list.map(inc => {
+    const status = pendingStatus(inc);
+    const dateStr = inc.date ? new Date(inc.date).toLocaleString('pl-PL') : '-';
+    const source = (inc.sources && inc.sources[0] && (inc.sources[0].name || inc.sources[0].url)) || '-';
+    const safeId = inc.id.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+    const safeTitle = (inc.title || 'Zdarzenie').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g, '&#39;');
+    const chip = status === 'accepted'
+      ? '<span class="st-chip st-accepted">Zaakceptowane</span>'
+      : status === 'rejected'
+        ? '<span class="st-chip st-rejected">Odrzucone</span>'
+        : '<span class="st-chip st-todo">Do zrobienia</span>';
+
+    const actions = status === 'todo'
+      ? `<button class="tbl-btn ok" onclick="addToReview('${safeId}','${safeTitle}')">Akceptuj</button><button class="tbl-btn bad" onclick="rejectIncident('${safeId}')">Odrzuć</button>`
+      : status === 'accepted'
+        ? `<button class="tbl-btn" onclick="removeFromReview('${safeId}')">Cofnij</button>`
+        : `<button class="tbl-btn" onclick="unrejectIncident('${safeId}')">Przywróć</button>`;
+
+    return `<tr>
+      <td>${chip}</td>
+      <td>${safeTitle}</td>
+      <td>${dateStr}</td>
+      <td>${String(source).replace(/</g,'&lt;').replace(/>/g,'&gt;')}</td>
+      <td>${actions}</td>
+    </tr>`;
+  }).join('');
 }
 
 function renderReviewPanel() {
-  const panel = document.getElementById('review-panel');
-  const list  = document.getElementById('review-list');
   const cmdWrap = document.getElementById('review-cmd-wrap');
-  const empty   = document.getElementById('review-empty');
-
-  if (!reviewQueue.size) {
-    list.innerHTML = '<span id="review-empty">Brak wybranych — kliknij "Zatwierdź" na markerze.</span>';
+  const ids = [...reviewQueue.keys()];
+  if (!ids.length) {
     cmdWrap.style.display = 'none';
+    document.getElementById('review-cmd').textContent = '';
     return;
   }
-
-  const ids = [...reviewQueue.keys()];
-  list.innerHTML = ids.map(id =>
-    `<div class="rv-item">
-       <span>${reviewQueue.get(id)}</span>
-       <span class="rv-remove" onclick="removeFromReview('${id}')" title="Usuń z listy">&times;</span>
-     </div>`
-  ).join('');
 
   const cmd = `$env:INCIDENT_IDS="${ids.join(',')}"; node scripts/approve_incidents.mjs`;
   document.getElementById('review-cmd').textContent = cmd;
@@ -919,6 +891,7 @@ async function loadPendingReviewIncidents() {
         pendingReview: true,
         locked: true
       }));
+    renderPendingTable();
   } catch {
     // Brak kandydatów nie powinien zatrzymać mapy.
   }
@@ -978,8 +951,11 @@ function clearSourceFilter() {
 function rejectIncident(id) {
   rejectedIds.add(id);
   localStorage.setItem('rejectedIds', JSON.stringify([...rejectedIds]));
+  reviewQueue.delete(id);
   map.closePopup();
   filterMarkers();
+  renderReviewPanel();
+  renderPendingTable();
   showToast('<i class="fa-solid fa-ban"></i> Odrzucono — nie będzie pokazywany ponownie');
 }
 
@@ -1102,6 +1078,8 @@ function showToast(html) {
   buildSourcePanel();
   if (reviewMode) {
     document.getElementById('review-panel').style.display = 'block';
+    renderReviewPanel();
+    setPendingFilter('todo');
     showToast('<i class="fa-solid fa-eye"></i> Tryb review: widoczni kandydaci do zatwierdzenia');
   }
   } catch(e) {
