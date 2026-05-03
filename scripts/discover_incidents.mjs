@@ -154,6 +154,36 @@ function buildId(url, title) {
   return `auto_${hash}`;
 }
 
+async function fetchGoogleNewsArticles(searchPhrases) {
+  const results = [];
+  // Bierzemy tylko polskie frazy — Google News PL dobrze je indeksuje
+  const plPhrases = searchPhrases.filter(p => /[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]/.test(p) && !/poland/i.test(p));
+  for (const phrase of plPhrases.slice(0, 5)) {
+    const q = encodeURIComponent(phrase);
+    const url = `https://news.google.com/rss/search?q=${q}&hl=pl&gl=PL&ceid=PL:pl`;
+    try {
+      const res = await fetch(url, { headers: { 'User-Agent': 'monitoringobywatelski-bot/1.0' } });
+      if (!res.ok) continue;
+      const xml = await res.text();
+      // Prosty parser RSS bez zewnętrznych bibliotek
+      const items = [...xml.matchAll(/<item>([\s\S]*?)<\/item>/g)];
+      for (const [, item] of items) {
+        const title = (item.match(/<title><!\[CDATA\[(.*?)\]\]><\/title>/) || item.match(/<title>(.*?)<\/title>/) || [])[1] || '';
+        const link  = (item.match(/<link>(.*?)<\/link>/)   || [])[1] || '';
+        const pubDate = (item.match(/<pubDate>(.*?)<\/pubDate>/) || [])[1] || '';
+        const source = (item.match(/<source[^>]*>(.*?)<\/source>/) || [])[1] || 'Google News';
+        if (title && link) {
+          results.push({ title, url: link, seendate: pubDate, domain: source, _source: 'gnews' });
+        }
+      }
+    } catch (e) {
+      console.warn(`Google News błąd dla frazy "${phrase}":`, e.message);
+    }
+  }
+  console.log(`Google News zwrócił ${results.length} artykułów.`);
+  return results;
+}
+
 async function fetchArticles(searchPhrases) {
   const phraseQuery = searchPhrases
     .map((p) => `"${p}"`)
@@ -187,16 +217,19 @@ async function fetchArticles(searchPhrases) {
 async function main() {
   const searchPhrases = await loadSearchPhrases();
 
-  const [pending, approved, articles] = await Promise.all([
+  const [pending, approved, gdeltArticles, gnewsArticles] = await Promise.all([
     safeArray(PENDING_PATH),
     safeArray(APPROVED_PATH),
-    fetchArticles(searchPhrases)
+    fetchArticles(searchPhrases),
+    fetchGoogleNewsArticles(searchPhrases)
   ]);
 
-  if (articles === null) {
+  if (gdeltArticles === null && !gnewsArticles.length) {
     console.log('discover_ok');
     process.exit(0);
   }
+
+  const articles = [...(gdeltArticles || []), ...gnewsArticles];
 
   const knownUrls = new Set([
     ...pending.map((x) => x.url),
