@@ -106,106 +106,146 @@
     .leaflet-popup-content { margin: 14px 16px !important; min-width: 220px; }
 
     /* ── REVIEW PANEL ──────────────────────────────────────── */
+    /* ── ADMIN PANEL ──────────────────────────────────── */
     #review-panel {
-      position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-      width: min(1100px, calc(100vw - 48px)); max-height: calc(100vh - 80px); overflow-y: auto;
-      background: var(--panel); border: 1px solid var(--border);
-      border-radius: 14px; padding: 16px 18px;
-      box-shadow: var(--shadow); z-index: 2100;
-      font-family: 'Inter', sans-serif;
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,.6); backdrop-filter: blur(4px);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 2100; font-family: 'Inter', sans-serif;
     }
-    #review-panel h3 {
-      font-size: .82rem; font-weight: 700; margin-bottom: 10px;
-      display: flex; align-items: center; gap: 7px; color: var(--text);
+    #admin-box {
+      width: min(1160px, calc(100vw - 32px));
+      max-height: calc(100vh - 32px);
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: 0 24px 80px rgba(0,0,0,.6);
+      display: flex; flex-direction: column;
+      overflow: hidden;
     }
-    #review-panel h3 i { color: var(--accent2); }
-    .review-toolbar {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px;
+    /* header */
+    #admin-header {
+      display: flex; align-items: center; gap: 10px;
+      padding: 14px 20px; border-bottom: 1px solid var(--border);
+      background: var(--panel2); flex-shrink: 0;
     }
-    .pending-filters { display:flex; gap:6px; margin-bottom:10px; }
+    #admin-header .ah-icon { color: var(--accent2); font-size: 1.1rem; }
+    #admin-header h2 { font-size: .95rem; font-weight: 700; color: var(--text); flex: 1; margin: 0; }
+    .admin-stat {
+      font-size: .72rem; padding: 3px 10px; border-radius: 20px;
+      background: var(--panel); border: 1px solid var(--border); color: var(--text2);
+    }
+    .admin-stat b { color: var(--text); }
+    #admin-close-btn {
+      margin-left: 8px; width: 28px; height: 28px;
+      background: transparent; border: 1px solid var(--border);
+      border-radius: 50%; color: var(--text2); cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .85rem; transition: all .15s;
+    }
+    #admin-close-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* tabs */
+    #admin-tabs {
+      display: flex; gap: 0; padding: 0 20px;
+      border-bottom: 1px solid var(--border);
+      background: var(--panel2); flex-shrink: 0;
+    }
+    .at-tab {
+      padding: 10px 16px; font-size: .78rem; font-family: inherit;
+      background: transparent; border: none; border-bottom: 2px solid transparent;
+      color: var(--text2); cursor: pointer; display: flex; align-items: center; gap: 6px;
+      margin-bottom: -1px; transition: all .15s;
+    }
+    .at-tab:hover { color: var(--text); }
+    .at-tab.active { color: var(--text); border-bottom-color: var(--accent2); font-weight: 600; }
+    .at-tab .at-count {
+      font-size: .66rem; padding: 1px 6px; border-radius: 20px;
+      background: var(--panel); border: 1px solid var(--border); color: var(--text2);
+    }
+    .at-tab.active .at-count { background: rgba(244,162,97,.15); border-color: var(--accent2); color: var(--accent2); }
+
+    /* body */
+    #admin-body { flex: 1; overflow: hidden; display: flex; flex-direction: column; min-height: 0; }
+    .at-pane { display: none; flex-direction: column; flex: 1; min-height: 0; padding: 16px 20px; gap: 12px; }
+    .at-pane.active { display: flex; }
+
+    /* pending filters */
+    .pf-row { display: flex; align-items: center; gap: 8px; flex-shrink: 0; flex-wrap: wrap; }
     .pf-btn {
       border: 1px solid var(--border); background: transparent; color: var(--text2);
-      border-radius: 20px; padding: 4px 10px; font-size: .72rem; cursor: pointer;
-      font-family: 'Inter', sans-serif;
+      border-radius: 20px; padding: 5px 12px; font-size: .73rem; cursor: pointer;
+      font-family: 'Inter', sans-serif; transition: all .15s;
     }
-    .pf-btn.active { color: var(--text); border-color: var(--accent2); background: rgba(230,57,70,.15); }
-    #pending-table-wrap {
-      border: 1px solid var(--border); border-radius: 10px; overflow: auto; max-height: 48vh;
-      background: rgba(0,0,0,.12);
+    .pf-btn:hover { color: var(--text); border-color: #3a4060; }
+    .pf-btn.active { color: var(--text); border-color: var(--accent2); background: rgba(244,162,97,.1); }
+    .pf-btn .pf-n { font-size: .65rem; opacity: .7; margin-left: 3px; }
+    .pf-spacer { flex: 1; }
+    .pf-secondary {
+      padding: 5px 12px; font-size: .73rem; font-family: inherit;
+      border: 1px solid var(--border); border-radius: 20px;
+      background: transparent; color: var(--text2); cursor: pointer; transition: all .15s;
     }
-    #pending-table { width: 100%; border-collapse: collapse; font-size: .74rem; }
-    #pending-table th, #pending-table td { padding: 8px 9px; border-bottom: 1px solid var(--border); vertical-align: top; }
-    #pending-table th { position: sticky; top: 0; background: var(--panel2); color: var(--text2); text-align: left; z-index: 1; }
-    .st-chip { font-size: .66rem; border-radius: 20px; padding: 2px 7px; display: inline-block; }
-    .st-todo { background: rgba(255,255,255,.1); color: var(--text2); }
+    .pf-secondary:hover { color: var(--text); border-color: #3a4060; }
+
+    /* shared table */
+    .admin-table-wrap {
+      flex: 1; min-height: 0; border: 1px solid var(--border);
+      border-radius: 10px; overflow: auto; background: rgba(0,0,0,.1);
+    }
+    .admin-table { width: 100%; border-collapse: collapse; font-size: .74rem; }
+    .admin-table th, .admin-table td { padding: 9px 10px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+    .admin-table th { position: sticky; top: 0; background: var(--panel2); color: var(--text2); text-align: left; z-index: 1; font-size: .68rem; text-transform: uppercase; letter-spacing: .06em; }
+    .admin-table tr:last-child td { border-bottom: none; }
+    .admin-table tr:hover td { background: rgba(255,255,255,.02); }
+    .admin-table .col-status { width: 110px; }
+    .admin-table .col-date { width: 130px; white-space: nowrap; color: var(--text2); }
+    .admin-table .col-src { width: 140px; color: var(--text2); font-size: .7rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 140px; }
+    .admin-table .col-actions { width: 120px; white-space: nowrap; }
+    .admin-table .col-id { width: 140px; font-family: monospace; font-size: .68rem; color: var(--text2); }
+
+    /* status chips */
+    .st-chip { font-size: .67rem; border-radius: 20px; padding: 2px 8px; display: inline-block; white-space: nowrap; }
+    .st-todo     { background: rgba(255,255,255,.07); color: var(--text2); }
     .st-accepted { background: rgba(42,157,143,.18); color: #2a9d8f; }
-    .st-rejected { background: rgba(230,57,70,.15); color: #e63946; }
+    .st-rejected { background: rgba(230,57,70,.15);  color: #e63946; }
+    .st-queued   { background: rgba(230,57,70,.15);  color: #e63946; }
+
+    /* action buttons in table */
     .tbl-btn {
       border: 1px solid var(--border); background: transparent; color: var(--text2);
-      border-radius: 6px; padding: 3px 7px; font-size: .7rem; cursor: pointer; margin-right: 4px;
-      font-family: 'Inter', sans-serif;
+      border-radius: 6px; padding: 3px 8px; font-size: .7rem; cursor: pointer;
+      font-family: 'Inter', sans-serif; transition: all .15s; margin-right: 3px;
     }
-    .tbl-btn.ok { border-color: rgba(42,157,143,.5); color: #2a9d8f; background: rgba(42,157,143,.15); }
-    .tbl-btn.bad { border-color: rgba(230,57,70,.45); color: #e63946; background: rgba(230,57,70,.12); }
-    .approved-remove-section {
-      margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border);
+    .tbl-btn:hover { color: var(--text); border-color: #3a4060; }
+    .tbl-btn.ok  { border-color: rgba(42,157,143,.4); color: #2a9d8f; background: rgba(42,157,143,.1); }
+    .tbl-btn.ok:hover { background: rgba(42,157,143,.2); }
+    .tbl-btn.bad { border-color: rgba(230,57,70,.4); color: #e63946; background: rgba(230,57,70,.08); }
+    .tbl-btn.bad:hover { background: rgba(230,57,70,.15); }
+
+    /* action bar at bottom of pane */
+    .admin-action-bar {
+      flex-shrink: 0; padding-top: 10px;
+      display: flex; gap: 10px; align-items: center;
+      border-top: 1px solid var(--border); flex-wrap: wrap;
     }
-    .approved-remove-section h4 {
-      font-size: .78rem; margin: 0 0 8px; color: var(--text);
-      display: flex; align-items: center; gap: 6px;
+    .aab-info { font-size: .73rem; color: var(--text2); flex: 1; }
+    .aab-info b { color: var(--text); }
+    .btn-primary {
+      padding: 9px 20px; border: none; border-radius: 9px;
+      font-family: inherit; font-size: .82rem; font-weight: 600;
+      cursor: pointer; transition: opacity .2s; display: flex; align-items: center; gap: 7px;
     }
-    .approved-remove-wrap {
-      border: 1px solid var(--border); border-radius: 10px; overflow: auto; max-height: 28vh;
-      background: rgba(0,0,0,.12);
+    .btn-primary:hover { opacity: .85; }
+    .btn-primary:disabled { opacity: .4; cursor: default; }
+    .btn-approve { background: linear-gradient(135deg, #2a9d8f, #1a7a70); color: #fff; }
+    .btn-remove  { background: linear-gradient(135deg, #e63946, #b71c2b); color: #fff; }
+    .btn-ghost {
+      padding: 9px 16px; border: 1px solid var(--border); border-radius: 9px;
+      font-family: inherit; font-size: .78rem; cursor: pointer;
+      background: transparent; color: var(--text2); transition: all .15s;
     }
-    #approved-remove-table { width: 100%; border-collapse: collapse; font-size: .73rem; }
-    #approved-remove-table th, #approved-remove-table td { padding: 7px 9px; border-bottom: 1px solid var(--border); }
-    #approved-remove-table th { position: sticky; top: 0; background: var(--panel2); color: var(--text2); text-align: left; z-index: 1; }
-    #remove-approved-cmd-wrap { display: none; margin-top: 8px; }
-    #remove-approved-cmd {
-      font-size: .68rem; font-family: monospace;
-      background: var(--panel2); border: 1px solid var(--border);
-      border-radius: 7px; padding: 7px 10px; color: var(--text2);
-      word-break: break-all; line-height: 1.5; margin-bottom: 8px;
-    }
-    #remove-approved-copy-btn {
-      width: 100%; padding: 8px;
-      background: linear-gradient(135deg, #e63946, #b71c2b);
-      border: none; border-radius: 8px;
-      color: #fff; font-family: inherit; font-size: .8rem; font-weight: 600;
-      cursor: pointer; transition: opacity .2s;
-    }
-    #remove-approved-copy-btn:hover { opacity: .85; }
-    #review-cmd-wrap { display: none; }
-    #review-cmd {
-      font-size: .68rem; font-family: monospace;
-      background: var(--panel2); border: 1px solid var(--border);
-      border-radius: 7px; padding: 7px 10px; color: var(--text2);
-      word-break: break-all; line-height: 1.5; margin-bottom: 8px;
-    }
-    #review-copy-btn {
-      width: 100%; padding: 8px;
-      background: linear-gradient(135deg, var(--accent3), #1a7a70);
-      border: none; border-radius: 8px;
-      color: #fff; font-family: inherit; font-size: .8rem; font-weight: 600;
-      cursor: pointer; transition: opacity .2s;
-    }
-    #review-copy-btn:hover { opacity: .85; }
-    #review-clear-btn {
-      width: 100%; margin-top: 6px; padding: 6px;
-      background: transparent; border: 1px solid var(--border);
-      border-radius: 8px; color: var(--text2);
-      font-family: inherit; font-size: .75rem; cursor: pointer;
-    }
-    #review-clear-btn:hover { color: var(--text); border-color: #3a4060; }
-    #review-discover-btn {
-      width: 100%; padding: 8px;
-      background: linear-gradient(135deg, var(--accent4), #2a5a7a);
-      border: none; border-radius: 8px;
-      color: #fff; font-family: inherit; font-size: .8rem; font-weight: 600;
-      cursor: pointer; transition: opacity .2s;
-    }
-    #review-discover-btn:hover { opacity: .85; }
+    .btn-ghost:hover { color: var(--text); border-color: #3a4060; }
 
     /* ── SOURCE FILTER PANEL ─────────────────────────────── */
     #source-panel {
@@ -502,61 +542,99 @@
 </div>
 
 
-<!-- REVIEW PANEL -->
+<!-- ADMIN PANEL -->
 <div id="review-panel" style="display:none">
-  <h3 id="review-panel-title"><i class="fa-solid fa-clipboard-check"></i> Zatwierdź incydenty</h3>
+<div id="admin-box">
 
-  <div class="review-toolbar">
-    <button id="review-discover-btn" onclick="copyDiscoverCmd()"><i class="fa-solid fa-magnifying-glass"></i> Kopiuj komendę szukania</button>
-    <button id="review-clear-btn" onclick="clearReview()">Wyczyść zaznaczone do akceptacji</button>
+  <!-- header -->
+  <div id="admin-header">
+    <i class="fa-solid fa-shield-halved ah-icon"></i>
+    <h2>Panel zarządzania</h2>
+    <span class="admin-stat">Pending: <b id="stat-pending">0</b></span>
+    <span class="admin-stat">Na mapie: <b id="stat-approved">0</b></span>
+    <button id="admin-close-btn" onclick="closeAdminPanel()" title="Zamknij"><i class="fa-solid fa-xmark"></i></button>
   </div>
 
-  <div class="pending-filters">
-    <button class="pf-btn active" id="pf-todo" onclick="setPendingFilter('todo')">Do zrobienia</button>
-    <button class="pf-btn" id="pf-accepted" onclick="setPendingFilter('accepted')">Zaakceptowane</button>
-    <button class="pf-btn" id="pf-rejected" onclick="setPendingFilter('rejected')">Odrzucone</button>
+  <!-- tabs -->
+  <div id="admin-tabs">
+    <button class="at-tab active" id="tab-pending" onclick="switchAdminTab('pending')">
+      <i class="fa-solid fa-inbox"></i> Nowe artykuły
+      <span class="at-count" id="tab-pending-count">0</span>
+    </button>
+    <button class="at-tab" id="tab-remove" onclick="switchAdminTab('remove')">
+      <i class="fa-solid fa-trash-can"></i> Usuń z mapy
+      <span class="at-count" id="tab-remove-count">0</span>
+    </button>
   </div>
 
-  <div id="pending-table-wrap">
-    <table id="pending-table">
-      <thead>
-        <tr>
-          <th>Status</th>
-          <th>Tytuł</th>
-          <th>Data</th>
-          <th>Źródło</th>
-          <th>Akcja</th>
-        </tr>
-      </thead>
-      <tbody id="pending-table-body"></tbody>
-    </table>
-  </div>
+  <!-- body -->
+  <div id="admin-body">
 
-  <div id="review-cmd-wrap" style="margin-top:10px">
-    <div id="review-cmd"></div>
-    <button id="review-copy-btn" onclick="copyReviewCmd()"><i class="fa-solid fa-copy"></i> Kopiuj komendę akceptacji</button>
-    <button id="review-submit-btn" onclick="submitApprovedToGitHub()" style="margin-left:10px"><i class="fa-solid fa-cloud-arrow-up"></i> Wyślij na www</button>
-  </div>
+    <!-- PANE 1: Nowe artykuły -->
+    <div class="at-pane active" id="pane-pending">
+      <div class="pf-row">
+        <button class="pf-btn active" id="pf-todo"     onclick="setPendingFilter('todo')">Do zrobienia <span class="pf-n" id="pf-n-todo"></span></button>
+        <button class="pf-btn"        id="pf-accepted" onclick="setPendingFilter('accepted')">Zaakceptowane <span class="pf-n" id="pf-n-accepted"></span></button>
+        <button class="pf-btn"        id="pf-rejected" onclick="setPendingFilter('rejected')">Odrzucone <span class="pf-n" id="pf-n-rejected"></span></button>
+        <div class="pf-spacer"></div>
+        <button class="pf-secondary"  onclick="clearReview()"><i class="fa-solid fa-rotate-left"></i> Wyczyść zaznaczenia</button>
+      </div>
 
-  <div class="approved-remove-section">
-    <h4><i class="fa-solid fa-trash-can"></i> Usuwanie już zaakceptowanych</h4>
-    <div class="approved-remove-wrap">
-      <table id="approved-remove-table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Tytuł</th>
-            <th>Akcja</th>
-          </tr>
-        </thead>
-        <tbody id="approved-remove-table-body"></tbody>
-      </table>
+      <div class="admin-table-wrap">
+        <table class="admin-table" id="pending-table">
+          <thead>
+            <tr>
+              <th class="col-status">Status</th>
+              <th>Tytuł</th>
+              <th class="col-date">Data</th>
+              <th class="col-src">Źródło</th>
+              <th class="col-actions">Akcja</th>
+            </tr>
+          </thead>
+          <tbody id="pending-table-body"></tbody>
+        </table>
+      </div>
+
+      <div class="admin-action-bar">
+        <div class="aab-info" id="approve-info">Wybierz artykuły powyżej, a potem kliknij "Wyślij na www"</div>
+        <button class="btn-primary btn-approve" id="btn-submit-approve" onclick="submitApprovedToGitHub()" disabled>
+          <i class="fa-solid fa-cloud-arrow-up"></i> Wyślij na www
+        </button>
+      </div>
     </div>
-    <div id="remove-approved-cmd-wrap">
-      <div id="remove-approved-cmd"></div>
-      <button id="remove-approved-copy-btn" onclick="copyRemoveApprovedCmd()"><i class="fa-solid fa-copy"></i> Kopiuj komendę usunięcia z mapy</button>
+
+    <!-- PANE 2: Usuń z mapy -->
+    <div class="at-pane" id="pane-remove">
+      <div class="pf-row">
+        <span style="font-size:.78rem;color:var(--text2)">Zaznacz incydenty do usunięcia z mapy:</span>
+        <div class="pf-spacer"></div>
+        <button class="pf-secondary" onclick="removeApprovedQueue.clear();renderApprovedRemovalTable()"><i class="fa-solid fa-rotate-left"></i> Odznacz wszystkie</button>
+      </div>
+
+      <div class="admin-table-wrap">
+        <table class="admin-table" id="approved-remove-table">
+          <thead>
+            <tr>
+              <th class="col-id">ID</th>
+              <th>Tytuł</th>
+              <th class="col-date">Data</th>
+              <th class="col-actions">Akcja</th>
+            </tr>
+          </thead>
+          <tbody id="approved-remove-table-body"></tbody>
+        </table>
+      </div>
+
+      <div class="admin-action-bar">
+        <div class="aab-info" id="remove-info">Zaznacz artykuły powyżej, a potem kliknij "Usuń z mapy"</div>
+        <button class="btn-primary btn-remove" id="btn-submit-remove" onclick="submitRemoveToGitHub()" disabled>
+          <i class="fa-solid fa-trash-can"></i> Usuń z mapy
+        </button>
+      </div>
     </div>
-  </div>
+
+  </div><!-- /admin-body -->
+</div><!-- /admin-box -->
 </div>
 
 <!-- TOAST -->
@@ -841,14 +919,28 @@ function setPendingFilter(filter) {
 function renderPendingTable() {
   const body = document.getElementById('pending-table-body');
   if (!body) return;
+
+  // update counts
+  const counts = { todo: 0, accepted: 0, rejected: 0 };
+  pendingReviewIncidents.forEach(inc => counts[pendingStatus(inc)]++);
+  ['todo','accepted','rejected'].forEach(f => {
+    const el = document.getElementById(`pf-n-${f}`);
+    if (el) el.textContent = counts[f] ? `(${counts[f]})` : '';
+  });
+  const statEl = document.getElementById('stat-pending');
+  if (statEl) statEl.textContent = pendingReviewIncidents.length;
+  const tabCount = document.getElementById('tab-pending-count');
+  if (tabCount) tabCount.textContent = counts.todo;
+
   const list = pendingReviewIncidents.filter(inc => pendingStatus(inc) === pendingFilter);
   if (!list.length) {
-    body.innerHTML = `<tr><td colspan="5" style="font-style:italic;color:var(--text2)">Brak pozycji dla filtra: ${pendingFilter}</td></tr>`;
+    const labels = { todo: 'Do zrobienia', accepted: 'Zaakceptowane', rejected: 'Odrzucone' };
+    body.innerHTML = `<tr><td colspan="5" style="font-style:italic;color:var(--text2);padding:20px 10px">Brak artykułów w kategorii: ${labels[pendingFilter] || pendingFilter}</td></tr>`;
     return;
   }
   body.innerHTML = list.map(inc => {
     const status = pendingStatus(inc);
-    const dateStr = inc.date ? new Date(inc.date).toLocaleString('pl-PL') : '-';
+    const dateStr = inc.date ? new Date(inc.date).toLocaleDateString('pl-PL') : '-';
     const source = (inc.sources && inc.sources[0] && (inc.sources[0].name || inc.sources[0].url)) || '-';
     const safeId = inc.id.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
     const safeTitle = (inc.title || 'Zdarzenie').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g, '&#39;');
@@ -885,64 +977,51 @@ function toggleApprovedForRemoval(id, title) {
 
 function renderApprovedRemovalTable() {
   const body = document.getElementById('approved-remove-table-body');
-  const cmdWrap = document.getElementById('remove-approved-cmd-wrap');
-  const cmdEl = document.getElementById('remove-approved-cmd');
-  if (!body || !cmdWrap || !cmdEl) return;
+  if (!body) return;
 
   if (!approvedIncidents.length) {
-    body.innerHTML = '<tr><td colspan="3" style="font-style:italic;color:var(--text2)">Brak zaakceptowanych incydentów.</td></tr>';
+    body.innerHTML = '<tr><td colspan="4" style="font-style:italic;color:var(--text2);padding:16px">Brak zaakceptowanych incydentów.</td></tr>';
   } else {
     body.innerHTML = approvedIncidents.map(inc => {
       const safeId = inc.id.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
       const safeTitle = (inc.title || 'Zdarzenie').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g, '&#39;');
+      const dateStr = inc.date ? new Date(inc.date).toLocaleDateString('pl-PL') : '-';
       const inQueue = removeApprovedQueue.has(inc.id);
-      return `<tr>
-        <td style="font-family:monospace">${inc.id}</td>
+      return `<tr${inQueue ? ' style="background:rgba(230,57,70,.06)"' : ''}>
+        <td class="col-id">${inc.id}</td>
         <td>${safeTitle}</td>
-        <td>
-          <button class="tbl-btn ${inQueue ? 'bad' : ''}" onclick="toggleApprovedForRemoval('${safeId}','${safeTitle}')">${inQueue ? 'Cofnij' : 'Usuń'}</button>
+        <td class="col-date">${dateStr}</td>
+        <td class="col-actions">
+          <button class="tbl-btn ${inQueue ? 'bad' : ''}" onclick="toggleApprovedForRemoval('${safeId}','${safeTitle}')">${inQueue ? '<i class="fa-solid fa-xmark"></i> Cofnij' : 'Zaznacz'}</button>
         </td>
       </tr>`;
     }).join('');
   }
 
+  // update bottom bar
   const ids = [...removeApprovedQueue.keys()];
-  if (!ids.length) {
-    cmdWrap.style.display = 'none';
-    cmdEl.textContent = '';
-    return;
-  }
-  cmdEl.textContent = `$env:INCIDENT_IDS="${ids.join(',')}"; node scripts/remove_incident.mjs`;
-  cmdWrap.style.display = 'block';
-}
+  const btn = document.getElementById('btn-submit-remove');
+  const info = document.getElementById('remove-info');
+  const tabCount = document.getElementById('tab-remove-count');
+  if (btn) btn.disabled = ids.length === 0;
+  if (info) info.innerHTML = ids.length
+    ? `<b>${ids.length}</b> incydentów zaznaczonych do usunięcia`
+    : 'Zaznacz incydenty powyżej, a potem kliknij "Usuń z mapy"';
+  if (tabCount) tabCount.textContent = ids.length || approvedIncidents.length;
 
-function copyRemoveApprovedCmd() {
-  const cmd = document.getElementById('remove-approved-cmd').textContent;
-  if (!cmd) return;
-  navigator.clipboard.writeText(cmd).then(() => {
-    showToast('<i class="fa-solid fa-copy"></i> Komenda usunięcia skopiowana do schowka');
-  });
+  // update stat
+  const stat = document.getElementById('stat-approved');
+  if (stat) stat.textContent = approvedIncidents.length;
 }
 
 function renderReviewPanel() {
-  const cmdWrap = document.getElementById('review-cmd-wrap');
   const ids = [...reviewQueue.keys()];
-  if (!ids.length) {
-    cmdWrap.style.display = 'none';
-    document.getElementById('review-cmd').textContent = '';
-    return;
-  }
-
-  const cmd = `$env:INCIDENT_IDS="${ids.join(',')}"; node scripts/approve_incidents.mjs`;
-  document.getElementById('review-cmd').textContent = cmd;
-  cmdWrap.style.display = 'block';
-}
-
-function copyReviewCmd() {
-  const cmd = document.getElementById('review-cmd').textContent;
-  navigator.clipboard.writeText(cmd).then(() => {
-    showToast('<i class="fa-solid fa-copy"></i> Komenda skopiowana do schowka');
-  });
+  const btn = document.getElementById('btn-submit-approve');
+  const info = document.getElementById('approve-info');
+  if (btn) btn.disabled = ids.length === 0;
+  if (info) info.innerHTML = ids.length
+    ? `<b>${ids.length}</b> artykułów gotowych do zatwierdzenia`
+    : 'Wybierz artykuły powyżej, a potem kliknij "Wyślij na www"';
 }
 
 async function submitApprovedToGitHub() {
@@ -952,11 +1031,11 @@ async function submitApprovedToGitHub() {
     return;
   }
 
+  const btn = document.getElementById('btn-submit-approve');
+  if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-hourglass-start"></i> Wysyłanie...'; }
   showToast('<i class="fa-solid fa-hourglass-start"></i> Wysyłanie na www...', 3000);
 
   try {
-    // Wysłanie do Vercel API (serverless function)
-    // Token przechowywany bezpiecznie w Vercel env vars
     const response = await fetch(
       'https://monitoringobywatelski.vercel.app/api/approve',
       {
@@ -973,16 +1052,14 @@ async function submitApprovedToGitHub() {
     const data = await response.json();
 
     if (response.ok) {
-      // Sukces!
       reviewQueue.clear();
       rejectedIds.clear();
       localStorage.setItem('rejectedIds', JSON.stringify([]));
       renderPendingTable();
       renderReviewPanel();
-      showToast('<i class="fa-solid fa-check-circle"></i> Wysłano na www! Workflow się uruchomił. Zmiany pojawią się na mapie za ~2-3 min.');
+      showToast('<i class="fa-solid fa-check-circle"></i> Wysłano na www! Zmiany pojawią się na mapie za ~2-3 min.');
     } else {
       console.error('API error:', response.status, data);
-      
       if (response.status === 500) {
         showToast('<i class="fa-solid fa-exclamation-triangle"></i> Błąd serwera - sprawdź GITHUB_TOKEN w Vercel env vars');
       } else {
@@ -992,7 +1069,63 @@ async function submitApprovedToGitHub() {
   } catch (err) {
     console.error('Submit error:', err);
     showToast(`<i class="fa-solid fa-exclamation-circle"></i> Błąd sieciowy: ${err.message}`);
+  } finally {
+    if (btn) { btn.disabled = reviewQueue.size === 0; btn.innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i> Wyślij na www'; }
   }
+}
+
+async function submitRemoveToGitHub() {
+  const ids = [...removeApprovedQueue.keys()];
+  if (!ids.length) {
+    showToast('<i class="fa-solid fa-exclamation-circle"></i> Brak zaznaczonych incydentów');
+    return;
+  }
+
+  const btn = document.getElementById('btn-submit-remove');
+  if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-hourglass-start"></i> Wysyłanie...'; }
+  showToast('<i class="fa-solid fa-hourglass-start"></i> Usuwanie z mapy...', 3000);
+
+  try {
+    const response = await fetch(
+      'https://monitoringobywatelski.vercel.app/api/remove',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ incident_ids: ids.join(',') })
+      }
+    );
+
+    const data = await response.json();
+
+    if (response.ok) {
+      removeApprovedQueue.clear();
+      renderApprovedRemovalTable();
+      showToast(`<i class="fa-solid fa-check-circle"></i> Usunięto ${ids.length} incydentów! Zmiany pojawią się na mapie za ~2-3 min.`);
+    } else {
+      console.error('Remove API error:', response.status, data);
+      if (response.status === 500) {
+        showToast('<i class="fa-solid fa-exclamation-triangle"></i> Błąd serwera - sprawdź GITHUB_TOKEN w Vercel env vars');
+      } else {
+        showToast(`<i class="fa-solid fa-exclamation-circle"></i> Błąd: ${data.error || response.status}`);
+      }
+    }
+  } catch (err) {
+    console.error('Remove error:', err);
+    showToast(`<i class="fa-solid fa-exclamation-circle"></i> Błąd sieciowy: ${err.message}`);
+  } finally {
+    if (btn) { btn.disabled = removeApprovedQueue.size === 0; btn.innerHTML = '<i class="fa-solid fa-trash-can"></i> Usuń z mapy'; }
+  }
+}
+
+function closeAdminPanel() {
+  document.getElementById('review-panel').style.display = 'none';
+}
+
+function switchAdminTab(tab) {
+  document.querySelectorAll('.at-tab').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.at-pane').forEach(el => el.classList.remove('active'));
+  document.getElementById(`tab-${tab}`).classList.add('active');
+  document.getElementById(`pane-${tab}`).classList.add('active');
 }
 
 async function loadApprovedIncidents() {
