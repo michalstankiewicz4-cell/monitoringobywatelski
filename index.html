@@ -254,6 +254,7 @@
       border: 1px solid var(--border);
       border-radius: var(--radius);
       padding: 10px 12px; z-index: 2000;
+      user-select: none;
       max-width: 210px; min-width: 160px;
       font-family: 'Inter', sans-serif;
       color: var(--text);
@@ -379,6 +380,7 @@
       z-index: 600;
       opacity: 1; transition: opacity .4s;
       pointer-events: auto;
+      user-select: none;
     }
     #theme-switcher.ts-hidden {
       opacity: 0;
@@ -410,6 +412,7 @@
       min-width: 190px;
       opacity: 1; transition: opacity .4s;
       pointer-events: auto;
+      user-select: none;
     }
     #legend.leg-hidden {
       opacity: 0;
@@ -449,6 +452,7 @@
       font-family: 'Inter', sans-serif; font-size: .78rem;
       white-space: nowrap;
       transition: opacity .2s;
+      user-select: none;
     }
     #timeline-bar i { color: var(--accent4); }
     #tl-label {
@@ -458,13 +462,45 @@
     #timeline-bar.tl-off #tl-label { color: var(--text2); }
     #tl-slider {
       -webkit-appearance: none; appearance: none;
-      width: 320px; height: 4px;
-      border-radius: 2px; outline: none; cursor: pointer;
-      background: linear-gradient(to right, var(--accent4) 0%, var(--accent4) var(--pct,0%), var(--border) var(--pct,0%), var(--border) 100%);
+      width: 320px; height: 14px;
+      background: transparent;
+      outline: none; cursor: pointer;
       transition: opacity .2s;
+    }
+    #tl-slider::-webkit-slider-runnable-track {
+      height: 4px; border-radius: 2px;
+      margin-top: 5px;
+      background: linear-gradient(to right, var(--accent4) 0%, var(--accent4) var(--pct,0%), var(--border) var(--pct,0%), var(--border) 100%);
+    }
+    #tl-slider::-moz-range-track {
+      height: 4px; border-radius: 2px;
+      background: linear-gradient(to right, var(--accent4) 0%, var(--accent4) var(--pct,0%), var(--border) var(--pct,0%), var(--border) 100%);
+    }
+    #tl-wrap { position: relative; display: flex; flex-direction: column; gap: 2px; }
+    #tl-marks {
+      position: relative; height: 14px; width: 320px;
+      font-size: .58rem; color: var(--text2);
+      padding: 0 7px; box-sizing: border-box;
+    }
+    #tl-marks span {
+      position: absolute; transform: translateX(-50%);
+      white-space: nowrap;
+    }
+    /* dashed divider between daily and rest */
+    #tl-wrap::after {
+      content: '';
+      position: absolute; top: 0; bottom: 14px;
+      left: 30%; border-left: 1px dashed var(--accent4);
+      opacity: .4; pointer-events: none;
     }
     #tl-slider::-webkit-slider-thumb {
       -webkit-appearance: none; width: 14px; height: 14px;
+      border-radius: 50%; background: var(--accent4);
+      box-shadow: 0 0 4px rgba(69,123,157,.7); cursor: pointer;
+      margin-top: -5px;
+    }
+    #tl-slider::-moz-range-thumb {
+      width: 14px; height: 14px; border: none;
       border-radius: 50%; background: var(--accent4);
       box-shadow: 0 0 4px rgba(69,123,157,.7); cursor: pointer;
     }
@@ -489,7 +525,8 @@
         gap: 6px; padding: 8px 12px;
         border-radius: 16px;
       }
-      #tl-slider { width: calc(100vw - 80px); min-width: 120px; }
+      #tl-slider { width: calc(100vw - 96px); min-width: 120px; }
+      #tl-marks  { width: calc(100vw - 96px); min-width: 120px; }
       #tl-sep { display: none; }
       #tl-label { min-width: 60px; }
     }
@@ -583,8 +620,39 @@
     <div id="timeline-bar">
       <i class="fa-solid fa-clock-rotate-left"></i>
       <span id="tl-label">7 dni</span>
-      <input type="range" id="tl-slider" min="0" max="365" value="7" step="1"
-             oninput="onTimelineSlider(this.value)" />
+      <div id="tl-wrap">
+        <input type="range" id="tl-slider" min="0" max="100" value="30" step="1"
+               list="tl-ticks"
+               oninput="onTimelineSlider(this.value)" />
+        <datalist id="tl-ticks">
+          <option value="0"></option>
+          <option value="3"></option>   <!-- 1d -->
+          <option value="7"></option>   <!-- 2d -->
+          <option value="11"></option>  <!-- 3d -->
+          <option value="15"></option>  <!-- 4d -->
+          <option value="19"></option>  <!-- 5d -->
+          <option value="22"></option>  <!-- 6d -->
+          <option value="26"></option>  <!-- 7d -->
+          <option value="30"></option>  <!-- 7d boundary -->
+          <option value="43"></option>  <!-- ~30d -->
+          <option value="60"></option>  <!-- ~60d -->
+          <option value="80"></option>  <!-- ~180d -->
+          <option value="100"></option> <!-- 365d -->
+        </datalist>
+        <div id="tl-marks">
+          <span style="left:0%">D</span>
+          <span style="left:3.5%">1</span>
+          <span style="left:7.8%">2</span>
+          <span style="left:12.1%">3</span>
+          <span style="left:16.3%">4</span>
+          <span style="left:20.6%">5</span>
+          <span style="left:24.9%">6</span>
+          <span style="left:29.2%">7</span>
+          <span style="left:43%">mies.</span>
+          <span style="left:80%">6 mies.</span>
+          <span style="left:100%">rok</span>
+        </div>
+      </div>
       <span id="tl-sep">|</span>
       <button id="tl-toggle" onclick="toggleTimeline()">Pokaż wszystkie</button>
     </div>
@@ -1363,6 +1431,19 @@ function rejectIncident(id) {
 let timelineEnabled = true;
 let timelineDays    = 7;
 
+/* Slider position (0-100) -> days mapping:
+   pos 0..30  -> days 0..7  (fine daily scale)
+   pos 30..100 -> days 7..365 (coarse scale) */
+function sliderToDays(pos) {
+  pos = +pos;
+  if (pos <= 30) return Math.round(pos / 30 * 7);
+  return Math.round(7 + (pos - 30) / 70 * 358);
+}
+function daysToSlider(days) {
+  if (days <= 7) return Math.round(days / 7 * 30);
+  return Math.round(30 + (days - 7) / 358 * 70);
+}
+
 function tlLabel(days) {
   if (days === 0)   return 'Dziś';
   if (days === 1)   return '1 dzień';
@@ -1403,20 +1484,20 @@ function filterMarkers() {
   });
 }
 
-function updateTimelineTrack(val) {
+function updateTimelineTrack(sliderPos) {
   const slider = document.getElementById('tl-slider');
-  const pct = (val / 365 * 100).toFixed(2);
-  slider.style.setProperty('--pct', pct + '%');
+  const pct = (+sliderPos).toFixed(2) + '%';
+  slider.style.setProperty('--pct', pct);
 }
 
-function onTimelineSlider(val) {
-  timelineDays = +val;
+function onTimelineSlider(pos) {
+  timelineDays = sliderToDays(pos);
   timelineEnabled = true;
   const bar = document.getElementById('timeline-bar');
   bar.classList.remove('tl-off');
   document.getElementById('tl-label').textContent = tlLabel(timelineDays);
   document.getElementById('tl-toggle').textContent = 'Pokaż wszystkie';
-  updateTimelineTrack(timelineDays);
+  updateTimelineTrack(pos);
   filterMarkers();
 }
 
@@ -1515,7 +1596,7 @@ function showToast(html, duration = 3000) {
   incidents.forEach(createMarker);
   map.addLayer(clusterGroup);
   document.getElementById('tl-label').textContent = tlLabel(timelineDays);
-  updateTimelineTrack(timelineDays);
+  updateTimelineTrack(daysToSlider(timelineDays));
   filterMarkers();
   buildSourcePanel();
   if (reviewMode) {
