@@ -100,6 +100,57 @@
     .leaflet-popup-tip { background: var(--popup-bg) !important; }
     .leaflet-popup-content { margin: 14px 16px !important; min-width: 220px; }
 
+    /* ── REVIEW PANEL ──────────────────────────────────────── */
+    #review-panel {
+      position: fixed; bottom: 24px; right: 24px;
+      width: 340px;
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 14px; padding: 16px 18px;
+      box-shadow: var(--shadow); z-index: 800;
+      font-family: 'Inter', sans-serif;
+    }
+    #review-panel h3 {
+      font-size: .82rem; font-weight: 700; margin-bottom: 10px;
+      display: flex; align-items: center; gap: 7px; color: var(--text);
+    }
+    #review-panel h3 i { color: var(--accent2); }
+    #review-list {
+      font-size: .74rem; color: var(--text2);
+      max-height: 120px; overflow-y: auto;
+      margin-bottom: 10px; line-height: 1.8;
+    }
+    #review-list .rv-item {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 2px 0; border-bottom: 1px solid var(--border);
+    }
+    #review-list .rv-item:last-child { border-bottom: none; }
+    #review-list .rv-remove {
+      cursor: pointer; color: var(--accent); font-size: .7rem; padding: 0 4px;
+    }
+    #review-empty { font-size: .74rem; color: var(--text2); font-style: italic; }
+    #review-cmd-wrap { display: none; }
+    #review-cmd {
+      font-size: .68rem; font-family: monospace;
+      background: var(--panel2); border: 1px solid var(--border);
+      border-radius: 7px; padding: 7px 10px; color: var(--text2);
+      word-break: break-all; line-height: 1.5; margin-bottom: 8px;
+    }
+    #review-copy-btn {
+      width: 100%; padding: 8px;
+      background: linear-gradient(135deg, var(--accent3), #1a7a70);
+      border: none; border-radius: 8px;
+      color: #fff; font-family: inherit; font-size: .8rem; font-weight: 600;
+      cursor: pointer; transition: opacity .2s;
+    }
+    #review-copy-btn:hover { opacity: .85; }
+    #review-clear-btn {
+      width: 100%; margin-top: 6px; padding: 6px;
+      background: transparent; border: 1px solid var(--border);
+      border-radius: 8px; color: var(--text2);
+      font-family: inherit; font-size: .75rem; cursor: pointer;
+    }
+    #review-clear-btn:hover { color: var(--text); border-color: #3a4060; }
+
     /* ── PULSE MARKERS ─────────────────────────────────────── */
     .pulse-marker {
       position: relative;
@@ -243,6 +294,17 @@
 </div>
 
 
+<!-- REVIEW PANEL -->
+<div id="review-panel" style="display:none">
+  <h3><i class="fa-solid fa-clipboard-check"></i> Zatwierdź incydenty</h3>
+  <div id="review-list"><span id="review-empty">Brak wybranych — kliknij "Zatwierdź" na markerze.</span></div>
+  <div id="review-cmd-wrap">
+    <div id="review-cmd"></div>
+    <button id="review-copy-btn" onclick="copyReviewCmd()"><i class="fa-solid fa-copy"></i> Kopiuj komendę</button>
+    <button id="review-clear-btn" onclick="clearReview()">Wyczyść listę</button>
+  </div>
+</div>
+
 <!-- TOAST -->
 <div id="toast"></div>
 
@@ -355,6 +417,11 @@ function buildPopup(inc) {
   const pendingBadge = inc.pendingReview ? `<span style="font-size:.68rem;padding:2px 7px;border-radius:20px;background:rgba(125,180,255,.2);color:#7db4ff">Do zatwierdzenia</span>` : '';
   const lockedBadge = inc.locked ? `<span style="font-size:.68rem;padding:2px 7px;border-radius:20px;background:rgba(42,157,143,.2);color:#2a9d8f">Zatwierdzone</span>` : '';
   const deleteBtn = '';
+  const safeId = inc.id.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+  const safeTitle = (inc.title || '').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  const approveBtn = (inc.pendingReview && reviewMode)
+    ? `<button onclick="addToReview('${safeId}','${safeTitle}')" style="margin-top:10px;width:100%;padding:7px;background:rgba(42,157,143,.15);border:1px solid rgba(42,157,143,.4);border-radius:6px;color:#2a9d8f;cursor:pointer;font-size:.75rem;font-family:'Inter',sans-serif"><i class="fa-solid fa-check"></i> Zatwierdź</button>`
+    : '';
   return `
     <div style="font-family:'Inter',sans-serif">
       <div style="font-weight:700;font-size:.9rem;margin-bottom:6px">${inc.title}</div>
@@ -369,7 +436,64 @@ function buildPopup(inc) {
       <div style="font-size:.65rem;color:#3a4060;margin-top:8px;font-family:monospace">${inc.lat.toFixed(5)}, ${inc.lng.toFixed(5)}</div>
       ${sourceHtml}
       ${deleteBtn}
+      ${approveBtn}
     </div>`;
+}
+
+/* ─── REVIEW PANEL ──────────────────────────────────────── */
+const reviewQueue = new Map(); // id → title
+
+function addToReview(id, title) {
+  if (reviewQueue.has(id)) {
+    showToast('<i class="fa-solid fa-info-circle"></i> Już na liście do zatwierdzenia');
+    return;
+  }
+  reviewQueue.set(id, title);
+  renderReviewPanel();
+  map.closePopup();
+  showToast(`<i class="fa-solid fa-check-circle"></i> Dodano do kolejki: <strong>${title}</strong>`);
+}
+
+function removeFromReview(id) {
+  reviewQueue.delete(id);
+  renderReviewPanel();
+}
+
+function clearReview() {
+  reviewQueue.clear();
+  renderReviewPanel();
+}
+
+function renderReviewPanel() {
+  const panel = document.getElementById('review-panel');
+  const list  = document.getElementById('review-list');
+  const cmdWrap = document.getElementById('review-cmd-wrap');
+  const empty   = document.getElementById('review-empty');
+
+  if (!reviewQueue.size) {
+    list.innerHTML = '<span id="review-empty">Brak wybranych — kliknij "Zatwierdź" na markerze.</span>';
+    cmdWrap.style.display = 'none';
+    return;
+  }
+
+  const ids = [...reviewQueue.keys()];
+  list.innerHTML = ids.map(id =>
+    `<div class="rv-item">
+       <span>${reviewQueue.get(id)}</span>
+       <span class="rv-remove" onclick="removeFromReview('${id}')" title="Usuń z listy">&times;</span>
+     </div>`
+  ).join('');
+
+  const cmd = `$env:INCIDENT_IDS="${ids.join(',')}"; node scripts/approve_incidents.mjs`;
+  document.getElementById('review-cmd').textContent = cmd;
+  cmdWrap.style.display = 'block';
+}
+
+function copyReviewCmd() {
+  const cmd = document.getElementById('review-cmd').textContent;
+  navigator.clipboard.writeText(cmd).then(() => {
+    showToast('<i class="fa-solid fa-copy"></i> Komenda skopiowana do schowka');
+  });
 }
 
 async function loadApprovedIncidents() {
@@ -441,6 +565,7 @@ function showToast(html) {
   rebuildIncidents();
   incidents.forEach(createMarker);
   if (reviewMode) {
+    document.getElementById('review-panel').style.display = 'block';
     showToast('<i class="fa-solid fa-eye"></i> Tryb review: widoczni kandydaci do zatwierdzenia');
   }
 })();
