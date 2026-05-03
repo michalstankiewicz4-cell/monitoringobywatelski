@@ -490,8 +490,8 @@
 
   <!-- TAB: MANAGE -->
   <div id="tab-pane-manage" style="display:none">
-    <div style="font-size:.73rem;color:var(--text2);margin-bottom:8px;font-style:italic">Kliknij na zatwierdzony marker → "Usuń z mapy"</div>
-    <div id="remove-list" style="font-size:.74rem;color:var(--text2);max-height:140px;overflow-y:auto;margin-bottom:8px;line-height:1.8"></div>
+    <div style="font-size:.73rem;color:var(--text2);margin-bottom:8px;font-style:italic">Zaznacz incydenty do usunięcia z mapy:</div>
+    <div id="approved-manage-list" style="font-size:.74rem;color:var(--text2);max-height:160px;overflow-y:auto;margin-bottom:8px;"></div>
     <div id="remove-cmd-wrap" style="display:none">
       <div id="remove-cmd" style="font-size:.7rem;font-family:monospace;background:rgba(0,0,0,.3);padding:7px 9px;border-radius:6px;word-break:break-all;color:#e0e4f0;margin-bottom:6px"></div>
       <button onclick="copyRemoveCmd()" style="width:100%;padding:7px;background:rgba(230,57,70,.15);border:1px solid rgba(230,57,70,.4);border-radius:6px;color:#e63946;cursor:pointer;font-size:.75rem;font-family:'Inter',sans-serif"><i class="fa-solid fa-copy"></i> Kopiuj komendę usunięcia</button>
@@ -762,6 +762,7 @@ function switchReviewTab(tab) {
   document.getElementById('tab-pane-manage').style.display  = isApprove ? 'none' : 'block';
   document.getElementById('tab-approve').className = 'rv-tab' + (isApprove ? ' active-approve' : '');
   document.getElementById('tab-manage').className  = 'rv-tab' + (!isApprove ? ' active-manage' : '');
+  if (!isApprove) renderRemoveSection();
 }
 
 function addToRemoveQueue(id, title) {
@@ -782,26 +783,49 @@ function removeFromRemoveQueue(id) {
 }
 
 function renderRemoveSection() {
-  const list = document.getElementById('remove-list');
   const cmdWrap = document.getElementById('remove-cmd-wrap');
   const empty = document.getElementById('remove-empty');
+
+  // Wypełnij listę wszystkich zatwierdzonych
+  const managedList = document.getElementById('approved-manage-list');
+  if (managedList) {
+    if (!approvedIncidents.length) {
+      managedList.innerHTML = '<span style="font-style:italic;color:var(--text2)">Brak zatwierdzonych incydentów.</span>';
+    } else {
+      managedList.innerHTML = approvedIncidents.map(inc => {
+        const sid = inc.id.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+        const stitle = (inc.title||'').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+        const inQueue = removeQueue.has(inc.id);
+        return `<div class="rv-item" style="gap:6px">
+          <span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${stitle}">${stitle||inc.id}</span>
+          <button onclick="${inQueue ? `removeFromRemoveQueue('${sid}')` : `addToRemoveQueueNoSwitch('${sid}','${stitle}')`}"
+            style="flex-shrink:0;padding:2px 8px;border-radius:5px;font-size:.7rem;cursor:pointer;font-family:'Inter',sans-serif;${inQueue
+              ? 'background:rgba(230,57,70,.25);border:1px solid rgba(230,57,70,.6);color:#e63946'
+              : 'background:rgba(255,255,255,.07);border:1px solid var(--border);color:var(--text2)'}">
+            ${inQueue ? '✓ Cofnij' : 'Usuń'}
+          </button>
+        </div>`;
+      }).join('');
+    }
+  }
+
   if (!removeQueue.size) {
-    list.innerHTML = '';
-    cmdWrap.style.display = 'none';
-    empty.style.display = 'block';
+    if (cmdWrap) cmdWrap.style.display = 'none';
+    if (empty) empty.style.display = 'block';
     return;
   }
-  empty.style.display = 'none';
+  if (empty) empty.style.display = 'none';
   const ids = [...removeQueue.keys()];
-  list.innerHTML = ids.map(id =>
-    `<div class="rv-item">
-       <span>${removeQueue.get(id)}</span>
-       <span class="rv-remove" onclick="removeFromRemoveQueue('${id}')" title="Usu\u0144 z listy">&times;</span>
-     </div>`
-  ).join('');
   const cmd = `$env:INCIDENT_IDS="${ids.join(',')}"; node scripts/remove_incident.mjs`;
   document.getElementById('remove-cmd').textContent = cmd;
-  cmdWrap.style.display = 'block';
+  if (cmdWrap) cmdWrap.style.display = 'block';
+}
+
+function addToRemoveQueueNoSwitch(id, title) {
+  if (removeQueue.has(id)) return;
+  removeQueue.set(id, title);
+  renderRemoveSection();
+  showToast(`<i class="fa-solid fa-trash-can"></i> Dodano do usunięcia: <strong>${title}</strong>`);
 }
 
 function clearRemoveQueue() {
