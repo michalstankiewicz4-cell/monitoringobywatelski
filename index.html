@@ -265,6 +265,8 @@
     }
     #source-panel-body { overflow: hidden; transition: max-height .3s ease; max-height: 600px; }
     #source-panel-body.sp-collapsed { max-height: 0; }
+    #source-panel.sp-hidden { opacity: 0; pointer-events: none; }
+    #source-panel { transition: opacity .4s; }
     #source-chips { display: flex; flex-direction: column; gap: 3px; }
     .src-chip {
       display: flex; align-items: center; justify-content: space-between;
@@ -1444,6 +1446,20 @@ function toggleTimeline() {
   document.addEventListener('mousemove', showLegend);
   document.addEventListener('touchstart', showLegend);
   legTimer = setTimeout(() => leg.classList.add('leg-hidden'), 1000);
+})();
+
+/* ─── SOURCE PANEL AUTO-HIDE ─────────────────────────────── */
+(function() {
+  const sp = document.getElementById('source-panel');
+  let spTimer;
+  function showSourcePanel() {
+    sp.classList.remove('sp-hidden');
+    clearTimeout(spTimer);
+    spTimer = setTimeout(() => sp.classList.add('sp-hidden'), 2000);
+  }
+  document.addEventListener('mousemove', showSourcePanel);
+  document.addEventListener('touchstart', showSourcePanel);
+  spTimer = setTimeout(() => sp.classList.add('sp-hidden'), 2000);
 })();
 
 function toggleLegend() {
