@@ -24,16 +24,29 @@ jobs:
       - name: Discover incidents
         run: node scripts/discover_incidents.mjs
 
+      - name: Generuj treść PR z checkboxami
+        id: pr-body
+        run: |
+          BODY=$(node -e "
+            const fs = require('fs');
+            const data = JSON.parse(fs.readFileSync('data/pending_incidents.json', 'utf8'));
+            if (!data.length) { console.log('Brak nowych kandydatów.'); process.exit(0); }
+            const lines = data.map(x => {
+              const src = x.sources && x.sources[0] ? x.sources[0].url : '';
+              return '- [ ] ' + x.id + ' — ' + x.title + (src ? ' ([źródło](' + src + '))' : '');
+            }).join('\\n');
+            console.log('## Kandydaci do zatwierdzenia\\n\\nOdhaczyć które chcesz opublikować na mapie, a następnie kliknąć **Merge**:\\n\\n' + lines + '\\n\\n> Niezaznaczone zostaną odrzucone.');
+          ")
+          echo "body<<EOF" >> $GITHUB_OUTPUT
+          echo "$BODY" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
       - name: Create PR with pending updates
         uses: peter-evans/create-pull-request@v6
         with:
           commit-message: 'chore(data): update pending incidents candidates'
           branch: automation/discover-incidents
           title: 'chore(data): update pending incidents candidates'
-          body: |
-            Automatyczne pobranie kandydatów zdarzeń (wypadki powiązane z policją).
-            
-            - dane zapisane do `data/pending_incidents.json`
-            - wymagają ręcznej weryfikacji przed zatwierdzeniem
+          body: ${{ steps.pr-body.outputs.body }}
           labels: automation,pending-review
           delete-branch: true

@@ -25,16 +25,19 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Odczytaj ID z pending_incidents.json
+      - name: Odczytaj zaznaczone ID z treści PR
         id: get-ids
+        env:
+          PR_BODY: ${{ github.event.pull_request.body }}
         run: |
           IDS=$(node -e "
-            const fs = require('fs');
-            const data = JSON.parse(fs.readFileSync('data/pending_incidents.json', 'utf8'));
-            console.log(data.map(x => x.id).join(','));
+            const body = process.env.PR_BODY || '';
+            // Szuka linii: - [x] <id> — ...
+            const matches = [...body.matchAll(/^- \[x\] ([a-zA-Z0-9_]+)/gm)];
+            console.log(matches.map(m => m[1]).join(','));
           ")
           echo "ids=$IDS" >> $GITHUB_OUTPUT
-          echo "Znaleziono ID: $IDS"
+          echo "Zatwierdzone ID: $IDS"
 
       - name: Zatwierdź incydenty
         if: steps.get-ids.outputs.ids != ''
