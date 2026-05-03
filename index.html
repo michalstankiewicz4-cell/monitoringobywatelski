@@ -279,6 +279,49 @@
     .ld-flood { background: var(--accent4); box-shadow: 0 0 5px var(--accent4); }
     .ld-other { background: var(--accent3); box-shadow: 0 0 5px var(--accent3); }
 
+    /* ── TIMELINE BAR ───────────────────────────────────── */
+    #timeline-bar {
+      position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%);
+      display: flex; align-items: center; gap: 10px;
+      background: var(--tip-bg); backdrop-filter: blur(10px);
+      border: 1px solid var(--border);
+      border-radius: 30px; padding: 8px 16px;
+      box-shadow: var(--shadow); z-index: 600;
+      font-family: 'Inter', sans-serif; font-size: .78rem;
+      white-space: nowrap;
+      transition: opacity .2s;
+    }
+    #timeline-bar i { color: var(--accent4); }
+    #tl-label {
+      min-width: 68px; text-align: center;
+      color: var(--text); font-weight: 600;
+    }
+    #timeline-bar.tl-off #tl-label { color: var(--text2); }
+    #tl-slider {
+      -webkit-appearance: none; appearance: none;
+      width: 160px; height: 4px;
+      border-radius: 2px; outline: none; cursor: pointer;
+      background: linear-gradient(to right, var(--accent4) 0%, var(--accent4) var(--pct,8%), var(--border) var(--pct,8%), var(--border) 100%);
+      transition: opacity .2s;
+    }
+    #tl-slider::-webkit-slider-thumb {
+      -webkit-appearance: none; width: 14px; height: 14px;
+      border-radius: 50%; background: var(--accent4);
+      box-shadow: 0 0 4px rgba(69,123,157,.7); cursor: pointer;
+    }
+    #timeline-bar.tl-off #tl-slider { opacity: .3; pointer-events: none; }
+    #tl-toggle {
+      background: transparent; border: 1px solid var(--accent4);
+      border-radius: 20px; padding: 3px 11px;
+      color: var(--accent4); font-size: .72rem; font-family: inherit;
+      cursor: pointer; transition: all .2s; white-space: nowrap;
+    }
+    #tl-toggle:hover { background: rgba(69,123,157,.15); }
+    #timeline-bar.tl-off #tl-toggle {
+      border-color: var(--text2); color: var(--text2);
+    }
+    #tl-sep { color: var(--border); user-select: none; }
+
     /* Leaflet overrides */
     .leaflet-control-zoom { border: 1px solid var(--border) !important; }
     .leaflet-control-zoom a {
@@ -317,6 +360,15 @@
       </button>
     </div>
 
+    <!-- Timeline bar -->
+    <div id="timeline-bar">
+      <i class="fa-solid fa-clock-rotate-left"></i>
+      <span id="tl-label">30 dni</span>
+      <input type="range" id="tl-slider" min="7" max="365" value="30" step="1"
+             oninput="onTimelineSlider(this.value)" />
+      <span id="tl-sep">|</span>
+      <button id="tl-toggle" onclick="toggleTimeline()">Pokaż wszystkie</button>
+    </div>
 
   </div>
 </div>
@@ -584,6 +636,55 @@ async function loadPendingReviewIncidents() {
   }
 }
 
+/* ─── TIMELINE FILTER ──────────────────────────────────── */
+let timelineEnabled = true;
+let timelineDays    = 30;
+
+function filterMarkers() {
+  clusterGroup.clearLayers();
+  const cutoffMs = timelineEnabled ? Date.now() - timelineDays * 86_400_000 : -Infinity;
+  incidents.forEach(inc => {
+    const m = markers[inc.id];
+    if (!m) return;
+    const ts = inc.date ? new Date(inc.date).getTime() : NaN;
+    // show if: filter off, OR date unknown (NaN), OR date within range
+    if (!timelineEnabled || isNaN(ts) || ts >= cutoffMs) {
+      clusterGroup.addLayer(m);
+    }
+  });
+}
+
+function updateTimelineTrack(val) {
+  const slider = document.getElementById('tl-slider');
+  const pct = ((val - 7) / (365 - 7) * 100).toFixed(1);
+  slider.style.setProperty('--pct', pct + '%');
+}
+
+function onTimelineSlider(val) {
+  timelineDays = +val;
+  timelineEnabled = true;
+  const bar = document.getElementById('timeline-bar');
+  bar.classList.remove('tl-off');
+  const label = timelineDays >= 365 ? 'Rok' : timelineDays >= 30 ? `${Math.round(timelineDays/30)} mies.` : `${timelineDays} dni`;
+  document.getElementById('tl-label').textContent = label;
+  document.getElementById('tl-toggle').textContent = 'Pokaż wszystkie';
+  updateTimelineTrack(timelineDays);
+  filterMarkers();
+}
+
+function toggleTimeline() {
+  timelineEnabled = !timelineEnabled;
+  const bar = document.getElementById('timeline-bar');
+  if (timelineEnabled) {
+    bar.classList.remove('tl-off');
+    document.getElementById('tl-toggle').textContent = 'Pokaż wszystkie';
+  } else {
+    bar.classList.add('tl-off');
+    document.getElementById('tl-toggle').textContent = 'Włącz filtr';
+  }
+  filterMarkers();
+}
+
 /* ─── TOAST ─────────────────────────────────────────────── */
 let toastTimer;
 function showToast(html) {
@@ -607,6 +708,8 @@ function showToast(html) {
   });
   incidents.forEach(createMarker);
   map.addLayer(clusterGroup);
+  updateTimelineTrack(timelineDays);
+  filterMarkers();
   if (reviewMode) {
     document.getElementById('review-panel').style.display = 'block';
     showToast('<i class="fa-solid fa-eye"></i> Tryb review: widoczni kandydaci do zatwierdzenia');
