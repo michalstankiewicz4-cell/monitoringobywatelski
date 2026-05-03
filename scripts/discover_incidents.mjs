@@ -4,6 +4,16 @@ import crypto from 'node:crypto';
 
 const PENDING_PATH = 'data/pending_incidents.json';
 const APPROVED_PATH = 'data/approved_incidents.json';
+const SEARCH_PHRASES_PATH = 'data/search_phrases.txt';
+
+const DEFAULT_PHRASES = [
+  'policja wypadek',
+  'policyjny wypadek',
+  'radiowoz wypadek',
+  'policja kolizja',
+  'radiowoz kolizja',
+  'policja potracenie'
+];
 
 const CITY_COORDS = {
   'Warszawa': [52.2298, 21.0118],
@@ -125,13 +135,30 @@ function safeArray(filePath) {
     .catch(() => []);
 }
 
+async function loadSearchPhrases() {
+  if (!existsSync(SEARCH_PHRASES_PATH)) return DEFAULT_PHRASES;
+  try {
+    const raw = await readFile(SEARCH_PHRASES_PATH, 'utf8');
+    const phrases = raw
+      .split(/\r?\n/)
+      .map((line) => line.trim())
+      .filter((line) => line && !line.startsWith('#'));
+    return phrases.length ? phrases : DEFAULT_PHRASES;
+  } catch {
+    return DEFAULT_PHRASES;
+  }
+}
+
 function buildId(url, title) {
   const hash = crypto.createHash('sha1').update(`${url}|${title}`).digest('hex').slice(0, 12);
   return `auto_${hash}`;
 }
 
-async function fetchArticles() {
-  const query = encodeURIComponent('(policja OR policyjny OR radiowoz) AND (wypadek OR kolizja OR potrącenie OR potracenie) sourcecountry:PL');
+async function fetchArticles(searchPhrases) {
+  const phraseQuery = searchPhrases
+    .map((p) => `"${p}"`)
+    .join(' OR ');
+  const query = encodeURIComponent(`(${phraseQuery}) sourcecountry:PL`);
   const url = `https://api.gdeltproject.org/api/v2/doc/doc?query=${query}&mode=ArtList&maxrecords=75&format=json&sort=DateDesc`;
   const response = await fetch(url, {
     headers: {
@@ -150,10 +177,12 @@ async function fetchArticles() {
 }
 
 async function main() {
+  const searchPhrases = await loadSearchPhrases();
+
   const [pending, approved, articles] = await Promise.all([
     safeArray(PENDING_PATH),
     safeArray(APPROVED_PATH),
-    fetchArticles()
+    fetchArticles(searchPhrases)
   ]);
 
   const knownUrls = new Set([

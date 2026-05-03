@@ -1,0 +1,12 @@
+# Jedna fraza na linię.
+# Puste linie i linie zaczynające się od # są ignorowane.
+# Frazy są łączone jako OR i używane w workflow discover.
+
+policja wypadek
+policyjny wypadek
+radiowoz wypadek
+policja kolizja
+radiowoz kolizja
+policja potrącenie
+pościg policji wypadek
+interwencja policji wypadek
