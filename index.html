@@ -1111,6 +1111,9 @@ async function submitApprovedToGitHub() {
     const data = await response.json();
 
     if (response.ok) {
+      // Usuń zatwierdzone artykuły z listy pending — nie wracają do tabeli
+      const approvedIds = new Set(ids);
+      pendingReviewIncidents = pendingReviewIncidents.filter(i => !approvedIds.has(i.id));
       reviewQueue.clear();
       rejectedIds.clear();
       localStorage.setItem('rejectedIds', JSON.stringify([]));
