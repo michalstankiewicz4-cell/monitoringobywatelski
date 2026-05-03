@@ -649,28 +649,31 @@ async function loadPendingReviewIncidents() {
 }
 
 /* ─── SOURCE FILTER ──────────────────────────────────── */
-function getDomain(url) {
-  try { return new URL(url).hostname.replace(/^www\./, ''); }
-  catch { return url; }
+function getSourceKey(s) {
+  // prefer human-readable name; fallback to stripped domain
+  if (s.name && s.name.trim() && s.name !== 'Artykuł') return s.name.trim();
+  try { return new URL(s.url).hostname.replace(/^www\./, ''); }
+  catch { return s.url || 'Nieznane'; }
 }
 
 function buildSourcePanel() {
   const counts = new Map();
   incidents.forEach(inc => {
     (inc.sources || []).forEach(s => {
-      if (!s.url) return;
-      const d = getDomain(s.url);
-      counts.set(d, (counts.get(d) || 0) + 1);
+      if (!s.url && !s.name) return;
+      const key = getSourceKey(s);
+      counts.set(key, (counts.get(key) || 0) + 1);
     });
   });
   const top = [...counts.entries()].sort((a,b) => b[1] - a[1]).slice(0, 15);
   const panel = document.getElementById('source-panel');
   if (!top.length) { panel.style.display = 'none'; return; }
   panel.style.display = 'block';
-  document.getElementById('source-chips').innerHTML = top.map(([domain, count]) => {
-    const safe = domain.replace(/"/g, '&quot;').replace(/'/g, '\'');
-    return `<button class="src-chip" data-domain="${safe}" onclick="toggleSourceFilter('${safe}')">
-      <span>${domain}</span><span class="src-count">${count}</span>
+  document.getElementById('source-chips').innerHTML = top.map(([key, count]) => {
+    const safeAttr = key.replace(/"/g, '&quot;');
+    const safeJs   = key.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+    return `<button class="src-chip" data-domain="${safeAttr}" onclick="toggleSourceFilter('${safeJs}')">
+      <span>${key.replace(/</g,'&lt;')}</span><span class="src-count">${count}</span>
     </button>`;
   }).join('');
 }
@@ -739,8 +742,8 @@ function filterMarkers() {
     if (timelineEnabled && !isNaN(ts) && ts < cutoffMs) return;
     // source filter (only if at least one chip selected)
     if (activeSourceFilter.size > 0) {
-      const domains = (inc.sources || []).map(s => getDomain(s.url));
-      if (!domains.some(d => activeSourceFilter.has(d))) return;
+      const keys = (inc.sources || []).map(s => getSourceKey(s));
+      if (!keys.some(k => activeSourceFilter.has(k))) return;
     }
     clusterGroup.addLayer(m);
   });
