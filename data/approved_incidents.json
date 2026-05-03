@@ -1,5 +1,27 @@
 [
   {
+    "id": "auto_1637f9030b36",
+    "title": "Pościg i kolizja w Szczytnie. Zatrzymany motocyklista to policjant",
+    "type": "crash",
+    "severity": 2,
+    "date": "2026-05-03T10:02:46.345Z",
+    "desc": "Automatycznie wykryte zgłoszenie. Lokalizacja orientacyjna: Olsztyn.",
+    "lat": 53.7784,
+    "lng": 20.4801,
+    "sources": [
+      {
+        "name": "Radio Olsztyn",
+        "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxPQ2p0ZXJQZlh4eEw0NEp2c2FEemhlVHJtZE1YNS10Nm1tTGpfVFgwOUlQajR0Z0xFNzNjUFhsNVE3czZPOXZKc09JTVdfUF9JWmZVNWVXVWMzN1k1R3ZMbHlTWmEtajhLakJjbFZIZU85QzhvbVBKeW1WelVSbzBRSy1DN3pwLVo5bERiNjBYSGpGS0lPN2s0eGFkVk1SSzA?oc=5"
+      }
+    ],
+    "city": "Olsztyn",
+    "needsReview": false,
+    "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxPQ2p0ZXJQZlh4eEw0NEp2c2FEemhlVHJtZE1YNS10Nm1tTGpfVFgwOUlQajR0Z0xFNzNjUFhsNVE3czZPOXZKc09JTVdfUF9JWmZVNWVXVWMzN1k1R3ZMbHlTWmEtajhLakJjbFZIZU85QzhvbVBKeW1WelVSbzBRSy1DN3pwLVo5bERiNjBYSGpGS0lPN2s0eGFkVk1SSzA?oc=5",
+    "collectedAt": "2026-05-03T10:02:46.345Z",
+    "approvedAt": "2026-05-03T10:26:24.419Z",
+    "approvedBy": "manual-review"
+  },
+  {
     "id": "auto_216d7b4bf060",
     "title": "Wypadek radiowozu w Małopolsce. Policjanci trafili do szpitala",
     "type": "crash",
