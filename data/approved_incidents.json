@@ -1,5 +1,27 @@
 [
   {
+    "id": "auto_bb80ff2d4ef1",
+    "title": "Policjanci ścigali pijanego kierowcę. Stało się coś złego. Dramatyczne sceny w Kielcach",
+    "type": "crash",
+    "severity": 1,
+    "date": "2026-05-03T13:40:30.320Z",
+    "desc": "Automatycznie wykryte zgłoszenie. Lokalizacja orientacyjna: Polska (lokalizacja nieznana).",
+    "lat": 52.1,
+    "lng": 19.4,
+    "sources": [
+      {
+        "name": "Fakt",
+        "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxPamFnZ2luZ1VqZDljVHUtZEFKY3NkbmxVMDF5QllYaGRzSms4alMtMk9ieEw4dVpnN2xKeUE0V1dYUzE0VGYxT1ZwMjdGcDVJSUYtSWlfS1NUOHI4eGhNX2t4Z0JONmc5WUQxRll3TG4tZXBTWHFrT0RaOV9sVzlLRkViN1RaWlZramM2ancyc0VMdWhQWGpqbmVqYlJITWZrNXN0Sk1SWURCUTliX19CQlFWRQ?oc=5"
+      }
+    ],
+    "city": null,
+    "needsReview": false,
+    "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxPamFnZ2luZ1VqZDljVHUtZEFKY3NkbmxVMDF5QllYaGRzSms4alMtMk9ieEw4dVpnN2xKeUE0V1dYUzE0VGYxT1ZwMjdGcDVJSUYtSWlfS1NUOHI4eGhNX2t4Z0JONmc5WUQxRll3TG4tZXBTWHFrT0RaOV9sVzlLRkViN1RaWlZramM2ancyc0VMdWhQWGpqbmVqYlJITWZrNXN0Sk1SWURCUTliX19CQlFWRQ?oc=5",
+    "collectedAt": "2026-05-03T13:40:30.320Z",
+    "approvedAt": "2026-05-03T16:55:36.316Z",
+    "approvedBy": "michalstankiewicz4-cell"
+  },
+  {
     "id": "auto_1637f9030b36",
     "title": "Pościg i kolizja w Szczytnie. Zatrzymany motocyklista to policjant",
     "type": "crash",
