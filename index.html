@@ -434,13 +434,6 @@ function showToast(html) {
   toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
 }
 
-/* ─── KEYBOARD ──────────────────────────────────────────── */
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') closeModal();
-  if (e.key === 'Enter' && document.getElementById('modal-overlay').classList.contains('show')) saveIncident();
-});
-document.getElementById('modal-overlay').addEventListener('click', e => { if (e.target === e.currentTarget) closeModal(); });
-
 /* ─── INIT ──────────────────────────────────────────────── */
 (async () => {
   await loadApprovedIncidents();
