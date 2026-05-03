@@ -240,10 +240,16 @@
       100% { width: 36px; height: 36px; opacity: 0; }
     }
     /* colors per type */
-    .pm-crash .dot  { background: var(--accent); box-shadow: 0 0 8px var(--accent); }
-    .pm-crash .ring { border: 2px solid var(--accent); }
-    .pm-other .dot  { background: var(--accent3); box-shadow: 0 0 8px var(--accent3); }
-    .pm-other .ring { border: 2px solid var(--accent3); }
+    .pm-crash        .dot  { background: var(--accent); box-shadow: 0 0 8px var(--accent); }
+    .pm-crash        .ring { border: 2px solid var(--accent); }
+    .pm-interwencja  .dot  { background: #f4c430; box-shadow: 0 0 8px #f4c430; }
+    .pm-interwencja  .ring { border: 2px solid #f4c430; }
+    .pm-strzelanina  .dot  { background: #9b59b6; box-shadow: 0 0 8px #9b59b6; }
+    .pm-strzelanina  .ring { border: 2px solid #9b59b6; }
+    .pm-napasc       .dot  { background: #ff6b35; box-shadow: 0 0 8px #ff6b35; }
+    .pm-napasc       .ring { border: 2px solid #ff6b35; }
+    .pm-other        .dot  { background: var(--accent3); box-shadow: 0 0 8px var(--accent3); }
+    .pm-other        .ring { border: 2px solid var(--accent3); }
     .pm-pending .dot  { background: #7db4ff; box-shadow: 0 0 8px #7db4ff; }
     .pm-pending .ring { border: 2px solid #7db4ff; }
     .pm-special .dot  { background: #111; box-shadow: 0 0 10px #000, 0 0 4px #fff4; border: 1.5px solid #fff8; }
@@ -313,9 +319,11 @@
     #legend .legend-sub { font-size: .65rem; text-transform: uppercase; letter-spacing: .07em; color: var(--text2); margin-bottom: 5px; margin-top: 2px; }
     .legend-item { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
     .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
-    .ld-crash { background: var(--accent); box-shadow: 0 0 5px var(--accent); }
-
-    .ld-other   { background: var(--accent3); box-shadow: 0 0 5px var(--accent3); }
+    .ld-crash        { background: var(--accent);  box-shadow: 0 0 5px var(--accent); }
+    .ld-interwencja  { background: #f4c430;         box-shadow: 0 0 5px #f4c430; }
+    .ld-strzelanina  { background: #9b59b6;         box-shadow: 0 0 5px #9b59b6; }
+    .ld-napasc       { background: #ff6b35;         box-shadow: 0 0 5px #ff6b35; }
+    .ld-other        { background: var(--accent3);  box-shadow: 0 0 5px var(--accent3); }
     .ld-pending  { background: #7db4ff; box-shadow: 0 0 5px #7db4ff; }
     .ld-special  { background: #111; box-shadow: 0 0 4px #fff6; border: 1.5px solid #888; }
     /* mini animated ring for legend */
@@ -399,6 +407,9 @@
 
       <div class="legend-sub">Typ zdarzenia</div>
       <div class="legend-item"><div class="legend-dot ld-crash"></div> Wypadek drogowy</div>
+      <div class="legend-item"><div class="legend-dot ld-interwencja"></div> Interwencja policyjna</div>
+      <div class="legend-item"><div class="legend-dot ld-strzelanina"></div> Strzelanina</div>
+      <div class="legend-item"><div class="legend-dot ld-napasc"></div> Napaść</div>
       <div class="legend-item"><div class="legend-dot ld-other"></div> Inne zdarzenie</div>
       <div class="legend-item"><div class="legend-dot ld-pending"></div> Do zatwierdzenia</div>
       <div class="legend-item"><div class="legend-dot ld-special"></div> Wyjątkowe (admin)</div>
@@ -535,8 +546,8 @@ document.documentElement.setAttribute('data-theme', currentTheme);
 
 
 /* ─── MARKER ─────────────────────────────────────────────── */
-const typeIcons  = { crash:'car-burst', other:'circle-exclamation', special:'star' };
-const typeLabels = { crash:'Wypadek', other:'Inne', special:'Wyjątkowe' };
+const typeIcons  = { crash:'car-burst', interwencja:'shield-halved', strzelanina:'gun', napasc:'hand-fist', other:'circle-exclamation', special:'star' };
+const typeLabels = { crash:'Wypadek', interwencja:'Interwencja', strzelanina:'Strzelanina', napasc:'Napaść', other:'Inne', special:'Wyjątkowe' };
 
 function rebuildIncidents() {
   incidents = [...approvedIncidents, ...pendingReviewIncidents];
