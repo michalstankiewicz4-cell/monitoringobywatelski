@@ -986,5 +986,26 @@ function showToast(html) {
   <img src="Badge_of_Polish_Police.png" alt="Policja" style="height:52px;width:auto;">
   <img src="Państwowe_Ratownictwo_Medyczne.png" alt="Ratownictwo Medyczne" style="height:52px;width:auto;mix-blend-mode:multiply;">
 </div>
+
+<div id="support-btn" title="Wsparcie" onclick="document.getElementById('support-popup').classList.toggle('sp-visible')" style="position:fixed;bottom:16px;left:16px;z-index:2000;width:40px;height:40px;border-radius:50%;background:rgba(30,30,40,.82);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.4);">
+  <i class="fa-solid fa-circle-info" style="font-size:18px;color:#7db4ff;"></i>
+</div>
+
+<div id="support-popup" style="position:fixed;bottom:66px;left:16px;z-index:2001;max-width:290px;background:rgba(22,22,32,.95);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.15);border-radius:12px;padding:14px 16px;font-size:.82rem;line-height:1.6;color:#dde;box-shadow:0 4px 20px rgba(0,0,0,.5);display:none;">
+  <button onclick="document.getElementById('support-popup').classList.remove('sp-visible')" style="position:absolute;top:8px;right:10px;background:none;border:none;color:#aaa;cursor:pointer;font-size:14px;">✕</button>
+  <p style="margin:0 0 8px;font-weight:600;color:#7db4ff;">Wsparcie 💙</p>
+  <p style="margin:0 0 6px;">Witaj! Jeżeli podoba Ci się moja praca, możesz dać wsparcie:</p>
+  <p style="margin:0 0 4px;"><b>BLIK:</b> <span style="font-family:monospace;color:#fff;">797-486-355</span></p>
+  <p style="margin:0 0 4px;"><b>Przelew:</b><br>
+    Michał Stankiewicz<br>
+    02-585 Warszawa<br>
+    PKO BP<br>
+    <span style="font-family:monospace;font-size:.78rem;color:#fff;">PL55 1020 1097 0000 7902 0226 5353</span>
+  </p>
+  <p style="margin:4px 0 0;">Tytułem: <span style="font-family:monospace;color:#fff;">"inspiracja"</span></p>
+</div>
+<style>
+  #support-popup.sp-visible { display:block !important; }
+</style>
 </body>
 </html>
