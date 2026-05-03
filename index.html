@@ -480,6 +480,19 @@
     }
     #tl-sep { color: var(--border); user-select: none; }
 
+    @media (max-width: 600px) {
+      #timeline-bar {
+        bottom: 12px; left: 8px; right: 8px;
+        transform: none;
+        flex-wrap: wrap; justify-content: center;
+        gap: 6px; padding: 8px 12px;
+        border-radius: 16px;
+      }
+      #tl-slider { width: calc(100vw - 80px); min-width: 120px; }
+      #tl-sep { display: none; }
+      #tl-label { min-width: 60px; }
+    }
+
     /* Incident tooltip (hover) */
     .incident-tooltip {
       background: var(--tip-bg) !important;
