@@ -108,10 +108,10 @@
     /* ── REVIEW PANEL ──────────────────────────────────────── */
     #review-panel {
       position: fixed; bottom: 24px; right: 24px;
-      width: 340px;
+      width: 340px; max-height: calc(100vh - 48px); overflow-y: auto;
       background: var(--panel); border: 1px solid var(--border);
       border-radius: 14px; padding: 16px 18px;
-      box-shadow: var(--shadow); z-index: 800;
+      box-shadow: var(--shadow); z-index: 2100;
       font-family: 'Inter', sans-serif;
     }
     #review-panel h3 {
@@ -514,6 +514,13 @@ let clusterGroup = null;
 let rejectedIds      = new Set(JSON.parse(localStorage.getItem('rejectedIds') || '[]'));
 let activeSourceFilter = new Set(); // empty = show all
 const reviewMode = new URLSearchParams(window.location.search).get('review') === '1';
+
+// Pokaż panel review natychmiast po parsowaniu, nie czekaj na async
+if (reviewMode) {
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('review-panel').style.display = 'block';
+  });
+}
 
 /* ─── MAP INIT ──────────────────────────────────────────── */
 const POLAND_BOUNDS = L.latLngBounds(
