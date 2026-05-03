@@ -1,5 +1,6 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
+import { execSync } from 'node:child_process';
 
 const PENDING_PATH = 'data/pending_incidents.json';
 const APPROVED_PATH = 'data/approved_incidents.json';
@@ -60,6 +61,23 @@ async function main() {
   ]);
 
   console.log(`Approved ${promoted.length} incidents, remaining pending: ${remaining.length}`);
+
+  // Jeśli nie jesteśmy w CI (GitHub Actions robi push sam przez workflow),
+  // commituj i pushuj lokalnie.
+  if (!process.env.GITHUB_ACTIONS) {
+    try {
+      execSync(`git add ${PENDING_PATH} ${APPROVED_PATH}`, { stdio: 'inherit' });
+      execSync(
+        `git commit -m "Approve incidents: ${ids.join(', ')}"`,
+        { stdio: 'inherit' }
+      );
+      execSync('git push origin main', { stdio: 'inherit' });
+      console.log('Zmiany wysłane na GitHub.');
+    } catch (err) {
+      console.error('git push nieudany:', err.message);
+      process.exit(1);
+    }
+  }
 }
 
 main().catch((error) => {
