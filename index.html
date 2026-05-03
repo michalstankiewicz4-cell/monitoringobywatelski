@@ -758,8 +758,8 @@ function clearReview() {
 
 function switchReviewTab(tab) {
   const isApprove = tab === 'approve';
-  document.getElementById('tab-pane-approve').style.display = isApprove ? '' : 'none';
-  document.getElementById('tab-pane-manage').style.display  = isApprove ? 'none' : '';
+  document.getElementById('tab-pane-approve').style.display = isApprove ? 'block' : 'none';
+  document.getElementById('tab-pane-manage').style.display  = isApprove ? 'none' : 'block';
   document.getElementById('tab-approve').className = 'rv-tab' + (isApprove ? ' active-approve' : '');
   document.getElementById('tab-manage').className  = 'rv-tab' + (!isApprove ? ' active-manage' : '');
 }
