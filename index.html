@@ -662,14 +662,49 @@ async function sha256(str) {
 async function checkAdminAuth() {
   const stored = sessionStorage.getItem('admin_auth');
   if (stored === ADMIN_PASSWORD_HASH) return true;
+
+  // Blokada po 3 nieudanych próbach (zapisana w localStorage)
+  const LOCKOUT_MS = 30 * 60 * 1000; // 30 minut
+  const MAX_ATTEMPTS = 3;
+
+  const lockoutUntil = parseInt(localStorage.getItem('admin_lockout_until') || '0');
+  const attempts = parseInt(localStorage.getItem('admin_attempts') || '0');
+
+  if (Date.now() < lockoutUntil) {
+    const remaining = Math.ceil((lockoutUntil - Date.now()) / 60000);
+    alert(`Zbyt wiele nieudanych prób. Spróbuj ponownie za ${remaining} min.`);
+    return false;
+  }
+
+  // Reset po upłynięciu blokady
+  if (Date.now() >= lockoutUntil && attempts >= MAX_ATTEMPTS) {
+    localStorage.removeItem('admin_attempts');
+    localStorage.removeItem('admin_lockout_until');
+  }
+
   const pwd = prompt('Hasło panelu administracyjnego:');
   if (!pwd) return false;
   const hash = await sha256(pwd);
+
   if (hash === ADMIN_PASSWORD_HASH) {
+    localStorage.removeItem('admin_attempts');
+    localStorage.removeItem('admin_lockout_until');
     sessionStorage.setItem('admin_auth', hash);
     return true;
   }
-  alert('Nieprawidłowe hasło.');
+
+  // Nieprawidłowe hasło — zwiększ licznik
+  const newAttempts = attempts + 1;
+  const remaining = MAX_ATTEMPTS - newAttempts;
+  localStorage.setItem('admin_attempts', String(newAttempts));
+
+  if (newAttempts >= MAX_ATTEMPTS) {
+    localStorage.setItem('admin_lockout_until', String(Date.now() + LOCKOUT_MS));
+    alert('Nieprawidłowe hasło. Przekroczono limit prób — dostęp zablokowany na 30 minut.');
+  } else {
+    alert(`Nieprawidłowe hasło. Pozostało prób: ${remaining}.`);
+  }
+
   return false;
 }
 
