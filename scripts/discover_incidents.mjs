@@ -12,8 +12,29 @@ const DEFAULT_PHRASES = [
   'radiowoz wypadek',
   'policja kolizja',
   'radiowoz kolizja',
-  'policja potracenie'
+  'policja potracenie',
+  'policja przestepstwo',
+  'policjant przestepstwo',
+  'policjant oskarzony',
+  'oskarzony policjant',
+  'policjant spowodowal',
+  'policjant zatrzymany',
+  'policjant napasc',
+  'policjant strzelal'
 ];
+
+const WARSAW_DAY_FORMATTER = new Intl.DateTimeFormat('en-CA', {
+  timeZone: 'Europe/Warsaw',
+  year: 'numeric',
+  month: '2-digit',
+  day: '2-digit'
+});
+
+const WARSAW_HOUR_FORMATTER = new Intl.DateTimeFormat('en-GB', {
+  timeZone: 'Europe/Warsaw',
+  hour: '2-digit',
+  hour12: false
+});
 
 const CITY_COORDS = {
   'Warszawa': [52.2298, 21.0118],
@@ -102,6 +123,15 @@ function determineSeverity(text) {
   return 1;
 }
 
+function determineType(text) {
+  const value = stripDiacritics(text.toLowerCase());
+  if (/(strzelan|strzal|postrzel|bron palna)/.test(value)) return 'strzelanina';
+  if (/(napasc|napadl|atak|pobil|pobicie|agresj)/.test(value)) return 'napasc';
+  if (/(wypadk|kolizj|potrac|zderzen|karambol|rozbil|uderz)/.test(value)) return 'crash';
+  if (/(poscig|zatrzyman|interwencj|przestepstw|narkotyk|korupcj|uciekal|aresztowan)/.test(value)) return 'interwencja';
+  return 'other';
+}
+
 function pickCity(text) {
   const normalized = stripDiacritics(text);
   const entries = Object.entries(CITY_ALIASES).sort((a, b) => b[0].length - a[0].length);
@@ -130,6 +160,24 @@ function toIsoDate(raw) {
   const parsed = new Date(raw);
   if (!isNaN(parsed.getTime())) return parsed.toISOString();
   return new Date().toISOString();
+}
+
+function toWarsawDayKey(raw) {
+  const date = raw ? new Date(toIsoDate(raw)) : new Date();
+  return WARSAW_DAY_FORMATTER.format(date);
+}
+
+function getYesterdayWarsawDayKey() {
+  const todayKey = toWarsawDayKey();
+  const [year, month, day] = todayKey.split('-').map(Number);
+  const warsawCalendarDate = new Date(Date.UTC(year, month - 1, day));
+  warsawCalendarDate.setUTCDate(warsawCalendarDate.getUTCDate() - 1);
+  return warsawCalendarDate.toISOString().slice(0, 10);
+}
+
+function shouldRunScheduledPublish() {
+  if (process.env.GITHUB_EVENT_NAME !== 'schedule') return true;
+  return WARSAW_HOUR_FORMATTER.format(new Date()) === '08';
 }
 
 function safeArray(filePath) {
@@ -162,7 +210,7 @@ async function fetchGoogleNewsArticles(searchPhrases) {
   const results = [];
   // Bierzemy tylko polskie frazy — Google News PL dobrze je indeksuje
   const plPhrases = searchPhrases.filter(p => /[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]/.test(p) && !/poland/i.test(p));
-  for (const phrase of plPhrases.slice(0, 5)) {
+  for (const phrase of plPhrases) {
     const q = encodeURIComponent(phrase);
     const url = `https://news.google.com/rss/search?q=${q}&hl=pl&gl=PL&ceid=PL:pl`;
     try {
@@ -219,21 +267,28 @@ async function fetchArticles(searchPhrases) {
 }
 
 async function main() {
-  const searchPhrases = await loadSearchPhrases();
+  if (!shouldRunScheduledPublish()) {
+    console.log('Skipping run outside 08:00 Europe/Warsaw window.');
+    return;
+  }
 
-  const [pending, approved, gdeltArticles, gnewsArticles] = await Promise.all([
+  const searchPhrases = await loadSearchPhrases();
+  const targetDayKey = getYesterdayWarsawDayKey();
+
+  const [pending, approved, gnewsArticles] = await Promise.all([
     safeArray(PENDING_PATH),
     safeArray(APPROVED_PATH),
-    fetchArticles(searchPhrases),
     fetchGoogleNewsArticles(searchPhrases)
   ]);
 
-  if (gdeltArticles === null && !gnewsArticles.length) {
+  if (!gnewsArticles.length) {
     console.log('discover_ok');
     process.exit(0);
   }
 
-  const articles = [...(gdeltArticles || []), ...gnewsArticles];
+  // Daily auto-publish relies on Google News RSS because pubDate maps to an actual
+  // publication date, while GDELT seendate is only a crawl/seen timestamp.
+  const articles = gnewsArticles;
 
   const knownUrls = new Set([
     ...pending.map((x) => x.url),
@@ -247,18 +302,23 @@ async function main() {
     const url = article.url;
     if (!title || !url || knownUrls.has(url)) continue;
 
+    if (toWarsawDayKey(article.seendate) !== targetDayKey) continue;
+
     const haystack = `${title} ${article.seendate || ''} ${article.domain || ''}`;
     const cityKey = pickCity(haystack);
-    const coords = cityKey ? CITY_COORDS[cityKey] : [52.1, 19.4]; // fallback: centrum Polski
-    const displayCity = cityKey || 'Polska (lokalizacja nieznana)';
+    if (!cityKey) continue;
+
+    const coords = CITY_COORDS[cityKey];
+    const displayCity = cityKey;
 
     const severity = determineSeverity(title);
+    const type = determineType(title);
     const id = buildId(url, title);
 
     additions.push({
       id,
       title,
-      type: 'crash',
+      type,
       severity,
       date: toIsoDate(article.seendate),
       desc: `Automatycznie wykryte zgłoszenie. Lokalizacja orientacyjna: ${displayCity}.`,
@@ -270,27 +330,29 @@ async function main() {
           url
         }
       ],
-      city: cityKey || null,
-      needsReview: true,
+      city: cityKey,
+      needsReview: false,
       url,
-      collectedAt: new Date().toISOString()
+      collectedAt: new Date().toISOString(),
+      approvedAt: new Date().toISOString(),
+      approvedBy: 'daily-automation'
     });
 
     knownUrls.add(url);
   }
 
   if (!additions.length) {
-    console.log('No new incidents discovered.');
+    console.log(`No new incidents discovered for ${targetDayKey}.`);
     return;
   }
 
-  const merged = [...additions, ...pending]
-    .sort((a, b) => new Date(b.date || b.collectedAt) - new Date(a.date || a.collectedAt))
+  const mergedApproved = [...additions, ...approved]
+    .sort((a, b) => new Date(b.date || b.approvedAt || b.collectedAt) - new Date(a.date || a.approvedAt || a.collectedAt))
     .slice(0, 300);
 
-  await writeFile(PENDING_PATH, `${JSON.stringify(merged, null, 2)}\n`, 'utf8');
+  await writeFile(APPROVED_PATH, `${JSON.stringify(mergedApproved, null, 2)}\n`, 'utf8');
 
-  console.log(`Discovered ${additions.length} new candidate incidents.`);
+  console.log(`Published ${additions.length} incidents for ${targetDayKey}.`);
 }
 
 main().catch((error) => {

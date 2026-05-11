@@ -9,17 +9,6 @@
       "cwd": "${workspaceFolder}",
       "console": "integratedTerminal",
       "runtimeArgs": ["--experimental-vm-modules"]
-    },
-    {
-      "name": "Zatwierdź incydenty (approve)",
-      "type": "node",
-      "request": "launch",
-      "program": "${workspaceFolder}/scripts/approve_incidents.mjs",
-      "cwd": "${workspaceFolder}",
-      "console": "integratedTerminal",
-      "env": {
-        "INCIDENT_IDS": ""
-      }
     }
   ]
 }

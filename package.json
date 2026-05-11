@@ -4,7 +4,6 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "discover:incidents": "node scripts/discover_incidents.mjs",
-    "approve:incidents": "node scripts/approve_incidents.mjs"
+    "discover:incidents": "node scripts/discover_incidents.mjs"
   }
 }

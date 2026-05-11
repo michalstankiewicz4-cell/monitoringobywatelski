@@ -6,8 +6,22 @@
 policja wypadek
 radiowoz wypadek
 policja kolizja
-policja potrącenie
+policja potrącił
 pościg policji wypadek
+policja przestępstwo
+policjant przestępstwo
+policjant oskarżony
+oskarżony policjant
+policjant spowodował
+policjant zatrzymany
+policjant napadł
+policjant strzelał
+policjant postrzelił
+przez policjanta
+przez funkcjonariusza
+funkcjonariusz policji przestępstwo
+funkcjonariusz spowodował
+policja interwencja przestępstwo
 
 # Angielskie frazy (szersze pokrycie w GDELT)
 police accident Poland
@@ -15,3 +29,7 @@ police crash Poland
 police car accident Poland
 police pursuit crash Poland
 police collision Poland
+police crime Poland
+police officer arrested Poland
+police officer attack Poland
+police shooting Poland
