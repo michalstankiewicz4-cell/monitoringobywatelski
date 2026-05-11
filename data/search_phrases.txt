@@ -17,6 +17,8 @@ policjant zatrzymany
 policjant napadł
 policjant strzelał
 policjant postrzelił
+policjant popełnił
+funkcjonariusz popełnił
 przez policjanta
 przez funkcjonariusza
 funkcjonariusz policji przestępstwo
