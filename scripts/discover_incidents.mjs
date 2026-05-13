@@ -23,13 +23,6 @@ const DEFAULT_PHRASES = [
   'policjant strzelal'
 ];
 
-const WARSAW_DAY_FORMATTER = new Intl.DateTimeFormat('en-CA', {
-  timeZone: 'Europe/Warsaw',
-  year: 'numeric',
-  month: '2-digit',
-  day: '2-digit'
-});
-
 const WARSAW_HOUR_FORMATTER = new Intl.DateTimeFormat('en-GB', {
   timeZone: 'Europe/Warsaw',
   hour: '2-digit',
@@ -80,29 +73,55 @@ const CITY_COORDS = {
 };
 
 const CITY_ALIASES = {
+  'Warszawa': 'Warszawa',
   'Białystok': 'Bialystok',
   'Łódź': 'Lodz',
   'Łodz': 'Lodz',
   'Wrocław': 'Wroclaw',
+  'Wroclaw': 'Wroclaw',
   'Poznań': 'Poznan',
+  'Poznan': 'Poznan',
   'Gdańsk': 'Gdansk',
-  'Gdynia': 'Gdynia',
+  'Gdansk': 'Gdansk',
   'Szczecin': 'Szczecin',
   'Bydgoszcz': 'Bydgoszcz',
   'Lublin': 'Lublin',
   'Katowice': 'Katowice',
   'Kraków': 'Krakow',
+  'Krakow': 'Krakow',
   'Kielce': 'Kielce',
   'Rzeszów': 'Rzeszow',
+  'Rzeszow': 'Rzeszow',
   'Olsztyn': 'Olsztyn',
   'Opole': 'Opole',
   'Zielona Góra': 'Zielona Gora',
+  'Zielona Gora': 'Zielona Gora',
   'Toruń': 'Torun',
+  'Torun': 'Torun',
   'Częstochowa': 'Czestochowa',
+  'Czestochowa': 'Czestochowa',
   'Bielsko-Biała': 'Bielsko-Biala',
+  'Bielsko-Biala': 'Bielsko-Biala',
   'Nowy Sącz': 'Nowy Sacz',
-  'Ostrowiec Świętokrzyski': 'Ostrowiec Swietokrzyski'
+  'Nowy Sacz': 'Nowy Sacz',
+  'Ostrowiec Świętokrzyski': 'Ostrowiec Swietokrzyski',
+  'Ostrowiec Swietokrzyski': 'Ostrowiec Swietokrzyski',
+  'Tychy': 'Tychy',
+  'Gliwice': 'Gliwice',
+  'Zabrze': 'Zabrze',
+  'Sosnowiec': 'Sosnowiec',
+  'Słupsk': 'Slupsk',
+  'Slupsk': 'Slupsk',
+  'Przemyśl': 'Przemysl',
+  'Przemysl': 'Przemysl',
+  'Suwałki': 'Suwalki',
+  'Suwalki': 'Suwalki',
+  'Gdynia': 'Gdynia'
 };
+
+const CITY_MATCH_ENTRIES = Object.entries(CITY_ALIASES)
+  .concat(Object.keys(CITY_COORDS).map((city) => [city, city]))
+  .sort((a, b) => b[0].length - a[0].length);
 
 function stripDiacritics(text) {
   return text.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
@@ -132,12 +151,36 @@ function determineType(text) {
   return 'other';
 }
 
+function escapeRegex(text) {
+  return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function cityWordToFlexibleRegex(word) {
+  if (!word) return '';
+  if (word.length <= 3) return escapeRegex(word);
+
+  const lower = word.toLowerCase();
+  let stem = lower;
+  if (!/(ow|ew)$/.test(lower) && /[aeiouy]$/.test(lower)) {
+    stem = lower.slice(0, -1);
+  }
+  return `${escapeRegex(stem)}[a-z]{0,6}`;
+}
+
+function buildCityPattern(cityAlias) {
+  const normalized = stripDiacritics(cityAlias.toLowerCase())
+    .replace(/-/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+  const tokens = normalized.split(' ').filter(Boolean);
+  const flexible = tokens.map((token) => cityWordToFlexibleRegex(token)).join('\\s+');
+  return new RegExp(`\\b${flexible}\\b`, 'i');
+}
+
 function pickCity(text) {
-  const normalized = stripDiacritics(text);
-  const entries = Object.entries(CITY_ALIASES).sort((a, b) => b[0].length - a[0].length);
-  for (const [alias, key] of entries) {
-    const aliasNormalized = stripDiacritics(alias);
-    const pattern = new RegExp(`\\b${aliasNormalized.replace(/[.*+?^${}()|[\\]\\]/g, '\\\\$&')}\\b`, 'i');
+  const normalized = stripDiacritics(text.toLowerCase()).replace(/-/g, ' ');
+  for (const [alias, key] of CITY_MATCH_ENTRIES) {
+    const pattern = buildCityPattern(alias);
     if (pattern.test(normalized)) return key;
   }
   return null;
@@ -162,17 +205,12 @@ function toIsoDate(raw) {
   return new Date().toISOString();
 }
 
-function toWarsawDayKey(raw) {
-  const date = raw ? new Date(toIsoDate(raw)) : new Date();
-  return WARSAW_DAY_FORMATTER.format(date);
-}
-
-function getYesterdayWarsawDayKey() {
-  const todayKey = toWarsawDayKey();
-  const [year, month, day] = todayKey.split('-').map(Number);
-  const warsawCalendarDate = new Date(Date.UTC(year, month - 1, day));
-  warsawCalendarDate.setUTCDate(warsawCalendarDate.getUTCDate() - 1);
-  return warsawCalendarDate.toISOString().slice(0, 10);
+function isWithinLastHours(raw, hours) {
+  if (!raw) return false;
+  const timestamp = new Date(toIsoDate(raw)).getTime();
+  if (!Number.isFinite(timestamp)) return false;
+  const ageMs = Date.now() - timestamp;
+  return ageMs >= 0 && ageMs <= hours * 60 * 60 * 1000;
 }
 
 function shouldRunScheduledPublish() {
@@ -273,7 +311,7 @@ async function main() {
   }
 
   const searchPhrases = await loadSearchPhrases();
-  const targetDayKey = getYesterdayWarsawDayKey();
+  const lookbackHours = 48;
 
   const [pending, approved, gnewsArticles] = await Promise.all([
     safeArray(PENDING_PATH),
@@ -302,7 +340,7 @@ async function main() {
     const url = article.url;
     if (!title || !url || knownUrls.has(url)) continue;
 
-    if (toWarsawDayKey(article.seendate) !== targetDayKey) continue;
+    if (!isWithinLastHours(article.seendate, lookbackHours)) continue;
 
     const haystack = `${title} ${article.seendate || ''} ${article.domain || ''}`;
     const cityKey = pickCity(haystack);
@@ -342,7 +380,7 @@ async function main() {
   }
 
   if (!additions.length) {
-    console.log(`No new incidents discovered for ${targetDayKey}.`);
+    console.log(`No new incidents discovered in the last ${lookbackHours}h.`);
     return;
   }
 
@@ -352,7 +390,7 @@ async function main() {
 
   await writeFile(APPROVED_PATH, `${JSON.stringify(mergedApproved, null, 2)}\n`, 'utf8');
 
-  console.log(`Published ${additions.length} incidents for ${targetDayKey}.`);
+  console.log(`Published ${additions.length} incidents from the last ${lookbackHours}h.`);
 }
 
 main().catch((error) => {
