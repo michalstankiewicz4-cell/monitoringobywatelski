@@ -1,1 +1,244 @@
-[]
+[
+  {
+    "id": "auto_2e4fe74881eb",
+    "title": "Zderzenie samochodów i busa. Blokada drogi [AKTUALIZACJA]",
+    "type": "crash",
+    "severity": 1,
+    "date": "2026-05-12T19:11:51.000Z",
+    "desc": "Automatycznie wykryte zgłoszenie. Lokalizacja orientacyjna: Poznan.",
+    "lat": 52.4064,
+    "lng": 16.9252,
+    "sources": [
+      {
+        "name": "TVP Poznań",
+        "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxNeWJ5U3NmY0hzSEM3bkkxNF9Nd0h1aExEUEFVZHJ2WnB3NEFxaVNDaVJhMG5DV2JhRGZFTEJ4T1I5b2M1Y0dWQWtGV2lhZ0g4M3A4QnU4MG0yb3NnTjFOc0xmMl9OdV9NRUY5QWZXZVV0WHlpS0dFSmJzamQyTHBDVG9VRW9DcTZCMTUyalYxNVJOYk9KckRXU2hFMXRXeUE?oc=5"
+      }
+    ],
+    "city": "Poznan",
+    "needsReview": false,
+    "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxNeWJ5U3NmY0hzSEM3bkkxNF9Nd0h1aExEUEFVZHJ2WnB3NEFxaVNDaVJhMG5DV2JhRGZFTEJ4T1I5b2M1Y0dWQWtGV2lhZ0g4M3A4QnU4MG0yb3NnTjFOc0xmMl9OdV9NRUY5QWZXZVV0WHlpS0dFSmJzamQyTHBDVG9VRW9DcTZCMTUyalYxNVJOYk9KckRXU2hFMXRXeUE?oc=5",
+    "collectedAt": "2026-05-13T15:44:17.739Z",
+    "approvedAt": "2026-05-13T15:44:17.739Z",
+    "approvedBy": "daily-automation"
+  },
+  {
+    "id": "auto_fa98009eeff8",
+    "title": "Wypadek na DK10 w Cierpicach. Są poszkodowani i utrudnienia [zdjęcia, aktualizacja]",
+    "type": "other",
+    "severity": 1,
+    "date": "2026-05-12T13:16:18.000Z",
+    "desc": "Automatycznie wykryte zgłoszenie. Lokalizacja orientacyjna: Bydgoszcz.",
+    "lat": 53.1235,
+    "lng": 18.0084,
+    "sources": [
+      {
+        "name": "TVP Bydgoszcz",
+        "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxOU25TR2J4RFJkcUxIOGNwb0tnSXJRcFU2MmJia3lYaEZITEQzVXFxbS1GNjR1clEwNUViQzl5RzZwWlZDWl9vTXVYd003Wl9vYjRfX3VyelU5WnJ2VVF0dGRSWGxTdDdUV19ZZEhhOFJIa3loa2wzZi1URFpBcUpDcHA4ZmJZcEVXb3J5QzJvV0QxUkJKa2QzVDMzOA?oc=5"
+      }
+    ],
+    "city": "Bydgoszcz",
+    "needsReview": false,
+    "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxOU25TR2J4RFJkcUxIOGNwb0tnSXJRcFU2MmJia3lYaEZITEQzVXFxbS1GNjR1clEwNUViQzl5RzZwWlZDWl9vTXVYd003Wl9vYjRfX3VyelU5WnJ2VVF0dGRSWGxTdDdUV19ZZEhhOFJIa3loa2wzZi1URFpBcUpDcHA4ZmJZcEVXb3J5QzJvV0QxUkJKa2QzVDMzOA?oc=5",
+    "collectedAt": "2026-05-13T15:44:17.739Z",
+    "approvedAt": "2026-05-13T15:44:17.739Z",
+    "approvedBy": "daily-automation"
+  },
+  {
+    "id": "auto_d4437ef3ab64",
+    "title": "Wiele godzin ustaleń i sprawdzeń. Zielonogórscy policjanci nieustannie namierzają osoby poszukiwane przez wymiar sprawiedliwości",
+    "type": "other",
+    "severity": 1,
+    "date": "2026-05-12T12:40:03.000Z",
+    "desc": "Automatycznie wykryte zgłoszenie. Lokalizacja orientacyjna: Zielona Gora.",
+    "lat": 51.9356,
+    "lng": 15.5062,
+    "sources": [
+      {
+        "name": "KMP Zielona Góra",
+        "url": "https://news.google.com/rss/articles/CBMi9gFBVV95cUxQTU5LTlJtTnE4TlNUTGdKWEs5XzNBLWdPUEpxOWRNOUROeWtGc0pVQUVvM29KU1VjV1lKaktSNjBYX2sxd3lHWHM3Vm5kUjBFRTlMYktsU2VpcW5zSXl6VjU3aVN4MUlWd3F4Y2pPLTFvZTRXOUlCRFVUMEZrWnMzZjVmX2NmUFdIVTRSSHhkcjVhZ0xwUS0wdmJqR2pxT1FaNDEwelg3LUpqZ1l4N1hRLXBHMjR6UjZWOHBwRVJxOEF2ZkZrLXhndjhYVFJMdjM5M2tqVHFQRF91YUlic08zMFpzbDNncTY2MmtXZURIREs3c1ZVLUE?oc=5"
+      }
+    ],
+    "city": "Zielona Gora",
+    "needsReview": false,
+    "url": "https://news.google.com/rss/articles/CBMi9gFBVV95cUxQTU5LTlJtTnE4TlNUTGdKWEs5XzNBLWdPUEpxOWRNOUROeWtGc0pVQUVvM29KU1VjV1lKaktSNjBYX2sxd3lHWHM3Vm5kUjBFRTlMYktsU2VpcW5zSXl6VjU3aVN4MUlWd3F4Y2pPLTFvZTRXOUlCRFVUMEZrWnMzZjVmX2NmUFdIVTRSSHhkcjVhZ0xwUS0wdmJqR2pxT1FaNDEwelg3LUpqZ1l4N1hRLXBHMjR6UjZWOHBwRVJxOEF2ZkZrLXhndjhYVFJMdjM5M2tqVHFQRF91YUlic08zMFpzbDNncTY2MmtXZURIREs3c1ZVLUE?oc=5",
+    "collectedAt": "2026-05-13T15:44:17.749Z",
+    "approvedAt": "2026-05-13T15:44:17.749Z",
+    "approvedBy": "daily-automation"
+  },
+  {
+    "id": "auto_51d06502d2b1",
+    "title": "Policjant",
+    "type": "other",
+    "severity": 1,
+    "date": "2026-05-12T11:46:54.000Z",
+    "desc": "Automatycznie wykryte zgłoszenie. Lokalizacja orientacyjna: Lublin.",
+    "lat": 51.2465,
+    "lng": 22.5684,
+    "sources": [
+      {
+        "name": "Jawny Lublin",
+        "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxQZXZoQ0dSZTdyUXlLYTF2SWhuX05odEVCOXczUW1FZTFQRkJqNzhfMWZsbmdGNmVQRVpBNDB3TmFoRkpjMnp5SlU2UE5UcVpKeTRRM2RVLVBLNTN2UFJNa1FrMTBlSFRiOG1YcElTaW02a0NyanlUV2Q4bjVnSU8ycFM2cU9JdmM5NlVTb2V1YTA3bE5wbDY2U2NUZWZhaUF0YmhUYjFHYmxGNFl5bFk4UWZ3?oc=5"
+      }
+    ],
+    "city": "Lublin",
+    "needsReview": false,
+    "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxQZXZoQ0dSZTdyUXlLYTF2SWhuX05odEVCOXczUW1FZTFQRkJqNzhfMWZsbmdGNmVQRVpBNDB3TmFoRkpjMnp5SlU2UE5UcVpKeTRRM2RVLVBLNTN2UFJNa1FrMTBlSFRiOG1YcElTaW02a0NyanlUV2Q4bjVnSU8ycFM2cU9JdmM5NlVTb2V1YTA3bE5wbDY2U2NUZWZhaUF0YmhUYjFHYmxGNFl5bFk4UWZ3?oc=5",
+    "collectedAt": "2026-05-13T15:44:17.767Z",
+    "approvedAt": "2026-05-13T15:44:17.767Z",
+    "approvedBy": "daily-automation"
+  },
+  {
+    "id": "auto_491a481b2406",
+    "title": "Wiadomości",
+    "type": "other",
+    "severity": 1,
+    "date": "2026-05-12T09:57:00.000Z",
+    "desc": "Automatycznie wykryte zgłoszenie. Lokalizacja orientacyjna: Bialystok.",
+    "lat": 53.1325,
+    "lng": 23.1688,
+    "sources": [
+      {
+        "name": "Polskie Radio Białystok",
+        "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE8zSkJkdmRNSDMyUmh4WTR0cFZmdmpTc3YyNUk1dlpkLTNQTUpOUmc4aURmeUdqcUlfV3lNUTBGRXBLbDN5R08yRGpPNWh3c1V5OElnb2lSQkEzRW52Z2FKY292Q3dLaXEw?oc=5"
+      }
+    ],
+    "city": "Bialystok",
+    "needsReview": false,
+    "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE8zSkJkdmRNSDMyUmh4WTR0cFZmdmpTc3YyNUk1dlpkLTNQTUpOUmc4aURmeUdqcUlfV3lNUTBGRXBLbDN5R08yRGpPNWh3c1V5OElnb2lSQkEzRW52Z2FKY292Q3dLaXEw?oc=5",
+    "collectedAt": "2026-05-13T15:44:17.757Z",
+    "approvedAt": "2026-05-13T15:44:17.757Z",
+    "approvedBy": "daily-automation"
+  },
+  {
+    "id": "auto_55aab76c26a5",
+    "title": "Wypadek na DK10 między Bydgoszczą a Toruniem. Droga całkowicie zablokowana",
+    "type": "other",
+    "severity": 1,
+    "date": "2026-05-12T09:48:48.000Z",
+    "desc": "Automatycznie wykryte zgłoszenie. Lokalizacja orientacyjna: Torun.",
+    "lat": 53.0138,
+    "lng": 18.5984,
+    "sources": [
+      {
+        "name": "Radio Gra Toruń 88.8 FM",
+        "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxPZTJaNG9qR2NzbHNyT1lQS1VNR0JBUWZpWnl2UWdLUTNrZ3ZzRFF1Z1o4MGJVQ05ObjR5VWpWT29ROWtsLVA2SllYNmNxOWd1bWtMNUNlUUdyVzQzNDZVVkViWk5fZmwzZk4xTGFQOGlzVVM3QUZDS1VJbDYzbWVHZmh6emNITmVIam9yRGNqaHFta3A4cTZmNw?oc=5"
+      }
+    ],
+    "city": "Torun",
+    "needsReview": false,
+    "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxPZTJaNG9qR2NzbHNyT1lQS1VNR0JBUWZpWnl2UWdLUTNrZ3ZzRFF1Z1o4MGJVQ05ObjR5VWpWT29ROWtsLVA2SllYNmNxOWd1bWtMNUNlUUdyVzQzNDZVVkViWk5fZmwzZk4xTGFQOGlzVVM3QUZDS1VJbDYzbWVHZmh6emNITmVIam9yRGNqaHFta3A4cTZmNw?oc=5",
+    "collectedAt": "2026-05-13T15:44:17.740Z",
+    "approvedAt": "2026-05-13T15:44:17.740Z",
+    "approvedBy": "daily-automation"
+  },
+  {
+    "id": "auto_17f07442bf90",
+    "title": "Tragiczny wypadek pod Lublinem. Policja ujawnia, co stało się w audi",
+    "type": "other",
+    "severity": 1,
+    "date": "2026-05-12T08:57:00.000Z",
+    "desc": "Automatycznie wykryte zgłoszenie. Lokalizacja orientacyjna: Lublin.",
+    "lat": 51.2465,
+    "lng": 22.5684,
+    "sources": [
+      {
+        "name": "Lublin Super Express",
+        "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxNS1czV0tndjFadnBMRVBWczBzb1N4bFprQ0VRWUJpT05mU3ZKMjJsZmo1eHFJY19yc1ZfR2gyVVFjb1I0UVBmMm16aTl3RmpoVGZsYzJfLUpfVWxFbFNKdWZTMktrUVgySlBzVHFLckpEd2pnZXJ6STEzbnRLeTF2Y3pTM2p3VkdFbm1LLXVXU0wyLWs0ajAxVHNORmxpaFdhX3hfTUphWHlTT195S3Zr?oc=5"
+      }
+    ],
+    "city": "Lublin",
+    "needsReview": false,
+    "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxNS1czV0tndjFadnBMRVBWczBzb1N4bFprQ0VRWUJpT05mU3ZKMjJsZmo1eHFJY19yc1ZfR2gyVVFjb1I0UVBmMm16aTl3RmpoVGZsYzJfLUpfVWxFbFNKdWZTMktrUVgySlBzVHFLckpEd2pnZXJ6STEzbnRLeTF2Y3pTM2p3VkdFbm1LLXVXU0wyLWs0ajAxVHNORmxpaFdhX3hfTUphWHlTT195S3Zr?oc=5",
+    "collectedAt": "2026-05-13T15:44:17.737Z",
+    "approvedAt": "2026-05-13T15:44:17.737Z",
+    "approvedBy": "daily-automation"
+  },
+  {
+    "id": "auto_c80fb422f1ef",
+    "title": "Ponad 20 było rannych i ofiara śmiertelna. Policja wskazuje prawdopodobną przyczynę wypadku pod Lublinem",
+    "type": "crash",
+    "severity": 3,
+    "date": "2026-05-12T08:52:00.000Z",
+    "desc": "Automatycznie wykryte zgłoszenie. Lokalizacja orientacyjna: Lublin.",
+    "lat": 51.2465,
+    "lng": 22.5684,
+    "sources": [
+      {
+        "name": "Lublin Radio ESKA",
+        "url": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxQdXp3N240Z2Nyek9CeWtQMmN0Sjc1QlZ3aDhBMkFlbHdSWlF2YVVFRW9ZMnhPd29xX29GNlp0STNoRG9NM2t6bDVIX1owa0Fob29lV1FjTExONEl3NXh0eVNKQVU5UjNfUnM2NWJ1R1BYempxeVpmRkUzTC1NdHdWbTBNX0xPM1ZQcUlhamNlbklNSnEwV0tZR3dwbS16TkdfUmdxMk9XV0oyY2kyQzU5eWFzYnJWZFhmZjcxQVREc1d6UlliaVJQZjkwTXM2TDROVl8xX0V1dks0VUtlOU9nLTR1MA?oc=5"
+      }
+    ],
+    "city": "Lublin",
+    "needsReview": false,
+    "url": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxQdXp3N240Z2Nyek9CeWtQMmN0Sjc1QlZ3aDhBMkFlbHdSWlF2YVVFRW9ZMnhPd29xX29GNlp0STNoRG9NM2t6bDVIX1owa0Fob29lV1FjTExONEl3NXh0eVNKQVU5UjNfUnM2NWJ1R1BYempxeVpmRkUzTC1NdHdWbTBNX0xPM1ZQcUlhamNlbklNSnEwV0tZR3dwbS16TkdfUmdxMk9XV0oyY2kyQzU5eWFzYnJWZFhmZjcxQVREc1d6UlliaVJQZjkwTXM2TDROVl8xX0V1dks0VUtlOU9nLTR1MA?oc=5",
+    "collectedAt": "2026-05-13T15:44:17.741Z",
+    "approvedAt": "2026-05-13T15:44:17.741Z",
+    "approvedBy": "daily-automation"
+  },
+  {
+    "id": "auto_5df060a8a89e",
+    "title": "Wyjaśniamy przyczyny tragicznego wypadku w Konopnicy",
+    "type": "crash",
+    "severity": 2,
+    "date": "2026-05-12T07:50:50.000Z",
+    "desc": "Automatycznie wykryte zgłoszenie. Lokalizacja orientacyjna: Lublin.",
+    "lat": 51.2465,
+    "lng": 22.5684,
+    "sources": [
+      {
+        "name": "KMP Lublin",
+        "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxQUk5CMi1mbTlIVDN3OGJyLVJBTTg3QkVpQXBJTjVDYWxhX2Rzei1uWkt0V0JrVzUza2hYTDMzVWk3cWNQYjVuM0l0dU1JeU81angzS0FEUjlDYVBXWlRHUTNOOUp3R1hmeDhacDM5MThabXpIMVhvVnJIS0JXc2NDOFktQnkzLS03OXhJOG81cXhUV0dKUkU0YmphbkwtQ1JVVlI5TTA1ODNEdUdEVE91Wjkwa3NPYzJ5YjBTTmNR?oc=5"
+      }
+    ],
+    "city": "Lublin",
+    "needsReview": false,
+    "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxQUk5CMi1mbTlIVDN3OGJyLVJBTTg3QkVpQXBJTjVDYWxhX2Rzei1uWkt0V0JrVzUza2hYTDMzVWk3cWNQYjVuM0l0dU1JeU81angzS0FEUjlDYVBXWlRHUTNOOUp3R1hmeDhacDM5MThabXpIMVhvVnJIS0JXc2NDOFktQnkzLS03OXhJOG81cXhUV0dKUkU0YmphbkwtQ1JVVlI5TTA1ODNEdUdEVE91Wjkwa3NPYzJ5YjBTTmNR?oc=5",
+    "collectedAt": "2026-05-13T15:44:17.738Z",
+    "approvedAt": "2026-05-13T15:44:17.738Z",
+    "approvedBy": "daily-automation"
+  },
+  {
+    "id": "auto_faf803e40d98",
+    "title": "Atak na osiedlu w Olsztynie. Mężczyzna trafiony w głowę rozbitą butelką",
+    "type": "napasc",
+    "severity": 1,
+    "date": "2026-05-12T07:01:00.000Z",
+    "desc": "Automatycznie wykryte zgłoszenie. Lokalizacja orientacyjna: Olsztyn.",
+    "lat": 53.7784,
+    "lng": 20.4801,
+    "sources": [
+      {
+        "name": "Wiadomości Olsztyn - TKO",
+        "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxPUC1EVmEtX2sxTmRjUG9NR01KVVBUTndTVXVPMDJXNEpydGFjRmw2WFRhVjJ1NW80SUFNNU5nN19KZDQwQ0dTbi1Qb3Ztd2VqdTBmbVBPRjlSMG1DYVllTzZtN18zZDA0UXUwREN6ZHdvbE85cWZXd09WZzhsbE92QnFtcEtSQ1dTU09zd3FNZVVqYTZIUEc1RzBrQ3F0eWd4VGtWQnZR?oc=5"
+      }
+    ],
+    "city": "Olsztyn",
+    "needsReview": false,
+    "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxPUC1EVmEtX2sxTmRjUG9NR01KVVBUTndTVXVPMDJXNEpydGFjRmw2WFRhVjJ1NW80SUFNNU5nN19KZDQwQ0dTbi1Qb3Ztd2VqdTBmbVBPRjlSMG1DYVllTzZtN18zZDA0UXUwREN6ZHdvbE85cWZXd09WZzhsbE92QnFtcEtSQ1dTU09zd3FNZVVqYTZIUEc1RzBrQ3F0eWd4VGtWQnZR?oc=5",
+    "collectedAt": "2026-05-13T15:44:17.774Z",
+    "approvedAt": "2026-05-13T15:44:17.774Z",
+    "approvedBy": "daily-automation"
+  },
+  {
+    "id": "auto_c284096f8083",
+    "title": "Wypadek w Kielcach. Na Posłowickiej zderzyły się Audi i Daewoo, na miejscu pracują służby. Zobaczcie zdjęcia",
+    "type": "other",
+    "severity": 1,
+    "date": "2026-05-12T05:50:13.000Z",
+    "desc": "Automatycznie wykryte zgłoszenie. Lokalizacja orientacyjna: Kielce.",
+    "lat": 50.8661,
+    "lng": 20.6286,
+    "sources": [
+      {
+        "name": "Kielce Nasze Miasto",
+        "url": "https://news.google.com/rss/articles/CBMi5wFBVV95cUxQWTdrM0tnYW5nRzRnd0N5SlQ0MEtYd3BrLWt6VmNwTUd4VGtROUVtLTBIT0pLWVlfMzZZRDJZSnNNa20yMUZaRkQzQjItNVdBZUJGY0lBM0RnWUJMVk1Gd2hWdG5SdzlNR2c5UUVGUWRDSUFSTUVrNUdnc3ZqUFl1OC1uU3JicTlyaThXLU1icjBQdUVacTllSjVOS0ZHazJKRUVvWXM2djlBclBIV2JsT0JRNEFPb0x6WDdYZkVNenBpdnF1dVNySTRaRS1OalRNSThuZkd4c0VaRVpfTHdMbHNkV0tYZzg?oc=5"
+      }
+    ],
+    "city": "Kielce",
+    "needsReview": false,
+    "url": "https://news.google.com/rss/articles/CBMi5wFBVV95cUxQWTdrM0tnYW5nRzRnd0N5SlQ0MEtYd3BrLWt6VmNwTUd4VGtROUVtLTBIT0pLWVlfMzZZRDJZSnNNa20yMUZaRkQzQjItNVdBZUJGY0lBM0RnWUJMVk1Gd2hWdG5SdzlNR2c5UUVGUWRDSUFSTUVrNUdnc3ZqUFl1OC1uU3JicTlyaThXLU1icjBQdUVacTllSjVOS0ZHazJKRUVvWXM2djlBclBIV2JsT0JRNEFPb0x6WDdYZkVNenBpdnF1dVNySTRaRS1OalRNSThuZkd4c0VaRVpfTHdMbHNkV0tYZzg?oc=5",
+    "collectedAt": "2026-05-13T15:44:17.740Z",
+    "approvedAt": "2026-05-13T15:44:17.740Z",
+    "approvedBy": "daily-automation"
+  }
+]
