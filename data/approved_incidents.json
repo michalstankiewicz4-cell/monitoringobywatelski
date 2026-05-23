@@ -1,5 +1,775 @@
 [
   {
+    "id": "auto_7e19e7db5bf7",
+    "title": "Śmiertelny wypadek w Poznaniu. Kierowca Porsche potrącił 21",
+    "type": "crash",
+    "severity": 3,
+    "date": "2026-05-23T06:30:35.000Z",
+    "desc": "Automatycznie wykryte zgłoszenie. Lokalizacja orientacyjna: Poznan.",
+    "lat": 52.4064,
+    "lng": 16.9252,
+    "sources": [
+      {
+        "name": "Głos Wielkopolski",
+        "url": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxPbVFUVVc4bENtRWVqZUstMnZteVZ4amJtVGpPemlyNHdrY3VaeC1OVlhCU29iN3cwN3RDaFZMQmlTQjZDSEF3d0U1eE9KMm1zeDZiTXZZNkx2R29oVHV5NXNnYzFmRnRzWXVVVFRlWmxYRV84ZlBJYVZqdmxJZnQxQ2Nlb1NtaVBmYmFfbDJWQ0VNNDRwYmRBZzZSRnM3RVgxNXNqSkVRWG8td21DT21CZVRVcVYtWTI4VlY4aHZ4aDdfNkZwWXI2M2FReDA0ZEstNVl1dkstYw?oc=5"
+      }
+    ],
+    "city": "Poznan",
+    "needsReview": false,
+    "url": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxPbVFUVVc4bENtRWVqZUstMnZteVZ4amJtVGpPemlyNHdrY3VaeC1OVlhCU29iN3cwN3RDaFZMQmlTQjZDSEF3d0U1eE9KMm1zeDZiTXZZNkx2R29oVHV5NXNnYzFmRnRzWXVVVFRlWmxYRV84ZlBJYVZqdmxJZnQxQ2Nlb1NtaVBmYmFfbDJWQ0VNNDRwYmRBZzZSRnM3RVgxNXNqSkVRWG8td21DT21CZVRVcVYtWTI4VlY4aHZ4aDdfNkZwWXI2M2FReDA0ZEstNVl1dkstYw?oc=5",
+    "collectedAt": "2026-05-23T06:59:22.969Z",
+    "approvedAt": "2026-05-23T06:59:22.969Z",
+    "approvedBy": "daily-automation"
+  },
+  {
+    "id": "auto_4b062cdae23f",
+    "title": "Śmiertelny wypadek w Poznaniu. Nie żyje kobieta",
+    "type": "other",
+    "severity": 3,
+    "date": "2026-05-23T06:09:14.000Z",
+    "desc": "Automatycznie wykryte zgłoszenie. Lokalizacja orientacyjna: Poznan.",
+    "lat": 52.4064,
+    "lng": 16.9252,
+    "sources": [
+      {
+        "name": "TVP Poznań",
+        "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxQWDNGaVVaLTFyMGdXTTVUZWVaZVdqUDhxUHpOTDRGdWgyQzlHS2RZc1R4d1BXZm1NcDFHQ3NLUERHSUxDMDZXaTNCNnNGakxnS3ZlVUlMWU9CblpyV19kYmRicE9rbEh2d1FNY0Nnc1dDSUlCRER4TFRYMk93NnRpWld3d3MtM1pjZUFMaDNBSU9ZVElVbTV4ZGFZVXFqTEVi?oc=5"
+      }
+    ],
+    "city": "Poznan",
+    "needsReview": false,
+    "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxQWDNGaVVaLTFyMGdXTTVUZWVaZVdqUDhxUHpOTDRGdWgyQzlHS2RZc1R4d1BXZm1NcDFHQ3NLUERHSUxDMDZXaTNCNnNGakxnS3ZlVUlMWU9CblpyV19kYmRicE9rbEh2d1FNY0Nnc1dDSUlCRER4TFRYMk93NnRpWld3d3MtM1pjZUFMaDNBSU9ZVElVbTV4ZGFZVXFqTEVi?oc=5",
+    "collectedAt": "2026-05-23T06:59:22.970Z",
+    "approvedAt": "2026-05-23T06:59:22.970Z",
+    "approvedBy": "daily-automation"
+  },
+  {
+    "id": "auto_a3bc42093ca5",
+    "title": "Policjant po służbie ruszył w pościg za złodziejem. Spektakularne zatrzymanie",
+    "type": "interwencja",
+    "severity": 1,
+    "date": "2026-05-23T03:35:00.000Z",
+    "desc": "Automatycznie wykryte zgłoszenie. Lokalizacja orientacyjna: Lodz.",
+    "lat": 51.7592,
+    "lng": 19.456,
+    "sources": [
+      {
+        "name": "Hej.mielec",
+        "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxPbXRNNlB2LW0wcXEwdzZrQTNfdk4wUk80aUJRQm5NMm1OUHoyVFBVNERsMjFPR0hWT3pjYVhNUGNPRGVpemNscklhNkpYaXZON1R5WkVVY09nWE92NjgzZUVfYWJrc0tfR2dXdklyTk9qM1o0NXNRSk4wRkNpN2FrRm5LMXVBMzdnVEJ1Z3k2bk5NNkpRM0VLWjdQOHBtTEt5VG1GT1ljSmxnQ2ZxTnQ5alYwck1wMUR3RGhndGNZOExzS2s3cWc?oc=5"
+      }
+    ],
+    "city": "Lodz",
+    "needsReview": false,
+    "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxPbXRNNlB2LW0wcXEwdzZrQTNfdk4wUk80aUJRQm5NMm1OUHoyVFBVNERsMjFPR0hWT3pjYVhNUGNPRGVpemNscklhNkpYaXZON1R5WkVVY09nWE92NjgzZUVfYWJrc0tfR2dXdklyTk9qM1o0NXNRSk4wRkNpN2FrRm5LMXVBMzdnVEJ1Z3k2bk5NNkpRM0VLWjdQOHBtTEt5VG1GT1ljSmxnQ2ZxTnQ5alYwck1wMUR3RGhndGNZOExzS2s3cWc?oc=5",
+    "collectedAt": "2026-05-23T06:59:23.011Z",
+    "approvedAt": "2026-05-23T06:59:23.011Z",
+    "approvedBy": "daily-automation"
+  },
+  {
+    "id": "auto_c38ddddd37c9",
+    "title": "Wypadek w fabryce Bridgestone w Stargardzie. Na miejscu lądował śmigłowiec LPR, poszkodowana jest kobieta",
+    "type": "other",
+    "severity": 1,
+    "date": "2026-05-22T19:28:00.000Z",
+    "desc": "Automatycznie wykryte zgłoszenie. Lokalizacja orientacyjna: Szczecin.",
+    "lat": 53.4285,
+    "lng": 14.5528,
+    "sources": [
+      {
+        "name": "Kurier Szczeciński",
+        "url": "https://news.google.com/rss/articles/CBMi4AFBVV95cUxOZms2UmFmdzJabjM2a0J5YVNjNkFNX2lYSVdxckVWVXpPdGM1ZTJoRDhWazBOZy1tZVU4Q0g3eGZjVlJPXzlFdW16REFXbjQ4X1JPR1UxYVcwNHItblhnZXlfZFI1b0FPUldwNDhPdFdKSjNlcndCSTltSUFpZnlRMlhWWFZ2VHgzOHA5YmlHdmZCYkNkYnVSdVVIQ1hpS21TaGlIdjNxbzFGWG9sWDY1X3Y1Wk5VaHlZN1ZxZUlVZG4ydWNEa1pETkpPeU9iaDlBQzI1UjA1T2k0ejlBNUhqbg?oc=5"
+      }
+    ],
+    "city": "Szczecin",
+    "needsReview": false,
+    "url": "https://news.google.com/rss/articles/CBMi4AFBVV95cUxOZms2UmFmdzJabjM2a0J5YVNjNkFNX2lYSVdxckVWVXpPdGM1ZTJoRDhWazBOZy1tZVU4Q0g3eGZjVlJPXzlFdW16REFXbjQ4X1JPR1UxYVcwNHItblhnZXlfZFI1b0FPUldwNDhPdFdKSjNlcndCSTltSUFpZnlRMlhWWFZ2VHgzOHA5YmlHdmZCYkNkYnVSdVVIQ1hpS21TaGlIdjNxbzFGWG9sWDY1X3Y1Wk5VaHlZN1ZxZUlVZG4ydWNEa1pETkpPeU9iaDlBQzI1UjA1T2k0ejlBNUhqbg?oc=5",
+    "collectedAt": "2026-05-23T06:59:22.969Z",
+    "approvedAt": "2026-05-23T06:59:22.969Z",
+    "approvedBy": "daily-automation"
+  },
+  {
+    "id": "auto_94e0099644f8",
+    "title": "Policjanci z Żor zatrzymali złodzieja. Ukradł 12 rolek papy",
+    "type": "other",
+    "severity": 1,
+    "date": "2026-05-22T16:30:52.000Z",
+    "desc": "Automatycznie wykryte zgłoszenie. Lokalizacja orientacyjna: Lodz.",
+    "lat": 51.7592,
+    "lng": 19.456,
+    "sources": [
+      {
+        "name": "Radio 90",
+        "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxNSFRxSlBjckREYmJ5eU9yZ3YyR2RGS19qX1M3M1lfUUVrak9CQnpyMUt6YnVISXEteVg2RU5ZRWw5MlRkV1BiOW5yZ2I3QkVqazRXWkQ5RTZSV1dOQ3AtSWlFSnh2ZXd4VXR4S1F4V0dpWTA1M2stcnQ0dUM3RWNUcV9oRzNjcEJIbWtGTDFYNA?oc=5"
+      }
+    ],
+    "city": "Lodz",
+    "needsReview": false,
+    "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxNSFRxSlBjckREYmJ5eU9yZ3YyR2RGS19qX1M3M1lfUUVrak9CQnpyMUt6YnVISXEteVg2RU5ZRWw5MlRkV1BiOW5yZ2I3QkVqazRXWkQ5RTZSV1dOQ3AtSWlFSnh2ZXd4VXR4S1F4V0dpWTA1M2stcnQ0dUM3RWNUcV9oRzNjcEJIbWtGTDFYNA?oc=5",
+    "collectedAt": "2026-05-23T06:59:23.005Z",
+    "approvedAt": "2026-05-23T06:59:23.005Z",
+    "approvedBy": "daily-automation"
+  },
+  {
+    "id": "auto_b0b1b0df4ec4",
+    "title": "Wypadek z udziałem 16",
+    "type": "other",
+    "severity": 1,
+    "date": "2026-05-22T16:28:36.000Z",
+    "desc": "Automatycznie wykryte zgłoszenie. Lokalizacja orientacyjna: Krakow.",
+    "lat": 50.0614,
+    "lng": 19.9372,
+    "sources": [
+      {
+        "name": "Gazeta Krakowska",
+        "url": "https://news.google.com/rss/articles/CBMi6gFBVV95cUxQYUlmVFRZdmlLVEhfVjJOQUNCMEpqYmpwT015RXBVV0NyZHR3Z1JqcWl6VTRhRkJRSDM5TEZseDlLSnF2QUpsWlJQSXJuM3pDdWh5S0FCT3o5a1cxSzNLVDR2NkJ1clNwb3RrVUFFblpwQ1ZRdUVHMFpUQktQT0RSaFVHSUF5QXNpcHhUMjgwVDdpal9razl0T05xdDhTUF8wS2Zsb3JSOS1fTWlLQnpoUU15UDFaZEx3QjZEWkNaYUVKMy0wdFlUMHhpQWtLdnNjTnJvQ3JzWHA2SDB2aUxJN1NOdmY2VExEc2c?oc=5"
+      }
+    ],
+    "city": "Krakow",
+    "needsReview": false,
+    "url": "https://news.google.com/rss/articles/CBMi6gFBVV95cUxQYUlmVFRZdmlLVEhfVjJOQUNCMEpqYmpwT015RXBVV0NyZHR3Z1JqcWl6VTRhRkJRSDM5TEZseDlLSnF2QUpsWlJQSXJuM3pDdWh5S0FCT3o5a1cxSzNLVDR2NkJ1clNwb3RrVUFFblpwQ1ZRdUVHMFpUQktQT0RSaFVHSUF5QXNpcHhUMjgwVDdpal9razl0T05xdDhTUF8wS2Zsb3JSOS1fTWlLQnpoUU15UDFaZEx3QjZEWkNaYUVKMy0wdFlUMHhpQWtLdnNjTnJvQ3JzWHA2SDB2aUxJN1NOdmY2VExEc2c?oc=5",
+    "collectedAt": "2026-05-23T06:59:22.973Z",
+    "approvedAt": "2026-05-23T06:59:22.973Z",
+    "approvedBy": "daily-automation"
+  },
+  {
+    "id": "auto_345dbced5c06",
+    "title": "Wypadek na ruchliwym skrzyżowaniu w Kielcach. Małe dziecko w szpitalu",
+    "type": "other",
+    "severity": 1,
+    "date": "2026-05-22T15:56:56.000Z",
+    "desc": "Automatycznie wykryte zgłoszenie. Lokalizacja orientacyjna: Kielce.",
+    "lat": 50.8661,
+    "lng": 20.6286,
+    "sources": [
+      {
+        "name": "Kielce Nasze Miasto",
+        "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxNUGttb0d3amV2a1k3SFNhb3FRTUN3SElwd3QtU2NxX1VhU1NpSUQ1MElwaV9LQjdRcC1Nbm5qRmNLVU9Gb3dfRHhRSzRLZE00TmJ2U3BJVGl0V3NBbjNsS3hOckRsX2o1UVdFRFhHelU0M3o0dEpWR1NJQi1GVFJzOWRqSXppdXZVaFRLQWoxZmpTYjgxSzNTUDltcDNBcjdfN1B0X0hkOWQ0YzZsWFR4ajk5SjFHZw?oc=5"
+      }
+    ],
+    "city": "Kielce",
+    "needsReview": false,
+    "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxNUGttb0d3amV2a1k3SFNhb3FRTUN3SElwd3QtU2NxX1VhU1NpSUQ1MElwaV9LQjdRcC1Nbm5qRmNLVU9Gb3dfRHhRSzRLZE00TmJ2U3BJVGl0V3NBbjNsS3hOckRsX2o1UVdFRFhHelU0M3o0dEpWR1NJQi1GVFJzOWRqSXppdXZVaFRLQWoxZmpTYjgxSzNTUDltcDNBcjdfN1B0X0hkOWQ0YzZsWFR4ajk5SjFHZw?oc=5",
+    "collectedAt": "2026-05-23T06:59:22.976Z",
+    "approvedAt": "2026-05-23T06:59:22.976Z",
+    "approvedBy": "daily-automation"
+  },
+  {
+    "id": "auto_3a01b524f2ae",
+    "title": "Wypadek na DK73 w Krajowicach. Rowerzysta potrącony przez ciężarówkę • Wiadomości",
+    "type": "crash",
+    "severity": 2,
+    "date": "2026-05-22T15:08:12.000Z",
+    "desc": "Automatycznie wykryte zgłoszenie. Lokalizacja orientacyjna: Rzeszow.",
+    "lat": 50.0412,
+    "lng": 21.9991,
+    "sources": [
+      {
+        "name": "Polskie Radio Rzeszów",
+        "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxPeERQbXY3SzFTUzhyVFhQMkV6TkRwYUJWbFUwZEVsVjNOVGVzMkNYMU5GRGxrWFc1eTNsTEE1T1RvRDYtcm0ydlBnVUxGazJ4X1VhdVE4d3ZhQWNDV0ZqZFdCU0Nab3FBV21YLWo5LWx1T0NYcUFHcXNrZEw3cDZuVDVUNkxBTUtPc2R0M2s3cTFHaURTMWhUNVhwZi1MOUpzTGc?oc=5"
+      }
+    ],
+    "city": "Rzeszow",
+    "needsReview": false,
+    "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxPeERQbXY3SzFTUzhyVFhQMkV6TkRwYUJWbFUwZEVsVjNOVGVzMkNYMU5GRGxrWFc1eTNsTEE1T1RvRDYtcm0ydlBnVUxGazJ4X1VhdVE4d3ZhQWNDV0ZqZFdCU0Nab3FBV21YLWo5LWx1T0NYcUFHcXNrZEw3cDZuVDVUNkxBTUtPc2R0M2s3cTFHaURTMWhUNVhwZi1MOUpzTGc?oc=5",
+    "collectedAt": "2026-05-23T06:59:22.971Z",
+    "approvedAt": "2026-05-23T06:59:22.971Z",
+    "approvedBy": "daily-automation"
+  },
+  {
+    "id": "auto_f3e5130adf54",
+    "title": "Wypadek na DK10: „Wyczuwalna woń alkoholu, naruszenie nietykalności cielesnej policjantów. Co się wydarzyło w Obrowie? [aktualizacja, zdjęcia, wideo]",
+    "type": "other",
+    "severity": 1,
+    "date": "2026-05-22T13:27:58.000Z",
+    "desc": "Automatycznie wykryte zgłoszenie. Lokalizacja orientacyjna: Bydgoszcz.",
+    "lat": 53.1235,
+    "lng": 18.0084,
+    "sources": [
+      {
+        "name": "TVP Bydgoszcz",
+        "url": "https://news.google.com/rss/articles/CBMi4AFBVV95cUxOLXZvc010eC00UkVqay10NkNtV2lSeklVUVJ1RkpWaFZPbkNGWnF6YkQtSHBzeE9jNG5ETzYxcUlILTl3LXhQdGVZUnJFajFqVW9CRDEyRG9qNWhMSWRDX1hrbDI4ZXExMDFXdlY1Q2Y4aWQwQmMtUEpUVGh3SkFoWnJFLUJBeDdrNWl2QmYzdEJmMGV0dEpNOW8wY3M4aXZ1U3hyU3plTXJrZnZPNlpxUkhpOWdHeDFqTnFVbzhnY2VJR2tNdjBaam9UQmhsa3BlNklyOS1VWkZJUnF1RE52Rg?oc=5"
+      }
+    ],
+    "city": "Bydgoszcz",
+    "needsReview": false,
+    "url": "https://news.google.com/rss/articles/CBMi4AFBVV95cUxOLXZvc010eC00UkVqay10NkNtV2lSeklVUVJ1RkpWaFZPbkNGWnF6YkQtSHBzeE9jNG5ETzYxcUlILTl3LXhQdGVZUnJFajFqVW9CRDEyRG9qNWhMSWRDX1hrbDI4ZXExMDFXdlY1Q2Y4aWQwQmMtUEpUVGh3SkFoWnJFLUJBeDdrNWl2QmYzdEJmMGV0dEpNOW8wY3M4aXZ1U3hyU3plTXJrZnZPNlpxUkhpOWdHeDFqTnFVbzhnY2VJR2tNdjBaam9UQmhsa3BlNklyOS1VWkZJUnF1RE52Rg?oc=5",
+    "collectedAt": "2026-05-23T06:59:22.966Z",
+    "approvedAt": "2026-05-23T06:59:22.966Z",
+    "approvedBy": "daily-automation"
+  },
+  {
+    "id": "auto_efc014a34d56",
+    "title": "Śmiertelny wypadek w Twardej Górze. Auto uderzyło w drzewo i ogrodzenie [zdjęcia]",
+    "type": "crash",
+    "severity": 3,
+    "date": "2026-05-22T13:08:09.000Z",
+    "desc": "Automatycznie wykryte zgłoszenie. Lokalizacja orientacyjna: Bydgoszcz.",
+    "lat": 53.1235,
+    "lng": 18.0084,
+    "sources": [
+      {
+        "name": "TVP Bydgoszcz",
+        "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxQbFNiTzJEdEtxY3hiRTdVY0lrR0dMdmFwMFN6QjhSa0VMQ3QwTEdWR2FxcEd1TTJiYnFNTnA2TlZyVkFDblU2cHZ6UHFnQVBieDdPclBjV3VidV9IMjhBZmxrM3kxU2J5RFQ0clZCVDVIcEdJQ1BkdU9KVThpR3hPdHB5cVZTb0ZseHpNaUxrcVhXS1FPb1Z3aUVQUlgxbkhhNl9MSVZR?oc=5"
+      }
+    ],
+    "city": "Bydgoszcz",
+    "needsReview": false,
+    "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxQbFNiTzJEdEtxY3hiRTdVY0lrR0dMdmFwMFN6QjhSa0VMQ3QwTEdWR2FxcEd1TTJiYnFNTnA2TlZyVkFDblU2cHZ6UHFnQVBieDdPclBjV3VidV9IMjhBZmxrM3kxU2J5RFQ0clZCVDVIcEdJQ1BkdU9KVThpR3hPdHB5cVZTb0ZseHpNaUxrcVhXS1FPb1Z3aUVQUlgxbkhhNl9MSVZR?oc=5",
+    "collectedAt": "2026-05-23T06:59:22.970Z",
+    "approvedAt": "2026-05-23T06:59:22.970Z",
+    "approvedBy": "daily-automation"
+  },
+  {
+    "id": "auto_769fff5ee38b",
+    "title": "Gwałtowne hamowanie autobusu w Zabrzu. Dwie osoby, w tym dziecko zostały przewiezione do szpitala",
+    "type": "other",
+    "severity": 1,
+    "date": "2026-05-22T12:57:43.000Z",
+    "desc": "Automatycznie wykryte zgłoszenie. Lokalizacja orientacyjna: Zabrze.",
+    "lat": 50.3249,
+    "lng": 18.7857,
+    "sources": [
+      {
+        "name": "Dziennik Zachodni",
+        "url": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxNZWJ1bXp0ZWI5Q3BkRno5eTJVdVZVSzdUZmdmN1dhd19VYTdCYThHZW43blM3aDV4ZkhUR3JONnlLdkZncVlOMS1JQ1kyMjh2MkNPSGo1RWpKSlRwVXBWdlVfLWNnNTRxUFhHY0VDVm9ZajRlUUFjS3RZc2YxRHNnTjJmOW9QTXI3QzAwQmR2T1ZWc2pvcE90VUNlWUJ3cEdjZDRxazA0UXJWZ2ZkalJlNEd6Q0FnVXY4TWQwVVBEZkNHX1JtT0NRcmF5TnNhOGFqWTRGTWZHdw?oc=5"
+      }
+    ],
+    "city": "Zabrze",
+    "needsReview": false,
+    "url": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxNZWJ1bXp0ZWI5Q3BkRno5eTJVdVZVSzdUZmdmN1dhd19VYTdCYThHZW43blM3aDV4ZkhUR3JONnlLdkZncVlOMS1JQ1kyMjh2MkNPSGo1RWpKSlRwVXBWdlVfLWNnNTRxUFhHY0VDVm9ZajRlUUFjS3RZc2YxRHNnTjJmOW9QTXI3QzAwQmR2T1ZWc2pvcE90VUNlWUJ3cEdjZDRxazA0UXJWZ2ZkalJlNEd6Q0FnVXY4TWQwVVBEZkNHX1JtT0NRcmF5TnNhOGFqWTRGTWZHdw?oc=5",
+    "collectedAt": "2026-05-23T06:59:22.971Z",
+    "approvedAt": "2026-05-23T06:59:22.971Z",
+    "approvedBy": "daily-automation"
+  },
+  {
+    "id": "auto_95d8d46b05ce",
+    "title": "Seria kradzieży przerwana. Policja zatrzymała 43",
+    "type": "other",
+    "severity": 1,
+    "date": "2026-05-22T10:32:52.000Z",
+    "desc": "Automatycznie wykryte zgłoszenie. Lokalizacja orientacyjna: Szczecin.",
+    "lat": 53.4285,
+    "lng": 14.5528,
+    "sources": [
+      {
+        "name": "TVP Szczecin",
+        "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxQYlBHSEdCR2ZybXJGZVJxXy1GQ1duVHp0VWFqTXA1ejZlOGdoZzcxNE93NnNDVUo1VlAtMndIYkZFTXJMNEVsNktnZDJtV015N3hMU0FxVndWTEtsTDhxZXZPdXB2NzY4Zy02NnBpcTAwMGtsQmwzMVhVcW1iZExNQ1k5NXgxZzBuRGNOUEpvNm9ZZmhYeGxWRXN5RmFSaGszX1hlV1B4Y3FEallPZnN1V3hCaw?oc=5"
+      }
+    ],
+    "city": "Szczecin",
+    "needsReview": false,
+    "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxQYlBHSEdCR2ZybXJGZVJxXy1GQ1duVHp0VWFqTXA1ejZlOGdoZzcxNE93NnNDVUo1VlAtMndIYkZFTXJMNEVsNktnZDJtV015N3hMU0FxVndWTEtsTDhxZXZPdXB2NzY4Zy02NnBpcTAwMGtsQmwzMVhVcW1iZExNQ1k5NXgxZzBuRGNOUEpvNm9ZZmhYeGxWRXN5RmFSaGszX1hlV1B4Y3FEallPZnN1V3hCaw?oc=5",
+    "collectedAt": "2026-05-23T06:59:22.997Z",
+    "approvedAt": "2026-05-23T06:59:22.997Z",
+    "approvedBy": "daily-automation"
+  },
+  {
+    "id": "auto_67f9bc9a1763",
+    "title": "Częstochowska policja wyjaśnia okoliczności groźnego wypadku ciężarówek na autostradzie A1",
+    "type": "crash",
+    "severity": 2,
+    "date": "2026-05-22T10:08:30.000Z",
+    "desc": "Automatycznie wykryte zgłoszenie. Lokalizacja orientacyjna: Czestochowa.",
+    "lat": 50.8118,
+    "lng": 19.1203,
+    "sources": [
+      {
+        "name": "Życie Częstochowy i powiatu",
+        "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxOOUNZaTlYZHRBUW5iVmZRcGM4YnZWMXM0WWVqS013NXVyZmRfbGxHQVhHLXBObHh1VVRCVHFVcjN5YzllRDhGYW5GdUJWQ3FsMWM3Wmx6enZwdUdXRUs0czNDbmJuUkY0cXNsUlJtYVpGQWkyMUdXUTVkaVR1azJnODgzMW9rVzVqOXY1dzRaNVFfRG9KeE1KQUczSm4weHZiZGs4Mm93YkJZZndfc1REWXFoVWRjWDl3S01F?oc=5"
+      }
+    ],
+    "city": "Czestochowa",
+    "needsReview": false,
+    "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxOOUNZaTlYZHRBUW5iVmZRcGM4YnZWMXM0WWVqS013NXVyZmRfbGxHQVhHLXBObHh1VVRCVHFVcjN5YzllRDhGYW5GdUJWQ3FsMWM3Wmx6enZwdUdXRUs0czNDbmJuUkY0cXNsUlJtYVpGQWkyMUdXUTVkaVR1azJnODgzMW9rVzVqOXY1dzRaNVFfRG9KeE1KQUczSm4weHZiZGs4Mm93YkJZZndfc1REWXFoVWRjWDl3S01F?oc=5",
+    "collectedAt": "2026-05-23T06:59:22.983Z",
+    "approvedAt": "2026-05-23T06:59:22.983Z",
+    "approvedBy": "daily-automation"
+  },
+  {
+    "id": "auto_dc6702995d3a",
+    "title": "Warszawa. Czołowe zderzenie, śmigłowiec lądował na ulicy. Jedna osoba ranna",
+    "type": "crash",
+    "severity": 2,
+    "date": "2026-05-22T10:06:40.000Z",
+    "desc": "Automatycznie wykryte zgłoszenie. Lokalizacja orientacyjna: Warszawa.",
+    "lat": 52.2298,
+    "lng": 21.0118,
+    "sources": [
+      {
+        "name": "TVN24",
+        "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxOSS1VUm1GejlKck0tcnd1aWJ6MGxXWW5YOFA1ZU1tc1BvYnJKeDhyRGNqd1VxZjlPcnBQdVN5Slo4UGYwVmRtVFFqaVg5SmV5dkJmenJmZWVsQUp6clg5dGpjRFd5VFA3NzZCUHdEZzNLeU5iSnVLUHQtZ0s0UVJUbzVBZjAwMWJ6OENsRzFtSFJ0TmdYT1lOZHQ4SWE0Tmd6a1FQYWhtRjBkbkppMFJJTTlRY3Q2ekgzWGhn?oc=5"
+      }
+    ],
+    "city": "Warszawa",
+    "needsReview": false,
+    "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxOSS1VUm1GejlKck0tcnd1aWJ6MGxXWW5YOFA1ZU1tc1BvYnJKeDhyRGNqd1VxZjlPcnBQdVN5Slo4UGYwVmRtVFFqaVg5SmV5dkJmenJmZWVsQUp6clg5dGpjRFd5VFA3NzZCUHdEZzNLeU5iSnVLUHQtZ0s0UVJUbzVBZjAwMWJ6OENsRzFtSFJ0TmdYT1lOZHQ4SWE0Tmd6a1FQYWhtRjBkbkppMFJJTTlRY3Q2ekgzWGhn?oc=5",
+    "collectedAt": "2026-05-23T06:59:22.969Z",
+    "approvedAt": "2026-05-23T06:59:22.969Z",
+    "approvedBy": "daily-automation"
+  },
+  {
+    "id": "auto_6e69be902ed9",
+    "title": "Poważny wypadek na granicy Rybnika i Rydułtów. Kobieta trafiła do szpitala",
+    "type": "other",
+    "severity": 1,
+    "date": "2026-05-22T09:55:20.000Z",
+    "desc": "Automatycznie wykryte zgłoszenie. Lokalizacja orientacyjna: Katowice.",
+    "lat": 50.2649,
+    "lng": 19.0238,
+    "sources": [
+      {
+        "name": "TVP Katowice",
+        "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxQU0xVZ3UwUGFCYTBJb09pOE9meEZXMmhISEJWNTl4Z0RrYlF4aDFsbjRxRXIyenZyRlRnYnFXZzRMTFVrM04wNmtTaE9fSGxuTTA1U3JlbHJQT3l4a1BqOWc1SmcwUHpQVUw5aU9JWHF2cG5xbmFoMGQ3NGZtSGY0bEdkZ1E4QkRQdnVEcGF4a1JXN2lXb3daQ2pCeDZpbUhSdDdRZnZYY3RoUQ?oc=5"
+      }
+    ],
+    "city": "Katowice",
+    "needsReview": false,
+    "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxQU0xVZ3UwUGFCYTBJb09pOE9meEZXMmhISEJWNTl4Z0RrYlF4aDFsbjRxRXIyenZyRlRnYnFXZzRMTFVrM04wNmtTaE9fSGxuTTA1U3JlbHJQT3l4a1BqOWc1SmcwUHpQVUw5aU9JWHF2cG5xbmFoMGQ3NGZtSGY0bEdkZ1E4QkRQdnVEcGF4a1JXN2lXb3daQ2pCeDZpbUhSdDdRZnZYY3RoUQ?oc=5",
+    "collectedAt": "2026-05-23T06:59:22.970Z",
+    "approvedAt": "2026-05-23T06:59:22.970Z",
+    "approvedBy": "daily-automation"
+  },
+  {
+    "id": "auto_0d59812ee40b",
+    "title": "Kryjówkę przed wymiarem sprawiedliwości znalazł u swojej babci",
+    "type": "other",
+    "severity": 1,
+    "date": "2026-05-22T09:41:09.000Z",
+    "desc": "Automatycznie wykryte zgłoszenie. Lokalizacja orientacyjna: Opole.",
+    "lat": 50.6751,
+    "lng": 17.9213,
+    "sources": [
+      {
+        "name": "Policja Opolska",
+        "url": "https://news.google.com/rss/articles/CBMiygFBVV95cUxPbXFGN3pCYWFsT254T3dUZVRzYXdoSkYtR0pmemtJaTcxdGh3NkhOTFFDRDZnb2Zoam5OVl95ekFxUVRveUM5UGdRNmZBajFsQ2F3SWItSzhQWDVRS0dHUnNlXy1FWllQRGNIVW9McFUyQjNfQWY4Mk01bkJQYWU4cVdYN2RuZHFseGg0ZDZKY3VDenNCMUZFQUpSaG5aMXRFNVg5QW5zN192STAzT09rUXFYX2pTM0lFdjUwZmhSLU55aFJ5a0hrNmpR?oc=5"
+      }
+    ],
+    "city": "Opole",
+    "needsReview": false,
+    "url": "https://news.google.com/rss/articles/CBMiygFBVV95cUxPbXFGN3pCYWFsT254T3dUZVRzYXdoSkYtR0pmemtJaTcxdGh3NkhOTFFDRDZnb2Zoam5OVl95ekFxUVRveUM5UGdRNmZBajFsQ2F3SWItSzhQWDVRS0dHUnNlXy1FWllQRGNIVW9McFUyQjNfQWY4Mk01bkJQYWU4cVdYN2RuZHFseGg0ZDZKY3VDenNCMUZFQUpSaG5aMXRFNVg5QW5zN192STAzT09rUXFYX2pTM0lFdjUwZmhSLU55aFJ5a0hrNmpR?oc=5",
+    "collectedAt": "2026-05-23T06:59:22.998Z",
+    "approvedAt": "2026-05-23T06:59:22.998Z",
+    "approvedBy": "daily-automation"
+  },
+  {
+    "id": "auto_c574d0882592",
+    "title": "Zatrzymany mężczyzna poszukiwany do odbycia kary pozbawienia wolności. Niewykluczone, że otrzyma zarzut naruszenia miru domowego.",
+    "type": "interwencja",
+    "severity": 1,
+    "date": "2026-05-22T09:40:37.000Z",
+    "desc": "Automatycznie wykryte zgłoszenie. Lokalizacja orientacyjna: Gdynia.",
+    "lat": 54.5189,
+    "lng": 18.5305,
+    "sources": [
+      {
+        "name": "Komenda Miejska Policji w Gdyni",
+        "url": "https://news.google.com/rss/articles/CBMi4gFBVV95cUxNRVBNSWRHTEN0OEUydmlKOGJEdE5OR2VwdHRzQWt1Vm1peGo0OEZBLW5vVUpLZi1rLTdHdU1RVUwzWHZMbFdYMDMyT2tWb09FMGNIcjdKZTUtVVZjcWJWV2l5R01CNFhETWJFdXJSVklTbEFuckZ5WU8zTndRNTYwLTRXMERUZERzdVRaLTUyZEZORzJ3TnJnMUxNOTdpTHVrUDdOU3ZmUFhMUV9iSHRiZU8yemZ6WGgyRzNteDJSUG02SDRDNmd1ODBtMnNBenhUM1hqUjN6STg4UWFuU0gzWFFn?oc=5"
+      }
+    ],
+    "city": "Gdynia",
+    "needsReview": false,
+    "url": "https://news.google.com/rss/articles/CBMi4gFBVV95cUxNRVBNSWRHTEN0OEUydmlKOGJEdE5OR2VwdHRzQWt1Vm1peGo0OEZBLW5vVUpLZi1rLTdHdU1RVUwzWHZMbFdYMDMyT2tWb09FMGNIcjdKZTUtVVZjcWJWV2l5R01CNFhETWJFdXJSVklTbEFuckZ5WU8zTndRNTYwLTRXMERUZERzdVRaLTUyZEZORzJ3TnJnMUxNOTdpTHVrUDdOU3ZmUFhMUV9iSHRiZU8yemZ6WGgyRzNteDJSUG02SDRDNmd1ODBtMnNBenhUM1hqUjN6STg4UWFuU0gzWFFn?oc=5",
+    "collectedAt": "2026-05-23T06:59:22.998Z",
+    "approvedAt": "2026-05-23T06:59:22.998Z",
+    "approvedBy": "daily-automation"
+  },
+  {
+    "id": "auto_5d8efb640706",
+    "title": "Próbował przekupić policjantów. Teraz grozi mu więzienie",
+    "type": "other",
+    "severity": 1,
+    "date": "2026-05-22T09:31:07.000Z",
+    "desc": "Automatycznie wykryte zgłoszenie. Lokalizacja orientacyjna: Szczecin.",
+    "lat": 53.4285,
+    "lng": 14.5528,
+    "sources": [
+      {
+        "name": "TVP Szczecin",
+        "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxQQ050Mjc0OFg1MzVTY3BXOUNtZ2FGMzRNby1VNjR3Sjhpa2xqcnUyMUt2c1hBa28yYmtRVlhablpEX0xVVnlUY2pwLUtWT1ZWZ28yb0txY0xtcm52YkR1N1Y0Q0xzMnNGeGdOWmxiR1IzR0NTS1Fqem8xN1p2NEF5a3U3Wk1PRWpid3h5aVI5Rk5qSHlaaWZ1Qi03VW5JZlBZdEhNZFZCZFVJRHZ1TnQ3ellhLW8?oc=5"
+      }
+    ],
+    "city": "Szczecin",
+    "needsReview": false,
+    "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxQQ050Mjc0OFg1MzVTY3BXOUNtZ2FGMzRNby1VNjR3Sjhpa2xqcnUyMUt2c1hBa28yYmtRVlhablpEX0xVVnlUY2pwLUtWT1ZWZ28yb0txY0xtcm52YkR1N1Y0Q0xzMnNGeGdOWmxiR1IzR0NTS1Fqem8xN1p2NEF5a3U3Wk1PRWpid3h5aVI5Rk5qSHlaaWZ1Qi03VW5JZlBZdEhNZFZCZFVJRHZ1TnQ3ellhLW8?oc=5",
+    "collectedAt": "2026-05-23T06:59:23.002Z",
+    "approvedAt": "2026-05-23T06:59:23.002Z",
+    "approvedBy": "daily-automation"
+  },
+  {
+    "id": "auto_56830f8678a0",
+    "title": "Nielegalny tytoń i przestępstwo skarbowe",
+    "type": "interwencja",
+    "severity": 1,
+    "date": "2026-05-22T09:20:54.000Z",
+    "desc": "Automatycznie wykryte zgłoszenie. Lokalizacja orientacyjna: Kielce.",
+    "lat": 50.8661,
+    "lng": 20.6286,
+    "sources": [
+      {
+        "name": "Radio Kielce",
+        "url": "https://news.google.com/rss/articles/CBMifEFVX3lxTE9ScHRfSmxXTnlMenk5MUowend1dGN6QXNqNTFGYTZFbm5zd09NMUlVa3BhRG43WmlnWUthdXFEeDE4NVdyNE9JeTNKVWlfSmZHYllNV0lYT1pPRW5FZDFRZl8tcWg2bFdWU2I4d21BQVdEUVVMNUNiNFZ3VVA?oc=5"
+      }
+    ],
+    "city": "Kielce",
+    "needsReview": false,
+    "url": "https://news.google.com/rss/articles/CBMifEFVX3lxTE9ScHRfSmxXTnlMenk5MUowend1dGN6QXNqNTFGYTZFbm5zd09NMUlVa3BhRG43WmlnWUthdXFEeDE4NVdyNE9JeTNKVWlfSmZHYllNV0lYT1pPRW5FZDFRZl8tcWg2bFdWU2I4d21BQVdEUVVMNUNiNFZ3VVA?oc=5",
+    "collectedAt": "2026-05-23T06:59:23.005Z",
+    "approvedAt": "2026-05-23T06:59:23.005Z",
+    "approvedBy": "daily-automation"
+  },
+  {
+    "id": "auto_14f477063415",
+    "title": "Rowerzysta potrącił znaną seniorkę i odjechał, a to nie koniec przewinień. Policja publikuje zdjęcia",
+    "type": "crash",
+    "severity": 2,
+    "date": "2026-05-22T09:15:00.000Z",
+    "desc": "Automatycznie wykryte zgłoszenie. Lokalizacja orientacyjna: Wroclaw.",
+    "lat": 51.1079,
+    "lng": 17.0385,
+    "sources": [
+      {
+        "name": "Wrocław Radio ESKA",
+        "url": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxNUjJ5N3I5b3hDN3pXZFBhYnd3Tms5TEVLWWdJb0hxZ2Iwa2t2RGdVLW1RT2tJOTJhbmgzMWV3VjdRdUtyVXpBSmxUSGZGdzZvdmU5dVdnSnNpd2dBM0ltbFZNUHlVSFU3dWFNZk5GS3lZRC1aSW1QU0RtdVRkVldyNUlGN0pKQTdPc0hveTcxQUNnY1VJRE5qcUxlTzZyQUFhMjMyOElWaEh3LUppLVVsMUZIczhhMDlaS2VvdVZfLUwtb0RzOW1haWt2bFduWWpNM2s3ckF5T2w?oc=5"
+      }
+    ],
+    "city": "Wroclaw",
+    "needsReview": false,
+    "url": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxNUjJ5N3I5b3hDN3pXZFBhYnd3Tms5TEVLWWdJb0hxZ2Iwa2t2RGdVLW1RT2tJOTJhbmgzMWV3VjdRdUtyVXpBSmxUSGZGdzZvdmU5dVdnSnNpd2dBM0ltbFZNUHlVSFU3dWFNZk5GS3lZRC1aSW1QU0RtdVRkVldyNUlGN0pKQTdPc0hveTcxQUNnY1VJRE5qcUxlTzZyQUFhMjMyOElWaEh3LUppLVVsMUZIczhhMDlaS2VvdVZfLUwtb0RzOW1haWt2bFduWWpNM2s3ckF5T2w?oc=5",
+    "collectedAt": "2026-05-23T06:59:22.992Z",
+    "approvedAt": "2026-05-23T06:59:22.992Z",
+    "approvedBy": "daily-automation"
+  },
+  {
+    "id": "auto_d5f694149b42",
+    "title": "Potrącił seniorkę i odjechał! To znana persona, a jej relacja szokuje. Policja publikuje zdjęcia rowerzysty",
+    "type": "crash",
+    "severity": 2,
+    "date": "2026-05-22T09:10:00.000Z",
+    "desc": "Automatycznie wykryte zgłoszenie. Lokalizacja orientacyjna: Wroclaw.",
+    "lat": 51.1079,
+    "lng": 17.0385,
+    "sources": [
+      {
+        "name": "Wrocław Super Express",
+        "url": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxPRFR4SmFXeC0tRnNFZFQ5WGpxNVBsWEJzdzlNc01DV2kwRWpnVmtEOEVLQ3cwLVZwdFNBc2ZjQ1FlblNNblU2aHVweHp3MGFHM2p4TS15eTRocjVzWDZiN2U4QWdxX1ZKempvY2JjNzlVRDlycldaN3ZnZ1VBcjRKME1lYnBhRDhwWEh2a0FQTTA3cjJnNXBVMmNVRHBlejJONUp1blc3R2ZmQ0R6dVdfcHg3RGRxWGU5MTNPQjRfeEhMOVc1X2phbEVrQjllVEh2NzVya3JDazYxcTZfMTJER19xSQ?oc=5"
+      }
+    ],
+    "city": "Wroclaw",
+    "needsReview": false,
+    "url": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxPRFR4SmFXeC0tRnNFZFQ5WGpxNVBsWEJzdzlNc01DV2kwRWpnVmtEOEVLQ3cwLVZwdFNBc2ZjQ1FlblNNblU2aHVweHp3MGFHM2p4TS15eTRocjVzWDZiN2U4QWdxX1ZKempvY2JjNzlVRDlycldaN3ZnZ1VBcjRKME1lYnBhRDhwWEh2a0FQTTA3cjJnNXBVMmNVRHBlejJONUp1blc3R2ZmQ0R6dVdfcHg3RGRxWGU5MTNPQjRfeEhMOVc1X2phbEVrQjllVEh2NzVya3JDazYxcTZfMTJER19xSQ?oc=5",
+    "collectedAt": "2026-05-23T06:59:22.992Z",
+    "approvedAt": "2026-05-23T06:59:22.992Z",
+    "approvedBy": "daily-automation"
+  },
+  {
+    "id": "auto_96fd01cf6802",
+    "title": "Ostrowieccy policjanci szukają świadków. Kto widział wypadek na Polnej?",
+    "type": "other",
+    "severity": 1,
+    "date": "2026-05-22T08:02:17.000Z",
+    "desc": "Automatycznie wykryte zgłoszenie. Lokalizacja orientacyjna: Ostrowiec Swietokrzyski.",
+    "lat": 50.9299,
+    "lng": 21.385,
+    "sources": [
+      {
+        "name": "Ostrowiec Świętokrzyski Nasze Miasto",
+        "url": "https://news.google.com/rss/articles/CBMizAFBVV95cUxQdFRaYVd4OG1BVERzbngzMmhxREI5RF83OWxZTGJLU1Fxb3phNi02d3VPSFczUmxlMEdYYmhuSW1McTdBRTc2V2ltRERDSlBrN3ljWmhfUTRXUl9iUElnYTVpbFdhWFhYaHhwYUJxdmlFQnhPaUN5UDNqRVJKZEFsNkcwLUxDNi1oMTlqRzdNMWNvbTJ5QnpOZFEzejlQNldZckJKcl9TMWxpbGE4d3psMG1jZElyMXBMVXE5alJsWXNkaGJ3LVZkTEVOWUg?oc=5"
+      }
+    ],
+    "city": "Ostrowiec Swietokrzyski",
+    "needsReview": false,
+    "url": "https://news.google.com/rss/articles/CBMizAFBVV95cUxQdFRaYVd4OG1BVERzbngzMmhxREI5RF83OWxZTGJLU1Fxb3phNi02d3VPSFczUmxlMEdYYmhuSW1McTdBRTc2V2ltRERDSlBrN3ljWmhfUTRXUl9iUElnYTVpbFdhWFhYaHhwYUJxdmlFQnhPaUN5UDNqRVJKZEFsNkcwLUxDNi1oMTlqRzdNMWNvbTJ5QnpOZFEzejlQNldZckJKcl9TMWxpbGE4d3psMG1jZElyMXBMVXE5alJsWXNkaGJ3LVZkTEVOWUg?oc=5",
+    "collectedAt": "2026-05-23T06:59:22.984Z",
+    "approvedAt": "2026-05-23T06:59:22.984Z",
+    "approvedBy": "daily-automation"
+  },
+  {
+    "id": "auto_7b855a82eda5",
+    "title": "Oszukiwała seniorki metodą „na policjanta”. 51",
+    "type": "other",
+    "severity": 1,
+    "date": "2026-05-22T07:25:37.000Z",
+    "desc": "Automatycznie wykryte zgłoszenie. Lokalizacja orientacyjna: Wroclaw.",
+    "lat": 51.1079,
+    "lng": 17.0385,
+    "sources": [
+      {
+        "name": "TVP Wrocław",
+        "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxQck5saFhvUFZqeWVWUHVCVnJCaDJIZWhWMmxxWW5SMjJRcUVHX1Q5c3A5WTdqTTZDMmtwcDlUZnRfdXd1Q3hiVl9Uc1VEZmhHaXJSZTlMNC1aNTlTdEQ1SUR2MDd0bFFWVkMwbDVVcDFRUXQ2Q3NqREZxbW1FdEtJcTJqWVBKYlN6T29DdU1nS21JQmZOWEZtQnhnb29yRm1wMDhoTEo4R3NDVHZ6RWVpN3RpOWRHTWc?oc=5"
+      }
+    ],
+    "city": "Wroclaw",
+    "needsReview": false,
+    "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxQck5saFhvUFZqeWVWUHVCVnJCaDJIZWhWMmxxWW5SMjJRcUVHX1Q5c3A5WTdqTTZDMmtwcDlUZnRfdXd1Q3hiVl9Uc1VEZmhHaXJSZTlMNC1aNTlTdEQ1SUR2MDd0bFFWVkMwbDVVcDFRUXQ2Q3NqREZxbW1FdEtJcTJqWVBKYlN6T29DdU1nS21JQmZOWEZtQnhnb29yRm1wMDhoTEo4R3NDVHZ6RWVpN3RpOWRHTWc?oc=5",
+    "collectedAt": "2026-05-23T06:59:22.997Z",
+    "approvedAt": "2026-05-23T06:59:22.997Z",
+    "approvedBy": "daily-automation"
+  },
+  {
+    "id": "auto_e0e18e4f55f1",
+    "title": "Myślał, że ukryje się przed policją. Funkcjonariusze znaleźli go na dachu",
+    "type": "other",
+    "severity": 1,
+    "date": "2026-05-22T05:53:00.000Z",
+    "desc": "Automatycznie wykryte zgłoszenie. Lokalizacja orientacyjna: Szczecin.",
+    "lat": 53.4285,
+    "lng": 14.5528,
+    "sources": [
+      {
+        "name": "Kurier Szczeciński",
+        "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxPeEJOakppWkpqQVZmTWttOVlGUlR3dFJ5QUo1VF90MUxWUmJvZW5fd0ZCQ2RnTFhYcnk0WllHUW02b001emg4Rm8xTGxNc205RE9ObzVlbHRzb19ORnNCRDI4WERRMHBCWUI3UjJsa2gxME9QZFBFVHpiMllrcXBsZGFDS2Ftem1Yd0lONGtURjdHZzZXdWpYSkJ5bG9YRmpTdllLM19nYWRNOE0wQlNpT0RIVnBqdw?oc=5"
+      }
+    ],
+    "city": "Szczecin",
+    "needsReview": false,
+    "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxPeEJOakppWkpqQVZmTWttOVlGUlR3dFJ5QUo1VF90MUxWUmJvZW5fd0ZCQ2RnTFhYcnk0WllHUW02b001emg4Rm8xTGxNc205RE9ObzVlbHRzb19ORnNCRDI4WERRMHBCWUI3UjJsa2gxME9QZFBFVHpiMllrcXBsZGFDS2Ftem1Yd0lONGtURjdHZzZXdWpYSkJ5bG9YRmpTdllLM19nYWRNOE0wQlNpT0RIVnBqdw?oc=5",
+    "collectedAt": "2026-05-23T06:59:23.009Z",
+    "approvedAt": "2026-05-23T06:59:23.009Z",
+    "approvedBy": "daily-automation"
+  },
+  {
+    "id": "auto_bf255d70656e",
+    "title": "Seryjny złodziej paliwa zatrzymany przez policjantów",
+    "type": "interwencja",
+    "severity": 1,
+    "date": "2026-05-22T05:51:34.000Z",
+    "desc": "Automatycznie wykryte zgłoszenie. Lokalizacja orientacyjna: Lodz.",
+    "lat": 51.7592,
+    "lng": 19.456,
+    "sources": [
+      {
+        "name": "Policja Śląska",
+        "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxPT3RZQkMxTjhXSEV5OHFNaXVSc3pXYUw5Z2ZSM0ZfOTVGRl90NjQ3TVpBN1RybFdSNUtvbENLYk11YVgtSXlBcEdaSkZvUWsxb1ZLY0U3Skx2ZDNpSTJaMzN0NUhSQk9TZmJSTk14RHZDckZGTDZIaDBwZW1PTEZnWWlLaHZyTEg2WmtOdEcxRG5XWG9XRno2eUJrOHZqWmM5d0hRbzZsbjRuaF9xbUpBUzRrVlVoSEFVekpHbg?oc=5"
+      }
+    ],
+    "city": "Lodz",
+    "needsReview": false,
+    "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxPT3RZQkMxTjhXSEV5OHFNaXVSc3pXYUw5Z2ZSM0ZfOTVGRl90NjQ3TVpBN1RybFdSNUtvbENLYk11YVgtSXlBcEdaSkZvUWsxb1ZLY0U3Skx2ZDNpSTJaMzN0NUhSQk9TZmJSTk14RHZDckZGTDZIaDBwZW1PTEZnWWlLaHZyTEg2WmtOdEcxRG5XWG9XRno2eUJrOHZqWmM5d0hRbzZsbjRuaF9xbUpBUzRrVlVoSEFVekpHbg?oc=5",
+    "collectedAt": "2026-05-23T06:59:23.008Z",
+    "approvedAt": "2026-05-23T06:59:23.008Z",
+    "approvedBy": "daily-automation"
+  },
+  {
+    "id": "auto_8cc1d3d13424",
+    "title": "Agresywny złodziej włożył policjantowi kciuk do oka. Został zatrzymany",
+    "type": "interwencja",
+    "severity": 1,
+    "date": "2026-05-22T03:00:00.000Z",
+    "desc": "Automatycznie wykryte zgłoszenie. Lokalizacja orientacyjna: Lodz.",
+    "lat": 51.7592,
+    "lng": 19.456,
+    "sources": [
+      {
+        "name": "Zawsze Pomorze",
+        "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxPckhVWW5pbVFicmxBSkJmdmdoV3lNeGktWmxRdXUwNm53clBZUzdpM1EyOWt0WmdsU2VfU1RMNWRCdXNVX1J6djA0dWctY1d4WFBoeXVBTjExQWRqS2tETDNoZlhrdlNmWWh6VV9abjlZc3hqQS1LbTdBbXpTSDJEVDNnNl82RzU2TF96M0J5SXNqTnJfa3lLTjlabFNSYndmNXg0ZVRheTdjajhlM1RGRW5n?oc=5"
+      }
+    ],
+    "city": "Lodz",
+    "needsReview": false,
+    "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxPckhVWW5pbVFicmxBSkJmdmdoV3lNeGktWmxRdXUwNm53clBZUzdpM1EyOWt0WmdsU2VfU1RMNWRCdXNVX1J6djA0dWctY1d4WFBoeXVBTjExQWRqS2tETDNoZlhrdlNmWWh6VV9abjlZc3hqQS1LbTdBbXpTSDJEVDNnNl82RzU2TF96M0J5SXNqTnJfa3lLTjlabFNSYndmNXg0ZVRheTdjajhlM1RGRW5n?oc=5",
+    "collectedAt": "2026-05-23T06:59:23.009Z",
+    "approvedAt": "2026-05-23T06:59:23.009Z",
+    "approvedBy": "daily-automation"
+  },
+  {
+    "id": "auto_b8532f0467b9",
+    "title": "Groźna kolizja w centrum Słupska. Policja apeluje o ostrożność",
+    "type": "crash",
+    "severity": 2,
+    "date": "2026-05-21T20:32:43.000Z",
+    "desc": "Automatycznie wykryte zgłoszenie. Lokalizacja orientacyjna: Gdansk.",
+    "lat": 54.352,
+    "lng": 18.6466,
+    "sources": [
+      {
+        "name": "Radio Gdańsk",
+        "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxOSVJzQW5rd2xUcUM4RTY2d2NBSWx5VjlHZGk2VFliMFgzRjFvcmo1TE1MQ1RaOGhMYjhnTnlKMXFBS1JMZ3hraldxdWpHWWVWZTMtcFdlNzN3U196R0JCYzNXYWFiNlQ1WER5YlZLS0ZzdWhOX2d5LVNmd3E2WDFUOWxfYVRBcTFFVU1OdU1FNFk3VVZQa3pSTld0Z2V6MXFqUVNFaWxFOW9LTEoybGE4ZDAyY295c0p3aElZSFZ3?oc=5"
+      }
+    ],
+    "city": "Gdansk",
+    "needsReview": false,
+    "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxOSVJzQW5rd2xUcUM4RTY2d2NBSWx5VjlHZGk2VFliMFgzRjFvcmo1TE1MQ1RaOGhMYjhnTnlKMXFBS1JMZ3hraldxdWpHWWVWZTMtcFdlNzN3U196R0JCYzNXYWFiNlQ1WER5YlZLS0ZzdWhOX2d5LVNmd3E2WDFUOWxfYVRBcTFFVU1OdU1FNFk3VVZQa3pSTld0Z2V6MXFqUVNFaWxFOW9LTEoybGE4ZDAyY295c0p3aElZSFZ3?oc=5",
+    "collectedAt": "2026-05-23T06:59:22.987Z",
+    "approvedAt": "2026-05-23T06:59:22.987Z",
+    "approvedBy": "daily-automation"
+  },
+  {
+    "id": "auto_5909a64cacb8",
+    "title": "Groźne zderzenie na S5. Są ranni [ZDJĘCIA]",
+    "type": "crash",
+    "severity": 2,
+    "date": "2026-05-21T18:04:06.000Z",
+    "desc": "Automatycznie wykryte zgłoszenie. Lokalizacja orientacyjna: Poznan.",
+    "lat": 52.4064,
+    "lng": 16.9252,
+    "sources": [
+      {
+        "name": "TVP Poznań",
+        "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxPRUJMMkIzUEFfWTlYZl9qdVQ5X0NvZGxOcDF6Qi1uSlJieklSN3dXcUFoM2VKWXpiNW1ZM2ktQjBIRDB1RTNoMkNjRnJvcG1tZV84OWZzVThUbHRiamNNMEdwakpSNEdoY2VMc2Y5VTJIRG4yMXR4dEVTSmpFN1kyaTJqaTFkZw?oc=5"
+      }
+    ],
+    "city": "Poznan",
+    "needsReview": false,
+    "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxPRUJMMkIzUEFfWTlYZl9qdVQ5X0NvZGxOcDF6Qi1uSlJieklSN3dXcUFoM2VKWXpiNW1ZM2ktQjBIRDB1RTNoMkNjRnJvcG1tZV84OWZzVThUbHRiamNNMEdwakpSNEdoY2VMc2Y5VTJIRG4yMXR4dEVTSmpFN1kyaTJqaTFkZw?oc=5",
+    "collectedAt": "2026-05-23T06:59:22.972Z",
+    "approvedAt": "2026-05-23T06:59:22.972Z",
+    "approvedBy": "daily-automation"
+  },
+  {
+    "id": "auto_65f151600ebb",
+    "title": "Policjant szarpał się ze złodziejem. Złodziej wsadził mu palec w oko",
+    "type": "other",
+    "severity": 1,
+    "date": "2026-05-21T14:23:11.000Z",
+    "desc": "Automatycznie wykryte zgłoszenie. Lokalizacja orientacyjna: Lodz.",
+    "lat": 51.7592,
+    "lng": 19.456,
+    "sources": [
+      {
+        "name": "Dziennik Bałtycki",
+        "url": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxPRTRTc0dpbVNXa3daVDZraDVRUmdHaGt2ZEkxWUVvcVVKblp4LThQdFR5b3hvQ0tHZy1aWjh1Q1V4YU9wTU1TNjFPekNuWGExeGl4cTl4emg5ZHVRT25OTFZRcUU0ZzFINkw3TlBYOVBnaWl0WGhUbmhCSl9JNUpWalRINnVENXB4TnEwT0p3X19hWTVpQUNpblgteEJzbkJZTWxPcWZjVVZSWmV4OS1xcTItenE5WTJUdVdnTnZwTHoxMXBYMTVlTV92Y194VDNsdUFTdA?oc=5"
+      }
+    ],
+    "city": "Lodz",
+    "needsReview": false,
+    "url": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxPRTRTc0dpbVNXa3daVDZraDVRUmdHaGt2ZEkxWUVvcVVKblp4LThQdFR5b3hvQ0tHZy1aWjh1Q1V4YU9wTU1TNjFPekNuWGExeGl4cTl4emg5ZHVRT25OTFZRcUU0ZzFINkw3TlBYOVBnaWl0WGhUbmhCSl9JNUpWalRINnVENXB4TnEwT0p3X19hWTVpQUNpblgteEJzbkJZTWxPcWZjVVZSWmV4OS1xcTItenE5WTJUdVdnTnZwTHoxMXBYMTVlTV92Y194VDNsdUFTdA?oc=5",
+    "collectedAt": "2026-05-23T06:59:23.011Z",
+    "approvedAt": "2026-05-23T06:59:23.011Z",
+    "approvedBy": "daily-automation"
+  },
+  {
+    "id": "auto_0c552bc877c3",
+    "title": "Podolsze. Obywatelskie ujęcie nietrzeźwego kierowcy",
+    "type": "other",
+    "severity": 1,
+    "date": "2026-05-21T13:43:28.000Z",
+    "desc": "Automatycznie wykryte zgłoszenie. Lokalizacja orientacyjna: Opole.",
+    "lat": 50.6751,
+    "lng": 17.9213,
+    "sources": [
+      {
+        "name": "Policja Małopolska",
+        "url": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxQdlBCdHp0M0VZdHp1YmwwdURwblg3UGQ3WWlnMllERUV0d19rSjFxQWpTV3Y0ZHA5aHpFRFpvcnYySEpKRE41Y3Y0M2xnazVQWG8yaWNSR1VFWTlFUEdEQjhIQnM3S3Y5VkRIbTRodTlYdEpfbW1pRW9rSDVpa3JnTV9SZVhpcHlSOFhnUG5WZnhjcWg4bWpoaHJJbjRYbnRuY1l2Mm5ZTV9MM1ZyYTJ2T2tZUDk1N1RpX0VPRVZReVE?oc=5"
+      }
+    ],
+    "city": "Opole",
+    "needsReview": false,
+    "url": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxQdlBCdHp0M0VZdHp1YmwwdURwblg3UGQ3WWlnMllERUV0d19rSjFxQWpTV3Y0ZHA5aHpFRFpvcnYySEpKRE41Y3Y0M2xnazVQWG8yaWNSR1VFWTlFUEdEQjhIQnM3S3Y5VkRIbTRodTlYdEpfbW1pRW9rSDVpa3JnTV9SZVhpcHlSOFhnUG5WZnhjcWg4bWpoaHJJbjRYbnRuY1l2Mm5ZTV9MM1ZyYTJ2T2tZUDk1N1RpX0VPRVZReVE?oc=5",
+    "collectedAt": "2026-05-23T06:59:23.002Z",
+    "approvedAt": "2026-05-23T06:59:23.002Z",
+    "approvedBy": "daily-automation"
+  },
+  {
+    "id": "auto_a3e8123d1a40",
+    "title": "Kradzież w drogerii HEBE. Policja opublikowała wizerunek młodego mężczyzny",
+    "type": "other",
+    "severity": 1,
+    "date": "2026-05-21T12:53:36.000Z",
+    "desc": "Automatycznie wykryte zgłoszenie. Lokalizacja orientacyjna: Gliwice.",
+    "lat": 50.2945,
+    "lng": 18.6714,
+    "sources": [
+      {
+        "name": "24GLIWICE - Portal Gliwice | codziennie nowe informacje",
+        "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxQR2RDMVhyUENRazRGeUdsbi1LUUVoamtXNXUxOE55R0JUTldkRWVIdFJYcG1Wb01mQTlrRmoweEVpRmdxX0NlMVpaaTl1ZEZ0YUhnZnRfZm9PODBuMVhwbkxGN3FMT3FkR2VmOTlKTG5VMkVuMmhVaUh6SHFDbTE0a3g5ZGJYSXpxTHZ5VVFlYTNTbS0wZThqb295NjBQMU9WSk90dWJvaWVPS3dwZXFF?oc=5"
+      }
+    ],
+    "city": "Gliwice",
+    "needsReview": false,
+    "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxQR2RDMVhyUENRazRGeUdsbi1LUUVoamtXNXUxOE55R0JUTldkRWVIdFJYcG1Wb01mQTlrRmoweEVpRmdxX0NlMVpaaTl1ZEZ0YUhnZnRfZm9PODBuMVhwbkxGN3FMT3FkR2VmOTlKTG5VMkVuMmhVaUh6SHFDbTE0a3g5ZGJYSXpxTHZ5VVFlYTNTbS0wZThqb295NjBQMU9WSk90dWJvaWVPS3dwZXFF?oc=5",
+    "collectedAt": "2026-05-23T06:59:22.996Z",
+    "approvedAt": "2026-05-23T06:59:22.996Z",
+    "approvedBy": "daily-automation"
+  },
+  {
+    "id": "auto_ff9e2ac592fd",
+    "title": "Szarpanina złodzieja z policjantem w sklepie w Lęborku. Funkcjonariusz z urazem oka",
+    "type": "other",
+    "severity": 1,
+    "date": "2026-05-21T10:40:46.000Z",
+    "desc": "Automatycznie wykryte zgłoszenie. Lokalizacja orientacyjna: Lodz.",
+    "lat": 51.7592,
+    "lng": 19.456,
+    "sources": [
+      {
+        "name": "LĘBORK24.info",
+        "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxQTEVscVFuU0RhQXY4ZWVsUjE4SVdXOE9XUWloMmh2VG8teGVic3VTaWpJZWpPNVdPak9BWGRscW5WTkFrM2hJR24xNmVicktxNmR6NFFYWlQ1UENGMlgzb0FNYi1PZ3hNTklWTWRDM2RPZDZjRUdUSmlyWVY2N2xBSkhwakZSbHAtLV9objdQNEZLRnJyM2lPZV9Vd1c1cmtKNHotcmRJYmVEZ3kwUjhsWjJvcWFlWS1LTmxNUg?oc=5"
+      }
+    ],
+    "city": "Lodz",
+    "needsReview": false,
+    "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxQTEVscVFuU0RhQXY4ZWVsUjE4SVdXOE9XUWloMmh2VG8teGVic3VTaWpJZWpPNVdPak9BWGRscW5WTkFrM2hJR24xNmVicktxNmR6NFFYWlQ1UENGMlgzb0FNYi1PZ3hNTklWTWRDM2RPZDZjRUdUSmlyWVY2N2xBSkhwakZSbHAtLV9objdQNEZLRnJyM2lPZV9Vd1c1cmtKNHotcmRJYmVEZ3kwUjhsWjJvcWFlWS1LTmxNUg?oc=5",
+    "collectedAt": "2026-05-23T06:59:23.011Z",
+    "approvedAt": "2026-05-23T06:59:23.011Z",
+    "approvedBy": "daily-automation"
+  },
+  {
+    "id": "auto_a7f03e4ced0f",
+    "title": "Połączył swoje zainteresowania alkoholem i cudzymi rowerami. Został zatrzymany",
+    "type": "interwencja",
+    "severity": 1,
+    "date": "2026-05-21T10:02:29.000Z",
+    "desc": "Automatycznie wykryte zgłoszenie. Lokalizacja orientacyjna: Olsztyn.",
+    "lat": 53.7784,
+    "lng": 20.4801,
+    "sources": [
+      {
+        "name": "Komenda Miejska Policji w Olsztynie",
+        "url": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxPbVE1aHNKWGZ3R3ZUTkFvYjI5MVc3Wk52R3JWVVVBQlE2WnZJOGktVWpRb1VrUWQ1OVhIWldiWmdHelBYYTNrbm5VRXliUncxaEQxM2Zqc3BNNjNGbW1QYWlSRHFIYUNoZ0NfZE9UMVNwbFRvWHV4RmdFengtdGJFc0xVOFBkb3EyQ2d3S25lNlVJQVh0c2thYTZVS3RxOXRtWkRtUm1RSjhockR4VnppY3RTZEJTZENidV9idEszWHFkVk5ydWdlcTNuakZua2oyQmc?oc=5"
+      }
+    ],
+    "city": "Olsztyn",
+    "needsReview": false,
+    "url": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxPbVE1aHNKWGZ3R3ZUTkFvYjI5MVc3Wk52R3JWVVVBQlE2WnZJOGktVWpRb1VrUWQ1OVhIWldiWmdHelBYYTNrbm5VRXliUncxaEQxM2Zqc3BNNjNGbW1QYWlSRHFIYUNoZ0NfZE9UMVNwbFRvWHV4RmdFengtdGJFc0xVOFBkb3EyQ2d3S25lNlVJQVh0c2thYTZVS3RxOXRtWkRtUm1RSjhockR4VnppY3RTZEJTZENidV9idEszWHFkVk5ydWdlcTNuakZua2oyQmc?oc=5",
+    "collectedAt": "2026-05-23T06:59:23.003Z",
+    "approvedAt": "2026-05-23T06:59:23.003Z",
+    "approvedBy": "daily-automation"
+  },
+  {
+    "id": "auto_17cf3b523dca",
+    "title": "Złodziej spowodował uszczerbek na zdrowiu policjanta, który uniemożliwił mu ucieczkę ze skradzionym towarem. Został tymczasowo aresztowany",
+    "type": "interwencja",
+    "severity": 1,
+    "date": "2026-05-21T09:42:40.000Z",
+    "desc": "Automatycznie wykryte zgłoszenie. Lokalizacja orientacyjna: Lodz.",
+    "lat": 51.7592,
+    "lng": 19.456,
+    "sources": [
+      {
+        "name": "Policja Pomorska",
+        "url": "https://news.google.com/rss/articles/CBMi5AFBVV95cUxPWG0yaU9nYnIyVVB0bGlFT0VUREVoV1NoRTJDRWxOTUdRLWNTb0l5WFRFend0QWt0UmJYZmR3bE9kNXZMNDlPRlk0TDI2MWE2YUo4VVVsNDZiWU1EWGJBMkZ1bzdneDBuaWlwcmpGTVZRRWs2UUNfbGNQTzJmRGE0VWt6YjNmay1SOVJZc0N6SE9qZlBhOFRhRE9NOUF6VWxaX0VON21SRmVIczZSVHFnQTEtWTU1TDVsZFpfNTVjTi1vaFlUNWMyNWk0R1JXcFN6d1otc1B2dmhuT1NFOFVRak5HbXo?oc=5"
+      }
+    ],
+    "city": "Lodz",
+    "needsReview": false,
+    "url": "https://news.google.com/rss/articles/CBMi5AFBVV95cUxPWG0yaU9nYnIyVVB0bGlFT0VUREVoV1NoRTJDRWxOTUdRLWNTb0l5WFRFend0QWt0UmJYZmR3bE9kNXZMNDlPRlk0TDI2MWE2YUo4VVVsNDZiWU1EWGJBMkZ1bzdneDBuaWlwcmpGTVZRRWs2UUNfbGNQTzJmRGE0VWt6YjNmay1SOVJZc0N6SE9qZlBhOFRhRE9NOUF6VWxaX0VON21SRmVIczZSVHFnQTEtWTU1TDVsZFpfNTVjTi1vaFlUNWMyNWk0R1JXcFN6d1otc1B2dmhuT1NFOFVRak5HbXo?oc=5",
+    "collectedAt": "2026-05-23T06:59:23.004Z",
+    "approvedAt": "2026-05-23T06:59:23.004Z",
+    "approvedBy": "daily-automation"
+  },
+  {
+    "id": "auto_22fcab2fa524",
+    "title": "Skandal w komisariacie. Jeden z kryminalnych miał na zlecenie podrzucić narkotyki, aby obciążyć niewinną osobę",
+    "type": "interwencja",
+    "severity": 1,
+    "date": "2026-05-21T09:23:00.000Z",
+    "desc": "Automatycznie wykryte zgłoszenie. Lokalizacja orientacyjna: Gliwice.",
+    "lat": 50.2945,
+    "lng": 18.6714,
+    "sources": [
+      {
+        "name": "Gliwice.Wyborcza.pl",
+        "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxPei1hTjdOUVhvQ3M1QzZ3V3NvVkltcG4waURRaFZyU1hrdG5ud1Fhc3BkQXBVYlFfSGZzc3dKTzMyRnRPZ19UUGtwVElBdmpGMjgtMGxqSllzd3psbTBkLWZ4WDI1WlF2SDFIZWdsRzloZkV0Ry1KNVpaT1JVdUFMd0lSY0xEOGlLYlg5ZjlfQXBpdkQ2VHNETzZPSFFIaTlJWEdEQmYtM0hmbVVjMjhXbjV0a3F1dEU?oc=5"
+      }
+    ],
+    "city": "Gliwice",
+    "needsReview": false,
+    "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxPei1hTjdOUVhvQ3M1QzZ3V3NvVkltcG4waURRaFZyU1hrdG5ud1Fhc3BkQXBVYlFfSGZzc3dKTzMyRnRPZ19UUGtwVElBdmpGMjgtMGxqSllzd3psbTBkLWZ4WDI1WlF2SDFIZWdsRzloZkV0Ry1KNVpaT1JVdUFMd0lSY0xEOGlLYlg5ZjlfQXBpdkQ2VHNETzZPSFFIaTlJWEdEQmYtM0hmbVVjMjhXbjV0a3F1dEU?oc=5",
+    "collectedAt": "2026-05-23T06:59:23.005Z",
+    "approvedAt": "2026-05-23T06:59:23.005Z",
+    "approvedBy": "daily-automation"
+  },
+  {
     "id": "auto_1981dded1281",
     "title": "Kolizja dwóch ciężarówek na DK9 w Nagnajowie. Są utrudnienia • Wiadomości",
     "type": "crash",
