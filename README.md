@@ -21,11 +21,10 @@ Krótki opis: projekt to mapa incydentów zgłaszanych przez policję lub służ
 - Dolny pasek pozwala filtrować zakres; warto, by opcja **"wszystko"** zawsze była dostępna na końcu suwaka.
 
 **Pierwszy temat:** Śmierć Olka w drodze do szpitala
-- Opis: pierwszy przypadek, którego zawartość powinna zawierać tytuł, datę, status (pending/approved), źródła i listę załączników (media, dokumenty, linki).
--- Lokalizacja danych: dodajemy wpis do `pending_incidents.json` (jeśli najpierw trafia do weryfikacji) lub do `approved_incidents.json` po zatwierdzeniu. Pliki przechowujemy w katalogu głównym repo.
+Lokalizacja danych: używamy tylko `approved_incidents.json` w katalogu głównym repo — to jedyny plik z aktualnymi sprawami prezentowanymi na mapie.
 
 Przykładowy wpis JSON do `pending_incidents.json`:
-
+Przykładowy wpis JSON do `approved_incidents.json`:
 ```json
 {
   "id": "olek-2026-07",
