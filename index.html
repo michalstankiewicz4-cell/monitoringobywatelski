@@ -616,6 +616,7 @@ function createMarker(inc) {
   m.__incidentId = inc.id;
   markers[inc.id] = m;
   clusterGroup.addLayer(m);
+  m.on('click', () => showIncidentMaterials(inc));
 }
 
 function buildPopup(inc) {
@@ -663,6 +664,70 @@ async function loadApprovedIncidents() {
   } catch {
     // Brak zatwierdzonych danych nie powinien zatrzymać mapy.
   }
+}
+
+/* ─── MATERIALS / VIDEO POPUP ───────────────────────────────── */
+function showIncidentMaterials(inc) {
+  // ensure legend panel visible
+  const legend = document.getElementById('legend');
+  legend.classList.remove('leg-hidden');
+  const body = document.getElementById('legend-body');
+  if (!inc || !inc.materials || !inc.materials.length) {
+    body.innerHTML = '<div style="font-size:.78rem;color:var(--text2)">Brak materiałów dla tej sprawy.</div>';
+    return;
+  }
+
+  // sort by timestamp desc
+  const mats = inc.materials.slice().sort((a,b) => new Date(b.timestamp || b.date || 0) - new Date(a.timestamp || a.date || 0));
+  body.innerHTML = mats.map((m, idx) => {
+    const t = m.title ? (m.title.replace(/</g,'&lt;')) : (m.url || m.type);
+    if ((m.type === 'video' || /youtube.com|youtu.be/.test(m.url || ''))) {
+      return `<div class="legend-item" style="align-items:center;justify-content:space-between"><div style="flex:1"><div style=\"font-weight:600;margin-bottom:6px;\">${t}</div><div style=\"font-size:.72rem;color:var(--text2);\">${new Date(m.timestamp||m.date||'').toLocaleString()}</div></div><div style=\"margin-left:10px\"><button class=\"th-video-btn\" data-url=\"${(m.url||'')}\" data-lat=\"${m.lat||inc.lat}\" data-lng=\"${m.lng||inc.lng}\">Odtwórz</button></div></div>`;
+    }
+    // article / default: open in new tab
+    return `<div class="legend-item"><div style=\"flex:1\"><div style=\"font-weight:600;margin-bottom:6px;\">${t}</div><div style=\"font-size:.72rem;color:var(--text2);\">${new Date(m.timestamp||m.date||'').toLocaleString()}</div></div><div style=\"margin-left:10px\"><a href=\"${m.url}\" target=\"_blank\" rel=\"noopener noreferrer\">Otwórz</a></div></div>`;
+  }).join('');
+
+  // wire video buttons
+  document.querySelectorAll('.th-video-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const url = btn.getAttribute('data-url');
+      const lat = parseFloat(btn.getAttribute('data-lat')) || inc.lat;
+      const lng = parseFloat(btn.getAttribute('data-lng')) || inc.lng;
+      showVideoAt(url, [lat, lng]);
+    });
+  });
+}
+
+function showVideoAt(url, latlng) {
+  if (!url) return;
+  const popup = document.getElementById('video-popup');
+  // build embed url for youtube
+  let embed = url;
+  const y = url.match(/(?:v=|youtu\.be\/)\s*([A-Za-z0-9_\-]{11})/);
+  if (y) embed = `https://www.youtube.com/embed/${y[1]}?autoplay=1`;
+
+  popup.innerHTML = `<div class=\"vp-inner\"><button id=\"vp-close\">✕</button><iframe src=\"${embed}\" frameborder=\"0\" allow=\"autoplay; encrypted-media; picture-in-picture\" allowfullscreen style=\"width:100%;height:100%\"></iframe></div>`;
+  popup.style.display = 'block';
+  // position near marker
+  try {
+    const pt = map.latLngToContainerPoint(L.latLng(latlng[0], latlng[1]));
+    const mapWrap = document.getElementById('map-wrap');
+    const rect = mapWrap.getBoundingClientRect();
+    // offset to place popup slightly above
+    popup.style.left = `${rect.left + pt.x + 10}px`;
+    popup.style.top = `${rect.top + pt.y - 190}px`;
+  } catch(e) {
+    // fallback center
+    popup.style.left = '50%'; popup.style.top = '50%';
+  }
+  document.getElementById('vp-close').addEventListener('click', hideVideoPopup);
+}
+
+function hideVideoPopup() {
+  const popup = document.getElementById('video-popup');
+  popup.style.display = 'none';
+  popup.innerHTML = '';
 }
 
 /* ─── SOURCE FILTER ──────────────────────────────────── */
@@ -898,6 +963,10 @@ function showToast(html, duration = 3000) {
 
 <div id="support-btn" title="Wsparcie" onclick="document.getElementById('support-popup').classList.toggle('sp-visible')" style="position:fixed;bottom:16px;left:16px;z-index:2000;width:40px;height:40px;border-radius:50%;background:rgba(30,30,40,.82);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.4);">
   <i class="fa-solid fa-circle-info" style="font-size:18px;color:#7db4ff;"></i>
+</div>
+
+<!-- VIDEO POPUP (positioned near marker) -->
+<div id="video-popup" style="position:fixed;z-index:3000;display:none;width:320px;height:180px;border-radius:8px;overflow:hidden;box-shadow:0 8px 30px rgba(0,0,0,.6);background:#000">
 </div>
 
 <div id="support-popup" style="position:fixed;bottom:66px;left:16px;z-index:2001;max-width:290px;background:rgba(22,22,32,.95);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.15);border-radius:12px;padding:14px 16px;font-size:.82rem;line-height:1.6;color:#dde;box-shadow:0 4px 20px rgba(0,0,0,.5);display:none;">
