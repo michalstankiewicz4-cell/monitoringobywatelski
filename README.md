@@ -3,22 +3,13 @@
 Krótki opis: projekt to mapa incydentów zgłaszanych przez policję lub służby medyczne, prezentowana w widoku dwukolumnowym.
 
 **Układ UI**
-- **Lewy panel:** lista spraw (kolejka/incydenty).
-- **Prawy panel:** materiały powiązane z wybraną sprawą ułożone w linii czasu, od najnowszych do najstarszych.
-- **Dolny pasek czasu:** kontrola zakresu czasu — na końcu paska powinna być opcja/etykieta **"wszystko"**.
 
 **Legenda i oznaczenia**
-- **Legenda:** usuwamy — interfejs nie pokazuje rozbudowanej legendy.
-- **Punkty (markery):**
   - Najnowsze punkty: czerwone, z subtelnym pulsowaniem (przyciąganie uwagi).
   - Miganie/blinking dla nieprzeczytanych: nie będzie używane.
   - Przeczytane: oznaczane jako czerwone bez pulsowania.
-- Pozostałe elementy legendy usuwamy — zachowujemy prostą kolorystykę opartą na czerwieni dla istotnych zdarzeń.
 
 **Interakcje**
-- Kliknięcie sprawy w lewym panelu otwiera powiązane materiały po prawej w formie osi czasu.
-- Oś czasu sortowana jest malejąco (najpierw najnowsze).
-- Dolny pasek pozwala filtrować zakres; warto, by opcja **"wszystko"** zawsze była dostępna na końcu suwaka.
 
 **Pierwszy temat:** Śmierć Olka w drodze do szpitala
 Lokalizacja danych: używamy tylko `approved_incidents.json` w katalogu głównym repo — to jedyny plik z aktualnymi sprawami prezentowanymi na mapie.
@@ -44,11 +35,35 @@ Przykładowy wpis JSON do `approved_incidents.json`:
 ```
 
 **Pliki/skrypty pomocnicze**
-- Skrypty do przetwarzania/detekcji incydentów: [scripts/discover_incidents.mjs](scripts/discover_incidents.mjs).
-- Skrypt do pobierania miniatur artykułów OG: `scripts/fetch_article_thumbnails.mjs`
-- Uruchomienie: `npm run fetch-thumbs`
-- Dane znajdują się w katalogu `data/` — edytuj ostrożnie i ewentualnie korzystaj z narzędzi/skryptów do walidacji przed zatwierdzeniem.
 
----
 
+Lekki frontend pokazujący zgromadzone materiały dotyczące incydentów na mapie i w panelu osi czasu.
+
+**Setup**
+- **Serve locally:** uruchom w katalogu projektu:
+
+```bash
+python -m http.server 8000
+# potem otwórz http://localhost:8000/index.html
+```
+- **Fetch thumbnails:** wymaga Node.js — uruchom `npm run fetch-thumbs` (skrypt: [scripts/fetch_article_thumbnails.mjs](scripts/fetch_article_thumbnails.mjs)).
+
+**Pliki i krótki opis**
+- **index.html:** główny single-page frontend (mapa Leaflet, lewy panel z listą spraw, prawy panel z materiałami). Zmiany UI i logika renderowania korzystają z danych z [data/approved_incidents.json](data/approved_incidents.json).
+- **data/approved_incidents.json:** autorytatywna lista spraw wyświetlanych w aplikacji. Każda sprawa ma pole `materials` (tablica obiektów) opisujące artykuły, wideo i inne zasoby; pole `thumbnail` może być `null` i uzupełniane przez skrypt miniatur.
+- **data/pending_incidents.json:** robocze propozycje spraw (niepokazywane automatycznie, wymagają zatwierdzenia przeniesienia do `approved_incidents.json`).
+- **data/search_phrases.txt:** lista fraz używanych przy zbieraniu źródeł.
+- **scripts/discover_incidents.mjs:** pomocniczy skrypt Node do wykrywania nowych linków/incydentów (uruchamiany ręcznie).
+- **scripts/fetch_article_thumbnails.mjs:** pobiera HTML artykułów i próbuje wydobyć `og:image`/`twitter:image`; dla YouTube używa `img.youtube.com/vi/<id>/hqdefault.jpg`. Zapisuje aktualizacje do `approved_incidents.json`.
+- **scripts/collect_incident_sources.py, scripts/get_youtube_titles.py:** narzędzia pomocnicze używane podczas zbierania i weryfikacji źródeł (Python).
+- **favicon-*.png / favicon.ico / favicon.svg:** ikony używane w nagłówku strony.
+
+**Jak działają dane (krótko)**
+- Każda sprawa w [data/approved_incidents.json](data/approved_incidents.json) ma pola typu: `id`, `title`, `date`, `summary`, `materials`.
+- `materials[]` zawiera obiekty z polami takimi jak `type` ("article"|"video"), `url`, `title`, `timestamp`, `thumbnail`.
+- Skrypt [scripts/fetch_article_thumbnails.mjs](scripts/fetch_article_thumbnails.mjs) uzupełnia pole `thumbnail` jeśli znajdzie `og:image` lub odpowiednik; nieudane próby pozostawiają `thumbnail: null`.
+
+**Praca z repo / Contributing**
+- Aby dodać/zmodyfikować sprawę: edytuj [data/approved_incidents.json](data/approved_incidents.json) (lokalnie), opcjonalnie uruchom `npm run fetch-thumbs`, przetestuj przez `python -m http.server` i zrób commit + push.
+- Unikaj automatycznych masowych zmian bez przeglądu (niektóre skrypty mogą napotkać blokady stron z powodu ochrony przed botami).
 Jeśli chcesz, mogę od razu dodać powyższy przykładowy wpis do `pending_incidents.json` lub utworzyć issue/PR z tą zmianą.
