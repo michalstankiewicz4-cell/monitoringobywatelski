@@ -420,7 +420,7 @@
     <!-- Source filter panel -->
     <div id="source-panel">
       <h4 onclick="toggleSourcePanel()">
-        <span><i class="fa-solid fa-filter" style="margin-right:4px"></i> Serwisy</span>
+        <span><i class="fa-solid fa-filter" style="margin-right:4px"></i> SPRAWY</span>
         <i id="source-panel-icon" class="fa-solid fa-chevron-up" style="font-size:.6rem"></i>
       </h4>
       <div id="source-panel-body">
@@ -432,7 +432,7 @@
     <!-- Legend -->
     <div id="legend">
       <h4 onclick="toggleLegend()">
-        <span><i class="fa-solid fa-circle-info" style="margin-right:4px"></i> Legenda</span>
+        <span><i class="fa-solid fa-circle-info" style="margin-right:4px"></i> HISTORIA</span>
         <i id="legend-toggle-icon" class="fa-solid fa-chevron-up" style="font-size:.6rem;margin-left:8px"></i>
       </h4>
       <div id="legend-body">
@@ -643,7 +643,7 @@ function buildPopup(inc) {
 
 async function loadApprovedIncidents() {
   try {
-    const response = await fetch(`data/approved_incidents.json?t=${Date.now()}`);
+    const response = await fetch(`approved_incidents.json?t=${Date.now()}`);
     if (!response.ok) return;
     const data = await response.json();
     if (!Array.isArray(data)) return;
