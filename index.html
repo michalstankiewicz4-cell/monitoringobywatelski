@@ -401,6 +401,24 @@
     }
     .incident-tooltip::before { display: none !important; }
 
+    /* HISTORIA materials list */
+    .hist-controls { display:flex;gap:8px;align-items:center;margin-bottom:8px }
+    .hist-chip { padding:6px 8px;border-radius:14px;background:transparent;border:1px solid var(--border);color:var(--text2);cursor:pointer;font-size:.75rem }
+    .hist-chip.active { background:var(--panel2);color:var(--text);border-color:var(--accent4); }
+    .hist-list { display:flex;flex-direction:column;gap:8px;max-height:420px;overflow:auto;padding-right:6px }
+    .hist-item { display:flex;gap:10px;align-items:center;padding:8px;border-radius:8px;background:transparent;border:1px solid transparent }
+    .hist-item:hover { background:var(--card-hover); }
+    .hist-thumb { width:84px;height:56px;flex:0 0 84px;border-radius:6px;overflow:hidden;background:#0b0b0b;display:flex;align-items:center;justify-content:center }
+    .hist-thumb img { width:100%;height:100%;object-fit:cover;display:block }
+    .hist-meta { flex:1; min-width:0 }
+    .hist-title { font-weight:700;font-size:.86rem;line-height:1.2;overflow:hidden;text-overflow:ellipsis;white-space:nowrap }
+    .hist-sub { font-size:.72rem;color:var(--text2);margin-top:4px }
+    .hist-actions { display:flex;flex-direction:column;gap:6px;align-items:flex-end }
+    .hist-action-btn { padding:6px 8px;border-radius:8px;border:none;background:var(--panel2);color:var(--text);cursor:pointer;font-size:.78rem }
+    .hist-pager { display:flex;gap:8px;align-items:center;justify-content:center;margin-top:8px }
+    .hist-pager button { padding:6px 8px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text2);cursor:pointer }
+    .hist-pager .current { font-weight:700;color:var(--text) }
+
     /* Leaflet overrides */
     .leaflet-control-zoom { border: 1px solid var(--border) !important; }
     .leaflet-control-zoom a {
@@ -667,6 +685,10 @@ async function loadApprovedIncidents() {
 }
 
 /* ─── MATERIALS / VIDEO POPUP ───────────────────────────────── */
+let materialsPerPage = 5;
+let materialsPage = 1;
+let activeMaterialCategory = 'all';
+
 function showIncidentMaterials(inc) {
   // ensure legend panel visible
   const legend = document.getElementById('legend');
@@ -677,19 +699,33 @@ function showIncidentMaterials(inc) {
     return;
   }
 
-  // sort by timestamp desc
+  // prepare materials: sort desc
   const mats = inc.materials.slice().sort((a,b) => new Date(b.timestamp || b.date || 0) - new Date(a.timestamp || a.date || 0));
-  body.innerHTML = mats.map((m, idx) => {
-    const t = m.title ? (m.title.replace(/</g,'&lt;')) : (m.url || m.type);
-    if ((m.type === 'video' || /youtube.com|youtu.be/.test(m.url || ''))) {
-      return `<div class="legend-item" style="align-items:center;justify-content:space-between"><div style="flex:1"><div style=\"font-weight:600;margin-bottom:6px;\">${t}</div><div style=\"font-size:.72rem;color:var(--text2);\">${new Date(m.timestamp||m.date||'').toLocaleString()}</div></div><div style=\"margin-left:10px\"><button class=\"th-video-btn\" data-url=\"${(m.url||'')}\" data-lat=\"${m.lat||inc.lat}\" data-lng=\"${m.lng||inc.lng}\">Odtwórz</button></div></div>`;
-    }
-    // article / default: open in new tab
-    return `<div class="legend-item"><div style=\"flex:1\"><div style=\"font-weight:600;margin-bottom:6px;\">${t}</div><div style=\"font-size:.72rem;color:var(--text2);\">${new Date(m.timestamp||m.date||'').toLocaleString()}</div></div><div style=\"margin-left:10px\"><a href=\"${m.url}\" target=\"_blank\" rel=\"noopener noreferrer\">Otwórz</a></div></div>`;
-  }).join('');
 
-  // wire video buttons
-  document.querySelectorAll('.th-video-btn').forEach(btn => {
+  // categories
+  const cats = new Set(['all']);
+  mats.forEach(m => cats.add(m.type || (/(youtube.com|youtu.be)/.test(m.url||'') ? 'video' : 'article')));
+
+  // render controls (category chips)
+  const chips = [...cats].map(c => `<button class="hist-chip${c===activeMaterialCategory?' active':''}" data-cat="${c}" onclick="setMaterialCategory('${c}', '${inc.id}')">${c==='all'?'Wszystkie':c}</button>`).join(' ');
+
+  // pagination calculations
+  const filtered = mats.filter(m => activeMaterialCategory === 'all' ? true : (m.type === activeMaterialCategory || (activeMaterialCategory==='video' && /youtube.com|youtu.be/.test(m.url||''))));
+  const total = filtered.length;
+  const pages = Math.max(1, Math.ceil(total / materialsPerPage));
+  if (materialsPage > pages) materialsPage = pages;
+
+  const start = (materialsPage - 1) * materialsPerPage;
+  const pageItems = filtered.slice(start, start + materialsPerPage);
+
+  body.innerHTML = `
+    <div class="hist-controls">${chips}</div>
+    <div class="hist-list">${pageItems.map(m => renderMaterialRow(m, inc)).join('')}</div>
+    <div class="hist-pager">${renderPager(pages)}</div>
+  `;
+
+  // wire video/play buttons and pager
+  body.querySelectorAll('.th-video-btn').forEach(btn => {
     btn.addEventListener('click', (e) => {
       const url = btn.getAttribute('data-url');
       const lat = parseFloat(btn.getAttribute('data-lat')) || inc.lat;
@@ -697,6 +733,57 @@ function showIncidentMaterials(inc) {
       showVideoAt(url, [lat, lng]);
     });
   });
+  body.querySelectorAll('.hist-action-link').forEach(a => a.addEventListener('click', (e) => { /* noop */ }));
+  body.querySelectorAll('.hist-pg-btn').forEach(btn => btn.addEventListener('click', () => {
+    const p = parseInt(btn.getAttribute('data-page'));
+    materialsPage = p; showIncidentMaterials(inc);
+  }));
+}
+
+function setMaterialCategory(cat, incId) {
+  activeMaterialCategory = cat;
+  materialsPage = 1;
+  // find incident by id and rerender
+  const inc = incidents.find(x => String(x.id) === String(incId));
+  if (inc) showIncidentMaterials(inc);
+}
+
+function renderMaterialRow(m, inc) {
+  const title = (m.title || m.url || m.type || 'Materiał').replace(/</g,'&lt;');
+  const dateStr = m.timestamp || m.date ? new Date(m.timestamp||m.date).toLocaleString() : '';
+  let thumb = m.thumbnail || m.thumb || '';
+  if (!thumb && (m.type === 'video' || /youtube.com|youtu.be/.test(m.url||''))) {
+    const y = (m.url||'').match(/(?:v=|youtu\.be\/)([A-Za-z0-9_\-]{11})/);
+    if (y) thumb = `https://img.youtube.com/vi/${y[1]}/hqdefault.jpg`;
+  }
+  if (!thumb) thumb = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="320" height="180"><rect width="100%" height="100%" fill="%230f1116"/><text x="50%" y="50%" fill="%23a3acc3" font-size="18" font-family="Inter,Arial" dominant-baseline="middle" text-anchor="middle">Brak miniatury</text></svg>';
+
+  const isVideo = (m.type === 'video' || /youtube.com|youtu.be/.test(m.url||''));
+  const actionHtml = isVideo
+    ? `<button class="hist-action-btn th-video-btn" data-url="${(m.url||'')}" data-lat="${m.lat||inc.lat}" data-lng="${m.lng||inc.lng}">Odtwórz</button>`
+    : `<a class="hist-action-btn hist-action-link" href="${m.url||'#'}" target="_blank" rel="noopener noreferrer">Otwórz</a>`;
+
+  return `
+    <div class="hist-item">
+      <div class="hist-thumb"><img src="${thumb}" alt="thumb"></div>
+      <div class="hist-meta">
+        <div class="hist-title">${title}</div>
+        <div class="hist-sub">${dateStr}</div>
+      </div>
+      <div class="hist-actions">${actionHtml}</div>
+    </div>
+  `;
+}
+
+function renderPager(pages) {
+  if (pages <= 1) return '';
+  let html = '';
+  const start = Math.max(1, materialsPage - 2);
+  const end = Math.min(pages, start + 4);
+  if (materialsPage > 1) html += `<button class="hist-pg-btn" data-page="${materialsPage-1}">◀</button>`;
+  for (let p=start;p<=end;p++) html += `<button class="hist-pg-btn ${p===materialsPage?'current':''}" data-page="${p}">${p}</button>`;
+  if (materialsPage < pages) html += `<button class="hist-pg-btn" data-page="${materialsPage+1}">▶</button>`;
+  return html;
 }
 
 function showVideoAt(url, latlng) {
