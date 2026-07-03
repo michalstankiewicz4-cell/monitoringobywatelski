@@ -1041,48 +1041,24 @@ function toggleTimeline() {
   filterMarkers();
 }
 
-/* ─── THEME SWITCHER AUTO-HIDE ────────────────────────────── */
-(function() {
-  const sw = document.getElementById('theme-switcher');
-  let hideTimer;
-  function showSwitcher() {
-    sw.classList.remove('ts-hidden');
-    clearTimeout(hideTimer);
-    hideTimer = setTimeout(() => sw.classList.add('ts-hidden'), 1000);
+/* ─── AUTO-HIDE HANDLER (theme / legend / source) ───────────────── */
+function setupAutoHide({ elId, hideClass, showEvents = ['mousemove','touchstart'], delay = 1000 }) {
+  const el = document.getElementById(elId);
+  if (!el) return;
+  let timer;
+  function show() {
+    el.classList.remove(hideClass);
+    clearTimeout(timer);
+    timer = setTimeout(() => el.classList.add(hideClass), delay);
   }
-  document.addEventListener('mousemove', showSwitcher);
-  document.addEventListener('touchstart', showSwitcher);
-  // hide initially after 1s
-  hideTimer = setTimeout(() => sw.classList.add('ts-hidden'), 1000);
-})();
+  showEvents.forEach(evt => document.addEventListener(evt, show));
+  // initial hide after delay
+  timer = setTimeout(() => el.classList.add(hideClass), delay);
+}
 
-/* ─── LEGEND AUTO-HIDE ─────────────────────────────────────── */
-(function() {
-  const leg = document.getElementById('legend');
-  let legTimer;
-  function showLegend() {
-    leg.classList.remove('leg-hidden');
-    clearTimeout(legTimer);
-    legTimer = setTimeout(() => leg.classList.add('leg-hidden'), 1000);
-  }
-  document.addEventListener('mousemove', showLegend);
-  document.addEventListener('touchstart', showLegend);
-  legTimer = setTimeout(() => leg.classList.add('leg-hidden'), 1000);
-})();
-
-/* ─── SOURCE PANEL AUTO-HIDE ─────────────────────────────── */
-(function() {
-  const sp = document.getElementById('source-panel');
-  let spTimer;
-  function showSourcePanel() {
-    sp.classList.remove('sp-hidden');
-    clearTimeout(spTimer);
-    spTimer = setTimeout(() => sp.classList.add('sp-hidden'), 2000);
-  }
-  document.addEventListener('mousemove', showSourcePanel);
-  document.addEventListener('touchstart', showSourcePanel);
-  spTimer = setTimeout(() => sp.classList.add('sp-hidden'), 2000);
-})();
+setupAutoHide({ elId: 'theme-switcher', hideClass: 'ts-hidden', delay: 1000 });
+setupAutoHide({ elId: 'legend', hideClass: 'leg-hidden', delay: 1000 });
+setupAutoHide({ elId: 'source-panel', hideClass: 'sp-hidden', delay: 2000 });
 
 function toggleLegend() {
   const body = document.getElementById('legend-body');
