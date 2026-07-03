@@ -3,5 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "scripts": {}
+  "scripts": {
+    "fetch-thumbs": "node scripts/fetch_article_thumbnails.mjs"
+  }
 }
