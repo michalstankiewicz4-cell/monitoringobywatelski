@@ -58,6 +58,30 @@ python -m http.server 8000
 - **scripts/collect_incident_sources.py, scripts/get_youtube_titles.py:** narzędzia pomocnicze używane podczas zbierania i weryfikacji źródeł (Python).
 - **favicon-*.png / favicon.ico / favicon.svg:** ikony używane w nagłówku strony.
 
+**Dodatkowe narzędzia**
+- **scripts/validate_incidents.py:** prosty walidator struktury `approved_incidents.json`. Uruchom przed commitem, aby sprawdzić wymagane pola.
+
+**Uwagi dotyczące miniatur (fetch-thumbs)**
+- Uruchom `npm run fetch-thumbs` żeby spróbować automatycznie pobrać `og:image`/`twitter:image` dla artykułów. Niektóre serwisy (np. gazety) mogą zwracać HTTP 403 — w takich przypadkach skrypt zostawi `thumbnail: null` lub użyje miniatury YouTube jeśli materiał jest wideo.
+
+**Favicony i porządek plików**
+- W repo dodano `favicon-16.png`, `favicon-32.png`, `favicon-48.png`, `favicon-512.png`, `favicon.ico` i `favicon.svg` oraz zaktualizowano `index.html` aby używać ich jako fallbacków.
+- Usunąłem generowany plik `out_head.json` (niepotrzebny).
+
+**Walidacja i podgląd lokalny**
+- Walidacja danych:
+
+```bash
+python scripts/validate_incidents.py
+```
+
+- Podgląd:
+
+```bash
+python -m http.server 8000
+# potem otwórz http://localhost:8000/index.html
+```
+
 **Jak działają dane (krótko)**
 - Każda sprawa w [data/approved_incidents.json](data/approved_incidents.json) ma pola typu: `id`, `title`, `date`, `summary`, `materials`.
 - `materials[]` zawiera obiekty z polami takimi jak `type` ("article"|"video"), `url`, `title`, `timestamp`, `thumbnail`.
