@@ -113,27 +113,6 @@
     "sources": [],
     "materials": [
       {
-        "type": "article",
-        "title": "19-letni Oliwier nie żyje. Zmarł po interwencji policji",
-        "url": "https://example.com/19-letni-oliwier-nie-zyje",
-        "date": "2026-07-03T10:00:00.000Z",
-        "thumbnail": null
-      },
-      {
-        "type": "article",
-        "title": "Rodzina Oliwiera: chcemy prawdy po interwencji policji",
-        "url": "https://example.com/rodzina-oliwiera-wywiad",
-        "date": "2026-07-03T12:00:00.000Z",
-        "thumbnail": null
-      },
-      {
-        "type": "article",
-        "title": "Relacja świadka: co wydarzyło się podczas zatrzymania Oliwiera",
-        "url": "https://example.com/swiadek-oliwier-relacja",
-        "date": "2026-07-03T13:00:00.000Z",
-        "thumbnail": null
-      },
-      {
         "type": "video",
         "title": "Oliwier Bartosik. Tragiczny finał interwencji policji wobec nastolatka",
         "url": "https://www.youtube.com/watch?v=CWWytS421Lg",
@@ -174,10 +153,80 @@
         "url": "https://www.youtube.com/watch?v=hfscuXOsMnY",
         "timestamp": "2026-07-03T15:00:00.000Z",
         "thumbnail": "https://img.youtube.com/vi/hfscuXOsMnY/hqdefault.jpg"
+      },
+      {
+        "type": "video",
+        "title": null,
+        "url": "https://www.youtube.com/watch?v=HGf70wa4fxY",
+        "timestamp": "2026-07-03T08:46:41.226233Z",
+        "thumbnail": "https://img.youtube.com/vi/HGf70wa4fxY/hqdefault.jpg"
+      },
+      {
+        "type": "video",
+        "title": null,
+        "url": "https://www.youtube.com/watch?v=ztUE0DPvysI",
+        "timestamp": "2026-07-03T08:47:41.226233Z",
+        "thumbnail": "https://img.youtube.com/vi/ztUE0DPvysI/hqdefault.jpg"
+      },
+      {
+        "type": "video",
+        "title": null,
+        "url": "https://www.youtube.com/watch?v=hzk0_jc2SoQ",
+        "timestamp": "2026-07-03T08:48:41.226233Z",
+        "thumbnail": "https://img.youtube.com/vi/hzk0_jc2SoQ/hqdefault.jpg"
+      },
+      {
+        "type": "video",
+        "title": null,
+        "url": "https://www.youtube.com/watch?v=SdkDeng__kA",
+        "timestamp": "2026-07-03T08:49:41.226233Z",
+        "thumbnail": "https://img.youtube.com/vi/SdkDeng__kA/hqdefault.jpg"
+      },
+      {
+        "type": "video",
+        "title": null,
+        "url": "https://www.youtube.com/watch?v=r_UAWrAX7i8",
+        "timestamp": "2026-07-03T08:50:41.226233Z",
+        "thumbnail": "https://img.youtube.com/vi/r_UAWrAX7i8/hqdefault.jpg"
+      },
+      {
+        "type": "video",
+        "title": null,
+        "url": "https://www.youtube.com/watch?v=G5gynBLJKxQ",
+        "timestamp": "2026-07-03T08:51:41.226233Z",
+        "thumbnail": "https://img.youtube.com/vi/G5gynBLJKxQ/hqdefault.jpg"
+      },
+      {
+        "type": "video",
+        "title": null,
+        "url": "https://www.youtube.com/watch?v=RUMF0wpySW0",
+        "timestamp": "2026-07-03T08:52:41.226233Z",
+        "thumbnail": "https://img.youtube.com/vi/RUMF0wpySW0/hqdefault.jpg"
+      },
+      {
+        "type": "video",
+        "title": null,
+        "url": "https://www.youtube.com/watch?v=tZHCQt_BliY",
+        "timestamp": "2026-07-03T08:53:41.226233Z",
+        "thumbnail": "https://img.youtube.com/vi/tZHCQt_BliY/hqdefault.jpg"
+      },
+      {
+        "type": "video",
+        "title": null,
+        "url": "https://www.youtube.com/watch?v=9DrJxBrLMmU",
+        "timestamp": "2026-07-03T08:54:41.226233Z",
+        "thumbnail": "https://img.youtube.com/vi/9DrJxBrLMmU/hqdefault.jpg"
+      },
+      {
+        "type": "video",
+        "title": null,
+        "url": "https://www.youtube.com/watch?v=VuU06UO1s14",
+        "timestamp": "2026-07-03T08:55:41.226233Z",
+        "thumbnail": "https://img.youtube.com/vi/VuU06UO1s14/hqdefault.jpg"
       }
     ],
     "collectedAt": "2026-07-03T10:00:00.0000000+02:00",
-    "approvedAt": "2026-07-03T10:00:00.0000000+02:00",
+    "approvedAt": "2026-07-03T08:46:41.226560Z",
     "approvedBy": "manual-import"
   }
 ]
