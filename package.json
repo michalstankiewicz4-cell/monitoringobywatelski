@@ -3,7 +3,5 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "scripts": {
-    "discover:incidents": "node scripts/discover_incidents.mjs"
-  }
+  "scripts": {}
 }
