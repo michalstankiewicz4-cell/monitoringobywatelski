@@ -45,6 +45,8 @@ Przykładowy wpis JSON do `approved_incidents.json`:
 
 **Pliki/skrypty pomocnicze**
 - Skrypty do przetwarzania/detekcji incydentów: [scripts/discover_incidents.mjs](scripts/discover_incidents.mjs).
+- Skrypt do pobierania miniatur artykułów OG: `scripts/fetch_article_thumbnails.mjs`
+- Uruchomienie: `npm run fetch-thumbs`
 - Dane znajdują się w katalogu `data/` — edytuj ostrożnie i ewentualnie korzystaj z narzędzi/skryptów do walidacji przed zatwierdzeniem.
 
 ---
