@@ -1153,7 +1153,14 @@ function showToast(html, duration = 3000) {
   }
   buildIncidentPanel();
   // initialize the build modal (site-under-construction)
-  try { window.addEventListener('DOMContentLoaded', initBuildModal); } catch(e){}
+  try {
+    if (document.readyState === 'loading') {
+      window.addEventListener('DOMContentLoaded', initBuildModal);
+    } else {
+      // DOM already ready — initialize immediately
+      initBuildModal();
+    }
+  } catch(e) { console.warn('initBuildModal error', e); }
 })();
 </script>
 
