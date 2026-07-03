@@ -149,6 +149,13 @@
       text-align: left; text-decoration: underline;
     }
     #src-all-btn:hover { color: var(--text); }
+    #incident-list { display:flex;flex-direction:column;gap:8px;margin-top:10px;max-height:50vh;overflow:auto; }
+    .incident-item { padding:10px 12px;border:1px solid var(--border);border-radius:12px;background:rgba(255,255,255,.04);cursor:pointer;transition:all .2s; }
+    .incident-item:hover { border-color: var(--accent4); background: var(--card-hover); }
+    .incident-item.active { border-color: var(--accent4); background: rgba(69,123,157,.16); }
+    .incident-title { font-size:.85rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis; }
+    .incident-meta { display:flex;justify-content:space-between;gap:10px;align-items:center;margin-top:6px;font-size:.72rem;color:var(--text2); }
+    .incident-count { padding:2px 8px;border-radius:999px;background:rgba(69,123,157,.12);color:var(--text);font-size:.68rem; }
 
     /* ── CLUSTER ─────────────────────────────────────────── */
     .marker-cluster-small, .marker-cluster-medium, .marker-cluster-large {
@@ -435,43 +442,28 @@
   <div id="map-wrap">
     <div id="map"></div>
 
-    <!-- Source filter panel -->
+    <!-- Incident list panel -->
     <div id="source-panel">
       <h4 onclick="toggleSourcePanel()">
         <span><i class="fa-solid fa-filter" style="margin-right:4px"></i> SPRAWY</span>
         <i id="source-panel-icon" class="fa-solid fa-chevron-up" style="font-size:.6rem"></i>
       </h4>
       <div id="source-panel-body">
-        <button id="src-all-btn" onclick="clearSourceFilter()">Pokaż wszystkie</button>
-        <div id="source-chips"><span style="font-size:.72rem;color:var(--text2);font-style:italic">Wczytywanie…</span></div>
+        <button id="src-all-btn" onclick="resetIncidentSelection()">Pokaż wszystkie</button>
+        <div id="incident-list"><span style="font-size:.72rem;color:var(--text2);font-style:italic">Wczytywanie spraw…</span></div>
       </div>
     </div>
 
-    <!-- Legend -->
+    <!-- History panel -->
     <div id="legend">
       <h4 onclick="toggleLegend()">
         <span><i class="fa-solid fa-circle-info" style="margin-right:4px"></i> HISTORIA</span>
         <i id="legend-toggle-icon" class="fa-solid fa-chevron-up" style="font-size:.6rem;margin-left:8px"></i>
       </h4>
       <div id="legend-body">
-      <div class="legend-sub">Typ zdarzenia</div>
-      <div class="legend-item"><div class="legend-dot ld-crash"></div> Wypadek drogowy</div>
-      <div class="legend-item"><div class="legend-dot ld-interwencja"></div> Interwencja policyjna</div>
-      <div class="legend-item"><div class="legend-dot ld-strzelanina"></div> Strzelanina</div>
-      <div class="legend-item"><div class="legend-dot ld-napasc"></div> Napaść</div>
-      <div class="legend-item"><div class="legend-dot ld-other"></div> Inne zdarzenie</div>
-      <div class="legend-item"><div class="legend-dot ld-special"></div> Wyjątkowe</div>
-
-      <hr class="legend-sep">
-      <div class="legend-sub">Animacja markera</div>
-      <div class="legend-item">
-        <div class="legend-pulse lp-normal"><div class="lp-ring"></div><div class="lp-dot"></div></div>
-        <span>Pulsowanie — niskie/średnie waga</span>
-      </div>
-      <div class="legend-item">
-        <div class="legend-pulse lp-high"><div class="lp-ring"></div><div class="lp-dot"></div></div>
-        <span>Błyskanie — wysokie zagrożenie</span>
-      </div>
+        <div style="font-size:.78rem;color:var(--text2);padding:10px;line-height:1.6">
+          Wybierz sprawę po lewej lub kliknij marker na mapie, aby wyświetlić powiązane materiały.
+        </div>
       </div><!-- #legend-body -->
     </div>
 
@@ -544,6 +536,7 @@ let incidents = [];
 let markers   = {};          // id → leaflet layer
 let clusterGroup = null;
 let activeSourceFilter = new Set(); // empty = show all
+let selectedIncidentId = null;
 
 /* ─── MAP INIT ──────────────────────────────────────────── */
 const POLAND_BOUNDS = L.latLngBounds(
@@ -634,7 +627,7 @@ function createMarker(inc) {
   m.__incidentId = inc.id;
   markers[inc.id] = m;
   clusterGroup.addLayer(m);
-  m.on('click', () => showIncidentMaterials(inc));
+  m.on('click', () => selectIncident(inc.id));
 }
 
 function buildPopup(inc) {
@@ -680,11 +673,59 @@ async function loadApprovedIncidents() {
         desc: i.desc || '',
         lat: i.lat,
         lng: i.lng,
-        sources: Array.isArray(i.sources) ? i.sources : []
+        sources: Array.isArray(i.sources) ? i.sources : [],
+        materials: Array.isArray(i.materials) ? i.materials : []
       }));
   } catch {
     // Brak zatwierdzonych danych nie powinien zatrzymać mapy.
   }
+}
+
+function renderIncidentEntry(inc) {
+  const dateLabel = inc.date ? new Date(inc.date).toLocaleDateString('pl-PL', { day:'2-digit', month:'2-digit', year:'numeric' }) : 'brak daty';
+  const materialCount = Array.isArray(inc.materials) ? inc.materials.length : 0;
+  return `<button class="incident-item${selectedIncidentId===inc.id ? ' active' : ''}" data-incident-id="${inc.id}" type="button">
+    <span class="incident-title">${inc.title.replace(/</g,'&lt;')}</span>
+    <span class="incident-meta"><span>${dateLabel}</span><span class="incident-count">${materialCount} materiałów</span></span>
+  </button>`;
+}
+
+function buildIncidentPanel() {
+  const list = document.getElementById('incident-list');
+  if (!incidents.length) {
+    list.innerHTML = '<span style="font-size:.72rem;color:var(--text2);font-style:italic">Brak spraw do wyświetlenia</span>';
+    return;
+  }
+  list.innerHTML = incidents.map(renderIncidentEntry).join('');
+  list.querySelectorAll('.incident-item').forEach(btn => {
+    btn.addEventListener('click', () => selectIncident(btn.dataset.incidentId));
+  });
+}
+
+function selectIncident(id) {
+  const inc = incidents.find(item => String(item.id) === String(id));
+  if (!inc) return;
+  selectedIncidentId = inc.id;
+  highlightSelectedIncident();
+  showIncidentMaterials(inc);
+  if (markers[inc.id]) {
+    markers[inc.id].openPopup();
+    map.setView([inc.lat, inc.lng], Math.max(map.getZoom(), 9), { animate: true });
+  }
+}
+
+function highlightSelectedIncident() {
+  document.querySelectorAll('.incident-item').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.incidentId === String(selectedIncidentId));
+  });
+}
+
+function resetIncidentSelection() {
+  selectedIncidentId = null;
+  buildIncidentPanel();
+  const body = document.getElementById('legend-body');
+  body.innerHTML = '<div style="font-size:.78rem;color:var(--text2);padding:10px;line-height:1.6">Wybierz sprawę po lewej lub kliknij marker na mapie, aby wyświetlić powiązane materiały.</div>';
+  filterMarkers();
 }
 
 /* ─── MATERIALS / VIDEO POPUP ───────────────────────────────── */
@@ -693,12 +734,14 @@ let materialsPage = 1;
 let activeMaterialCategory = 'all';
 
 function showIncidentMaterials(inc) {
+  selectedIncidentId = inc?.id || null;
+  highlightSelectedIncident();
   // ensure legend panel visible
   const legend = document.getElementById('legend');
   legend.classList.remove('leg-hidden');
   const body = document.getElementById('legend-body');
   if (!inc || !inc.materials || !inc.materials.length) {
-    body.innerHTML = '<div style="font-size:.78rem;color:var(--text2)">Brak materiałów dla tej sprawy.</div>';
+    body.innerHTML = '<div style="font-size:.78rem;color:var(--text2);padding:10px;line-height:1.6">Brak materiałów dla tej sprawy. Dodaj je w approved_incidents.json pod polem \"materials\".</div>';
     return;
   }
 
@@ -1043,6 +1086,7 @@ function showToast(html, duration = 3000) {
     console.error('INIT ERROR:', e);
     showToast('<i class="fa-solid fa-triangle-exclamation"></i> Błąd inicjalizacji: ' + e.message);
   }
+  buildIncidentPanel();
 })();
 </script>
 
