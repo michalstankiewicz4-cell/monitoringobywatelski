@@ -466,6 +466,17 @@
     }
     .leaflet-control-zoom a:hover { background: var(--panel2) !important; }
     .leaflet-control-attribution { display: none !important; }
+    /* Build modal (site under construction) */
+    #build-modal { position: fixed; inset: 0; display:flex; align-items:center; justify-content:center; z-index:10050; }
+    #build-modal.bm-hidden { display: none; }
+    #build-modal .bm-overlay { position:absolute; inset:0; background:rgba(0,0,0,0.6); backdrop-filter: blur(2px); }
+    #build-modal .bm-box { position:relative; z-index:10060; background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:18px; width: min(720px, 92vw); max-width:720px; box-shadow: var(--shadow); display:flex; gap:14px; align-items:center; }
+    #build-modal .bm-img { width:96px; height:96px; object-fit:contain; flex:0 0 96px; border-radius:8px; background:transparent }
+    #build-modal .bm-content { color:var(--text); }
+    #build-modal .bm-content h2 { margin-bottom:8px; font-size:1.2rem }
+    #build-modal .bm-content p { color:var(--text2); font-size:.95rem }
+    #build-modal .bm-close { position:absolute; top:8px; right:10px; background:transparent; border:none; color:var(--text2); font-size:22px; cursor:pointer; padding:6px; }
+    #build-modal .bm-close:hover { color:var(--text); }
   </style>
 </head>
 <body>
@@ -562,8 +573,43 @@
 <!-- TOAST -->
 <div id="toast"></div>
 
+<!-- BUILD MODAL -->
+<div id="build-modal" class="bm-hidden" role="dialog" aria-modal="true" aria-labelledby="bm-title" aria-describedby="bm-desc">
+  <div class="bm-overlay" aria-hidden="true"></div>
+  <div class="bm-box" role="document">
+    <button id="bm-close-btn" class="bm-close" aria-label="Zamknij">✕</button>
+    <img src="/favicon-512.png" alt="" class="bm-img">
+    <div class="bm-content">
+      <h2 id="bm-title">Ta strona jest w trakcie budowy</h2>
+      <p id="bm-desc">Trwają prace nad zawartością. Strona może być niekompletna i nie wszystkie funkcje są aktywne.</p>
+    </div>
+  </div>
+</div>
+
 <script>
 /* ─── DATA ─────────────────────────────────────────────── */
+// Build modal: show a "site under construction" dialog on first load (session) — close only via X
+function initBuildModal() {
+  const dismissed = sessionStorage.getItem('buildModalDismissed');
+  const modal = document.getElementById('build-modal');
+  const closeBtn = document.getElementById('bm-close-btn');
+  if (!modal || !closeBtn) return;
+  function show() {
+    modal.classList.remove('bm-hidden');
+    // focus the close button for accessibility
+    closeBtn.focus();
+  }
+  function hide() {
+    modal.classList.add('bm-hidden');
+    try { sessionStorage.setItem('buildModalDismissed', '1'); } catch(e){}
+  }
+  closeBtn.addEventListener('click', hide);
+  // show unless already dismissed this session
+  if (dismissed !== '1') {
+    // small timeout so it doesn't block initial layout paint
+    setTimeout(show, 120);
+  }
+}
 let approvedIncidents = [];
 let incidents = [];
 let markers   = {};          // id → leaflet layer
@@ -1106,6 +1152,8 @@ function showToast(html, duration = 3000) {
     showToast('<i class="fa-solid fa-triangle-exclamation"></i> Błąd inicjalizacji: ' + e.message);
   }
   buildIncidentPanel();
+  // initialize the build modal (site-under-construction)
+  try { window.addEventListener('DOMContentLoaded', initBuildModal); } catch(e){}
 })();
 </script>
 
