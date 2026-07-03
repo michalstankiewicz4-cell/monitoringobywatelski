@@ -22,7 +22,7 @@ def fetch(url):
 
 def extract_links(html, base=None):
     urls = []
-    for m in re.finditer(r'href=["\\]?([^"\s>]+)', html):
+    for m in re.finditer(r'href=["\']?([^"\'\s>]+)', html):
         u = m.group(1)
         if u.startswith('/url?') or 'uddg=' in u:
             q = urllib.parse.parse_qs(urllib.parse.urlparse(u).query).get('uddg')

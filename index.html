@@ -482,6 +482,7 @@
       </h4>
       <div id="source-panel-body">
         <button id="src-all-btn" onclick="resetIncidentSelection()">Pokaż wszystkie</button>
+        <div id="source-chips" style="margin-top:8px;margin-bottom:6px;">&nbsp;</div>
         <div id="incident-list"><span style="font-size:.72rem;color:var(--text2);font-style:italic">Wczytywanie spraw…</span></div>
       </div>
     </div>
@@ -665,10 +666,19 @@ function createMarker(inc) {
 function buildPopup(inc) {
   const sev = ['','🟢 Niski','🟡 Średni','🔴 Wysoki'][inc.severity];
   const dateStr = inc.date ? new Date(inc.date).toLocaleString('pl-PL') : 'brak daty';
+  function renderSourceItem(s) {
+    const name = (s && s.name) ? s.name.replace(/</g,'&lt;') : 'Artykuł';
+    const url = s && s.url ? String(s.url).trim() : '';
+    if (/^https?:\/\//i.test(url)) {
+      return `<div style="font-size:.76rem;margin:3px 0"><a href="${url}" target="_blank" rel="noopener noreferrer" style="color:#7db4ff;text-decoration:none">• ${name}</a></div>`;
+    }
+    return `<div style="font-size:.76rem;margin:3px 0">• ${name}</div>`;
+  }
+
   const sourceHtml = Array.isArray(inc.sources) && inc.sources.length
     ? `<div style="margin-top:8px;padding-top:8px;border-top:1px solid rgba(127,127,127,.25)">
         <div style="font-size:.72rem;color:#7a849e;margin-bottom:5px"><i class="fa-solid fa-link" style="margin-right:4px"></i>Źródła</div>
-        ${inc.sources.slice(0,3).map(s => `<div style="font-size:.76rem;margin:3px 0"><a href="${s.url}" target="_blank" rel="noopener noreferrer" style="color:#7db4ff;text-decoration:none">• ${s.name || 'Artykuł'}</a></div>`).join('')}
+        ${inc.sources.slice(0,3).map(s => renderSourceItem(s)).join('')}
       </div>`
     : '';
   return `
@@ -710,6 +720,7 @@ async function loadApprovedIncidents() {
       }));
   } catch {
     // Brak zatwierdzonych danych nie powinien zatrzymać mapy.
+    console.warn('loadApprovedIncidents failed', arguments);
   }
 }
 
