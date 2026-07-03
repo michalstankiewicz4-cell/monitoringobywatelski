@@ -664,8 +664,11 @@ async function loadApprovedIncidents() {
   try {
     const response = await fetch(`approved_incidents.json?t=${Date.now()}`);
     if (!response.ok) return;
-    const data = await response.json();
-    if (!Array.isArray(data)) return;
+    let data = await response.json();
+    if (!Array.isArray(data)) {
+      if (data && typeof data === 'object') data = [data];
+      else return;
+    }
     approvedIncidents = data
       .filter(i => Number.isFinite(i.lat) && Number.isFinite(i.lng))
       .map(i => ({
