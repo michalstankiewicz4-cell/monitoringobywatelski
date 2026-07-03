@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="100%" height="100%" fill="#0d0f14" rx="8" />
+  <g transform="translate(8,8)" fill="#fff" stroke="none">
+    <!-- person: head -->
+    <circle cx="14" cy="10" r="6" fill="#f4a261" />
+    <!-- body -->
+    <path d="M6 28c0-6 16-6 16 0v2H6v-2z" fill="#e63946" />
+    <!-- magnifier -->
+    <g transform="translate(28,18)">
+      <circle cx="6" cy="6" r="5" fill="none" stroke="#fff" stroke-width="2" />
+      <rect x="10" y="10" width="8" height="2" rx="1" ry="1" fill="#fff" transform="rotate(40 10 10)" />
+    </g>
+  </g>
+</svg>

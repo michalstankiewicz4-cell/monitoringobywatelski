@@ -18,6 +18,38 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <!-- Favicon -->
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="shortcut icon" href="/favicon.ico">
+
+  <!-- SEO / Social meta -->
+  <meta name="description" content="Monitoring obywatelski: zbieranie i prezentacja materiałów dotyczących interwencji służb, przestępstw i spraw publicznych.">
+  <meta name="keywords" content="policja, ratownik medyczny, ratownicy, przestępstwo, nadużycie władzy, państwo w państwie, interwencja policji, przemoc służb, odpowiedzialność służb, dochodzenie, prokuratura, prawa człowieka, śmierć po interwencji, zaniedbanie medyczne, transparentność, nadzór policyjny, prawa pacjenta">
+  <meta name="author" content="Monitoring Obywatelski">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Monitoring Obywatelski" />
+  <meta property="og:description" content="Zbiór materiałów medialnych dotyczących interwencji służb i spraw publicznych." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="/favicon.svg" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Monitoring Obywatelski" />
+  <meta name="twitter:description" content="Zbiór materiałów medialnych dotyczących interwencji służb i spraw publicznych." />
+  <meta name="twitter:image" content="/favicon.svg" />
+
+  <!-- JSON-LD (Organization) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Monitoring Obywatelski",
+    "url": "https://monitoringobywatelski.pl/",
+    "sameAs": []
+  }
+  </script>
 
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -272,7 +304,7 @@
       border-radius: var(--radius);
       padding: 12px 14px;
       z-index: 500; font-size: .75rem;
-      min-width: 190px;
+      width: 440px; max-width: 440px;
       opacity: 1; transition: opacity .4s;
       pointer-events: auto;
       user-select: none;
@@ -418,8 +450,8 @@
     .hist-thumb { width:84px;height:56px;flex:0 0 84px;border-radius:6px;overflow:hidden;background:#0b0b0b;display:flex;align-items:center;justify-content:center }
     .hist-thumb img { width:100%;height:100%;object-fit:cover;display:block }
     .hist-meta { flex:1; min-width:0 }
-    .hist-title { font-weight:700;font-size:.86rem;line-height:1.2;overflow:hidden;text-overflow:ellipsis;white-space:nowrap }
-    .hist-sub { font-size:.72rem;color:var(--text2);margin-top:4px }
+    .hist-title { font-weight:700;font-size:.86rem;line-height:1.2;overflow-wrap:anywhere;word-break:break-word;white-space:normal; }
+    .hist-sub { font-size:.72rem;color:var(--text2);margin-top:4px;white-space:normal; }
     .hist-actions { display:flex;flex-direction:column;gap:6px;align-items:flex-end }
     .hist-action-btn { padding:6px 8px;border-radius:8px;border:none;background:var(--panel2);color:var(--text);cursor:pointer;font-size:.78rem }
     .hist-pager { display:flex;gap:8px;align-items:center;justify-content:center;margin-top:8px }

@@ -1,7 +1,6 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
-import fetch from 'node-fetch';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const approvedPath = join(__dirname, '..', 'approved_incidents.json');

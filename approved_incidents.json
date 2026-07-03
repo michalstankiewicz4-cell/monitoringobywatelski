@@ -9,10 +9,175 @@
     "lat": 53.4845,
     "lng": 18.7533,
     "city": "Grudziadz",
-    "sources": null,
-    "materials": null,
+    "sources": [],
+    "materials": [
+      {
+        "type": "article",
+        "title": "Śmierć 19-letniego Olka z Grudziądza. Co dalej ze sprawą?",
+        "url": "https://uwaga.tvn.pl/reportaze/smierc-19-letniego-olka-z-grudziadza-co-dalej-ze-sprawa-st8852655",
+        "date": "2026-01-16T00:00:00.000Z",
+        "thumbnail": "https://tvn.pl/_e/i/aktualnosci/cdn-zdjecie-5952538-smierc-19-letniego-olka-z-grudziadza-co-dalej-ze-sprawa-ph8852913/alternates/WEBP_LANDSCAPE_1620"
+      },
+      {
+        "type": "article",
+        "title": "Śmierć 19-letniego Olka z Grudziądza. Co dalej ze sprawą?",
+        "url": "https://dziendobry.tvn.pl/gorace-tematy/uwaga-tvn-smierc-19-letniego-olka-z-grudziadza-co-dalej-ze-sprawa-st8852922",
+        "date": "2026-01-16T00:00:00.000Z",
+        "thumbnail": "https://dziendobry.tvn.pl/_e/i/najnowsze/cdn-zdjecie-5393958-smierc-19-letniego-olka-z-grudziadza-co-dalej-ze-sprawa-ph8852943/alternates/WEBP_LANDSCAPE_1620"
+      },
+      {
+        "type": "article",
+        "title": "Tragiczna śmierć Olka z Grudziądza. Fala hejtu wylała się na ratowników i policjantów",
+        "url": "https://pomorska.pl/tragiczna-smierc-olka-z-grudziadza-fala-hejtu-wylala-sie-na-ratownikow-i-policjantow-internauci-to-przemoc-w-rekawiczkach/ar/c1p2-28649667",
+        "date": "2026-01-20T00:00:00.000Z",
+        "thumbnail": null
+      },
+      {
+        "type": "article",
+        "title": "Nie żyje 19-letni Olek z Grudziądza. Trwa proces. Matka obwinia m.in. lekarzy",
+        "url": "https://www.fakt.pl/wydarzenia/nie-zyje-19-letni-olek-z-grudziadza-trwa-proces-matka-obwinia-min-lekarzy/emcsy02",
+        "date": "2026-05-12T00:00:00.000Z",
+        "thumbnail": "https://ocdn.eu/pulscms-transforms/1/PmBk9kuTURBXy80MDYzN2YzNS0yZTViLTRhYTktODkwYS00ZTg4OTVkYmVmMGIuanBlZ5KVAwAAzQgAzQSAkwXNBLDNAnbeAAGhMAE"
+      },
+      {
+        "type": "article",
+        "title": "Śmierć Olka z Grudziądza. Łzy rodziny podczas procesu. Oskarżeni są ...",
+        "url": "https://pomorska.pl/olek-z-grudziadza-zmarl-po-policyjnym-poscigu-lzy-i-emocje-rodziny-podczas-procesu/ar/c1p2-28975945",
+        "date": "2026-05-06T00:00:00.000Z",
+        "thumbnail": null
+      },
+      {
+        "type": "article",
+        "title": "Śmierć 19-letniego Olka z Grudziądza. Autor reportażu o kulisach akcji służb, która skończyła się tragicznie",
+        "url": "https://tvn24.pl/polska/smierc-19-letniego-olka-z-grudziadza-autor-reportazu-o-kulisach-akcji-sluzb-ktora-skonczyla-sie-tragicznie-st8865477",
+        "date": "2026-01-24T00:00:00.000Z",
+        "thumbnail": "https://tvn24.pl/_e/i/najnowsze/cdn-zdjecie-3536211-sprawa-smierci-19-letniego-olka-ph8837686/alternates/WEBP_LANDSCAPE_1620"
+      },
+      {
+        "type": "article",
+        "title": "Śmierć 19-latka z Grudziądza. Kluczowe słowa ratowniczki w sądzie",
+        "url": "https://www.fakt.pl/wydarzenia/smierc-19-latka-z-grudziadza-kluczowe-slowa-ratowniczki-w-sadzie/hslx5rj",
+        "date": "2026-06-18T00:00:00.000Z",
+        "thumbnail": "https://ocdn.eu/pulscms-transforms/1/wxHk9kuTURBXy9iMTM2ZWM1Ny0wOTNhLTQxYmQtODJjZi1iNmFjZjNlYjZiYjIuanBlZ5KVAwAAzQZAzQOEkwXNBLDNAnbeAAGhMAE"
+      },
+      {
+        "type": "video",
+        "title": "Ruszył proces ws. śmierci 19-letniego Olka. Przed sądem stanęło 3 lekarzy | UWAGA! TVN",
+        "url": "https://www.youtube.com/watch?v=8vpGNhuEO-g",
+        "timestamp": "2026-07-01T00:00:00.000Z",
+        "thumbnail": "https://img.youtube.com/vi/8vpGNhuEO-g/hqdefault.jpg"
+      },
+      {
+        "type": "video",
+        "title": "ŚMIERĆ 19-LETNIEGO OLKA Z GRUDZIĄDZA | Co wydarzyło się w karetce?",
+        "url": "https://www.youtube.com/watch?v=LqwMRuckhXY",
+        "timestamp": "2026-01-18T00:00:00.000Z",
+        "thumbnail": "https://img.youtube.com/vi/LqwMRuckhXY/hqdefault.jpg"
+      },
+      {
+        "type": "video",
+        "title": "Olek z Grudziądza. Skandaliczna interwencja policji i ratowników",
+        "url": "https://www.youtube.com/watch?v=DJB2CGmAbCo",
+        "timestamp": "2026-01-19T00:00:00.000Z",
+        "thumbnail": "https://img.youtube.com/vi/DJB2CGmAbCo/hqdefault.jpg"
+      },
+      {
+        "type": "video",
+        "title": "SKANDALICZNE sceny w karetce! Ludzie wyszli na ulice po śmierci 19-letniego Olka w Grudziądzu | FAKT",
+        "url": "https://www.youtube.com/watch?v=EHo9NwLLOCE",
+        "timestamp": "2026-01-20T00:00:00.000Z",
+        "thumbnail": "https://img.youtube.com/vi/EHo9NwLLOCE/hqdefault.jpg"
+      },
+      {
+        "type": "video",
+        "title": "Zapraszam na wywiad z mamą zamęczonego Olka z Grudziądza.",
+        "url": "https://www.youtube.com/watch?v=u4jt3132Tp8",
+        "timestamp": "2026-01-21T00:00:00.000Z",
+        "thumbnail": "https://img.youtube.com/vi/u4jt3132Tp8/hqdefault.jpg"
+      }
+    ],
     "collectedAt": "2026-07-03T09:02:29.3620544+02:00",
     "approvedAt": "2026-07-03T09:02:29.3621103+02:00",
+    "approvedBy": "manual-import"
+  },
+  {
+    "id": "olivier-police_20260703",
+    "title": "19-letni Oliwier nie żyje. Zmarł po interwencji policji",
+    "type": "other",
+    "severity": 3,
+    "date": "2026-07-03T10:00:00.0000000+02:00",
+    "desc": "Zgłoszenie ręcznie dodane: sprawa kolejnego zgonu po interwencji policji.",
+    "lat": 52.2297,
+    "lng": 21.0122,
+    "city": "Warszawa",
+    "sources": [],
+    "materials": [
+      {
+        "type": "article",
+        "title": "19-letni Oliwier nie żyje. Zmarł po interwencji policji",
+        "url": "https://example.com/19-letni-oliwier-nie-zyje",
+        "date": "2026-07-03T10:00:00.000Z",
+        "thumbnail": null
+      },
+      {
+        "type": "article",
+        "title": "Rodzina Oliwiera: chcemy prawdy po interwencji policji",
+        "url": "https://example.com/rodzina-oliwiera-wywiad",
+        "date": "2026-07-03T12:00:00.000Z",
+        "thumbnail": null
+      },
+      {
+        "type": "article",
+        "title": "Relacja świadka: co wydarzyło się podczas zatrzymania Oliwiera",
+        "url": "https://example.com/swiadek-oliwier-relacja",
+        "date": "2026-07-03T13:00:00.000Z",
+        "thumbnail": null
+      },
+      {
+        "type": "video",
+        "title": "Oliwier Bartosik. Tragiczny finał interwencji policji wobec nastolatka",
+        "url": "https://www.youtube.com/watch?v=CWWytS421Lg",
+        "timestamp": "2026-07-03T11:00:00.000Z",
+        "thumbnail": "https://img.youtube.com/vi/CWWytS421Lg/hqdefault.jpg"
+      },
+      {
+        "type": "video",
+        "title": "Wezwanie, interwencja policji i śmierć 18-latka. Co się wydarzyło? (UWAGA! TVN)",
+        "url": "https://www.youtube.com/watch?v=HGf70wa4fxY",
+        "timestamp": "2026-07-03T11:30:00.000Z",
+        "thumbnail": "https://img.youtube.com/vi/HGf70wa4fxY/hqdefault.jpg"
+      },
+      {
+        "type": "video",
+        "title": "NAJPIERW ZOSTAŁ POBITY, A PO INTERWENCJI POLICJI ZMARŁ",
+        "url": "https://www.youtube.com/watch?v=ztUE0DPvysI",
+        "timestamp": "2026-07-03T12:30:00.000Z",
+        "thumbnail": "https://img.youtube.com/vi/ztUE0DPvysI/hqdefault.jpg"
+      },
+      {
+        "type": "video",
+        "title": "Policja winna śmierci Oliwiera? Matka: mój syn został zakatowany",
+        "url": "https://www.youtube.com/watch?v=r_UAWrAX7i8",
+        "timestamp": "2026-07-03T13:00:00.000Z",
+        "thumbnail": "https://img.youtube.com/vi/r_UAWrAX7i8/hqdefault.jpg"
+      },
+      {
+        "type": "video",
+        "title": "Dziesięciu na jednego. Śmierć 32-latka po interwencji policji",
+        "url": "https://www.youtube.com/watch?v=G5gynBLJKxQ",
+        "timestamp": "2026-07-03T14:00:00.000Z",
+        "thumbnail": "https://img.youtube.com/vi/G5gynBLJKxQ/hqdefault.jpg"
+      },
+      {
+        "type": "video",
+        "title": "(materiał) nagranie z interwencji",
+        "url": "https://www.youtube.com/watch?v=hfscuXOsMnY",
+        "timestamp": "2026-07-03T15:00:00.000Z",
+        "thumbnail": "https://img.youtube.com/vi/hfscuXOsMnY/hqdefault.jpg"
+      }
+    ],
+    "collectedAt": "2026-07-03T10:00:00.0000000+02:00",
+    "approvedAt": "2026-07-03T10:00:00.0000000+02:00",
     "approvedBy": "manual-import"
   }
 ]
